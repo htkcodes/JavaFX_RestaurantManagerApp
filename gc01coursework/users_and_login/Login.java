@@ -43,6 +43,8 @@ public class Login {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
+			Stage stage = (Stage) loginButton.getScene().getWindow();
+		    stage.close();	
 //		} else if(checkIfStaffMember(getUsername(), getPassword())) {
 //			accessGranted = true;
 		} else {

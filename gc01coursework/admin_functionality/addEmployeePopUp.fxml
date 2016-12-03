@@ -29,7 +29,7 @@
             <Font name="Futura Bold" size="13.0" />
          </font>
       </Button>
-      <Button fx:id="cancelAddingEmployee" layoutX="150.0" layoutY="152.0" mnemonicParsing="false" text="Cancel">
+      <Button fx:id="cancelAddingEmployee" layoutX="150.0" layoutY="152.0" mnemonicParsing="false" onAction="#cancelAddingEmployee" text="Cancel">
          <font>
             <Font name="Futura Bold" size="13.0" />
          </font>
