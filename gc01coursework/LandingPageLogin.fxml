@@ -24,7 +24,7 @@
             <Font name="Futura Bold" size="16.0" />
          </font>
       </PasswordField>
-      <Label layoutX="360.0" layoutY="391.0" text="Lil text" textFill="#24e8c4">
+      <Label fx:id="loginStatus" layoutX="154.0" layoutY="332.0" textFill="#24e8c4">
          <font>
             <Font name="Futura Bold" size="16.0" />
          </font>

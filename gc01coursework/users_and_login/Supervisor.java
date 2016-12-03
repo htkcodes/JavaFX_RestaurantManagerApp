@@ -93,7 +93,7 @@ public class Supervisor extends StaffMember {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
 
-			String contentForFile = "\nUsername: " + employeeUsername.getText() + ", Password:" + employeePassword.getText() + ", Date Added: " + dateFormat.format(date);
+			String contentForFile = "\nUsername: " + employeeUsername.getText() + ", Password: " + employeePassword.getText() + ", Date Added: " + dateFormat.format(date);
 			FileWriter fileWritter = new FileWriter(file.getName(),true);	//The second argument 'true' means don't overwrite existing content.
 			BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
 			bufferWritter.write(contentForFile);
