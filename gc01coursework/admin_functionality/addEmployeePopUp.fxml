@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="gc01coursework.users_and_login.Supervisor">
+   <children>
+      <Label layoutX="30.0" layoutY="20.0" text="Add New Employee Details">
+         <font>
+            <Font name="Futura Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="employeeUsername" layoutX="53.0" layoutY="62.0" promptText="Username">
+         <font>
+            <Font name="Futura Bold" size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="employeePassword" layoutX="53.0" layoutY="107.0" promptText="Password">
+         <font>
+            <Font name="Futura Bold" size="13.0" />
+         </font>
+      </TextField>
+      <Button fx:id="saveNewEmployee" layoutX="86.0" layoutY="152.0" mnemonicParsing="false" onAction="#saveEmployee" text="Save">
+         <font>
+            <Font name="Futura Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancelAddingEmployee" layoutX="150.0" layoutY="152.0" mnemonicParsing="false" text="Cancel">
+         <font>
+            <Font name="Futura Bold" size="13.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

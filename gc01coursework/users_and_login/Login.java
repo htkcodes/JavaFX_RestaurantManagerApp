@@ -29,9 +29,6 @@ public class Login {
 	@FXML
 	private Label loginStatus;
 	
-//	private String usernameEntered = username.getText();
-//	private String passwordEntered = password.getText();
-	
 	public Boolean verifyLoginDetails(ActionEvent event) throws IOException {
 		Supervisor supervisor = new Supervisor();
 
@@ -39,8 +36,8 @@ public class Login {
 			accessGranted = true;
 			
 			Stage primaryStage = new Stage();
-			Parent landingPageLogin = FXMLLoader.load(getClass().getResource("../dashboard/SupervisorDashboard.fxml"));
-			Scene scene = new Scene(landingPageLogin);
+			Parent supervisorDashboard = FXMLLoader.load(getClass().getResource("../dashboard/SupervisorDashboard.fxml"));
+			Scene scene = new Scene(supervisorDashboard);
 			scene.getStylesheets().add(getClass().getResource("../style/Dashboard.css").toExternalForm());
 			primaryStage.setTitle("Rachel's Restaurant Manager!");
 			primaryStage.setScene(scene);
