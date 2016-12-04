@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -56,6 +57,9 @@ public class Supervisor extends StaffMember implements Initializable {
 	
 	@FXML
 	private ComboBox<String> employeeListComboBox;
+	
+	@FXML
+	private Label table;
 
 	public Supervisor() {
 		super(username, password, lastLogin);
@@ -141,14 +145,14 @@ public class Supervisor extends StaffMember implements Initializable {
 		stage.close();
 	} 
 
+	
+	
 	/**
 	 * Deleting an Employee!
 	 *
 	 * 
 	 * 
 	 */
-
-	
 	@FXML
 	public void deleteEmployee(ActionEvent event) throws IOException {
 		//Creating the Pop-Up Modal:
@@ -196,17 +200,24 @@ public class Supervisor extends StaffMember implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}	
-		
+		}
 		System.out.println(employeeNames);
 		employeeListComboBox = new ComboBox<String>(employeeNames);
-//employeeListComboBox.setItems(employeeNames);
-		System.out.println("bottom");
-		
+		//employeeListComboBox.setItems(employeeNames);		
 	}
+	
+	/**
+	 * Manipulating Tables!
+	 *
+	 * 
+	 * 
+	 */
 
-
-
+	
+	
+	
+	
+	
 }
 
 

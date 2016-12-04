@@ -1,1 +1,7 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+#table {
+    -fx-background-color: derive(#C595D8,20%);
+    -fx-alignment: center;
+    -fx-padding: 6px;
+    -fx-background-insets: 0, 4px;
+}
