@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import gc01coursework.admin_functionality.Orders;
+import gc01coursework.shared_functionality.TakingAnOrder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +29,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -36,6 +39,7 @@ public class Supervisor extends StaffMember implements Initializable {
 	private static final String ADMINPASSWORD = "ss";
 	private static final Boolean isSupervisor = true;
 	public ObservableList<String> employeeNames = FXCollections.observableArrayList(); 
+	protected String tableClicked;
 
 	@FXML
 	private Button addEmployeeButton;
@@ -70,6 +74,15 @@ public class Supervisor extends StaffMember implements Initializable {
 	@Override
 	protected String getPassword() {
 		return ADMINPASSWORD;
+	}
+	
+	
+	public String getTableClicked() {
+		return tableClicked;
+	}
+
+	private void setTableClicked(String tableClicked) {
+		this.tableClicked = tableClicked;
 	}
 
 	@Override
@@ -211,7 +224,7 @@ public class Supervisor extends StaffMember implements Initializable {
 	 */
 
 	@FXML
-	public void takeAnOrderChooseTable(ActionEvent event) throws IOException {
+	public void takeAnOrderChooseATable(ActionEvent event) throws IOException {
 
 		//Creating the Pop-Up Modal:
 		Stage primaryStage = new Stage();
@@ -231,9 +244,30 @@ public class Supervisor extends StaffMember implements Initializable {
 		stage.close();
 	}
 	
-	
-	
-	
+	public void takeAnOrder(ActionEvent event) throws IOException {
+		
+		tableClicked = ((Labeled) event.getSource()).getText();
+		System.out.println(tableClicked + "YOOOOOOOO___________");
+
+		Stage orderSheet = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("../shared_functionality/takeAnOrder.fxml"));
+		Parent takeAnOrder = (Parent)loader.load();
+//		Parent takeAnOrder = FXMLLoader.load(getClass().getResource("../shared_functionality/takeAnOrder.fxml"));
+		Scene scene = new Scene(takeAnOrder);
+		
+		TakingAnOrder gagag = (TakingAnOrder) loader.getController();
+
+//		loader.setLocation(JfxUtils.class.getResource(fxml));
+
+		orderSheet.setTitle("Order Sheet!");
+		orderSheet.setScene(scene);
+		orderSheet.show();
+		
+//		TakingAnOrder newOrder = new TakingAnOrder();
+		gagag.initializeOrder(tableClicked);
+	}
+ 	
 }
 
 

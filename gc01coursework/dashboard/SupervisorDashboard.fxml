@@ -32,52 +32,52 @@
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="table" layoutX="266.0" layoutY="135.0" mnemonicParsing="false" text="1" textFill="#4f06ee">
+      <Button fx:id="table" layoutX="266.0" layoutY="135.0" mnemonicParsing="false" onAction="#takeAnOrder" text="1" textFill="#4f06ee">
          <font>
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="table" layoutX="400.0" layoutY="135.0" mnemonicParsing="false" text="2" textFill="#4f06ee">
+      <Button fx:id="table" layoutX="400.0" layoutY="135.0" mnemonicParsing="false" onAction="#takeAnOrder" text="2" textFill="#4f06ee">
          <font>
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="table" layoutX="537.0" layoutY="135.0" mnemonicParsing="false" text="3" textFill="#4f06ee">
+      <Button fx:id="table" layoutX="537.0" layoutY="135.0" mnemonicParsing="false" onAction="#takeAnOrder" text="3" textFill="#4f06ee">
          <font>
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="table" layoutX="266.0" layoutY="229.0" mnemonicParsing="false" text="4" textFill="#4f06ee">
+      <Button fx:id="table" layoutX="266.0" layoutY="229.0" mnemonicParsing="false" onAction="#takeAnOrder" text="4" textFill="#4f06ee">
          <font>
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="table" layoutX="400.0" layoutY="229.0" mnemonicParsing="false" text="5" textFill="#4f06ee">
+      <Button fx:id="table" layoutX="400.0" layoutY="229.0" mnemonicParsing="false" onAction="#takeAnOrder" text="5" textFill="#4f06ee">
          <font>
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="table" layoutX="537.0" layoutY="229.0" mnemonicParsing="false" text="6" textFill="#4f06ee">
+      <Button fx:id="table" layoutX="537.0" layoutY="229.0" mnemonicParsing="false" onAction="#takeAnOrder" text="6" textFill="#4f06ee">
          <font>
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="table" layoutX="266.0" layoutY="321.0" mnemonicParsing="false" text="7" textFill="#4f06ee">
+      <Button fx:id="table" layoutX="266.0" layoutY="321.0" mnemonicParsing="false" onAction="#takeAnOrder" text="7" textFill="#4f06ee">
          <font>
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="table" layoutX="400.0" layoutY="321.0" mnemonicParsing="false" text="8" textFill="#4f06ee">
+      <Button fx:id="table" layoutX="400.0" layoutY="321.0" mnemonicParsing="false" onAction="#takeAnOrder" text="8" textFill="#4f06ee">
          <font>
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="table" layoutX="537.0" layoutY="321.0" mnemonicParsing="false" text="9" textFill="#4f06ee">
+      <Button fx:id="table" layoutX="537.0" layoutY="321.0" mnemonicParsing="false" onAction="#takeAnOrder" text="9" textFill="#4f06ee">
          <font>
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="takeAnOrderButton" layoutX="21.0" layoutY="218.0" mnemonicParsing="false" onAction="#takeAnOrderChooseTable" text="Take An Order">
+      <Button fx:id="takeAnOrderButton" layoutX="21.0" layoutY="218.0" mnemonicParsing="false" onAction="#takeAnOrderChooseATable" text="Take An Order">
          <font>
             <Font name="Futura Bold" size="14.0" />
          </font>
