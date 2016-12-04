@@ -39,28 +39,25 @@ public class Supervisor extends StaffMember implements Initializable {
 
 	@FXML
 	private Button addEmployeeButton;
-
 	@FXML 
 	private TextField employeeUsername;
-
 	@FXML 
 	private TextField employeePassword;
-
 	@FXML
 	private Button saveNewEmployee;
-
 	@FXML
 	private Button cancelAddingEmployee;
-
 	@FXML
 	private Button deleteEmployeeButton;
-	
 	@FXML
 	private ComboBox<String> employeeListComboBox;
-	
 	@FXML
-	private Label table;
-
+	private Button table;
+	@FXML
+	private Button takeAnOrderButton;
+	@FXML
+	private Button okayToSelectTableButton;
+	
 	public Supervisor() {
 		super(username, password, lastLogin);
 	}
@@ -207,13 +204,32 @@ public class Supervisor extends StaffMember implements Initializable {
 	}
 	
 	/**
-	 * Manipulating Tables!
+	 * Taking An Order!
 	 *
 	 * 
 	 * 
 	 */
 
-	
+	@FXML
+	public void takeAnOrderChooseTable(ActionEvent event) throws IOException {
+
+		//Creating the Pop-Up Modal:
+		Stage primaryStage = new Stage();
+		Parent chooseATablePopUp = FXMLLoader.load(getClass().getResource("../admin_functionality/chooseATablePopUp.fxml"));
+		Scene scene = new Scene(chooseATablePopUp);
+		primaryStage.setTitle("Please click on a Table");
+		primaryStage.initModality(Modality.APPLICATION_MODAL);
+		primaryStage.initOwner(takeAnOrderButton.getScene().getWindow());
+		primaryStage.setScene(scene);
+		primaryStage.showAndWait();
+	}
+
+
+	@FXML
+	public void okayToSelectTable(ActionEvent event) throws IOException {
+		Stage stage = (Stage) okayToSelectTableButton.getScene().getWindow();
+		stage.close();
+	}
 	
 	
 	
