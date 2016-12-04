@@ -17,6 +17,8 @@ public class Main extends Application {
 			primaryStage.setTitle("Rachel's Restaurant Manager!");
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

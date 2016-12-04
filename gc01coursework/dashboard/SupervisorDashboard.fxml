@@ -22,5 +22,10 @@
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Label>
+      <Button fx:id="deleteEmployeeButton" layoutX="30.0" layoutY="177.0" mnemonicParsing="false" onAction="#deleteEmployee" text="Delete Employee">
+         <font>
+            <Font name="Futura Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

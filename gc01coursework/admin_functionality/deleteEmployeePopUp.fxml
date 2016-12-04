@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gc01coursework.users_and_login.Supervisor">
+   <children>
+      <Label layoutX="214.0" layoutY="26.0" text="Delete An Employee">
+         <font>
+            <Font name="Futura Bold" size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="deleteEmployeeButton" layoutX="227.0" layoutY="275.0" mnemonicParsing="false" onAction="#deleteEmployee" text="Delete">
+         <font>
+            <Font name="Futura Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancelAddingEmployee" layoutX="300.0" layoutY="275.0" mnemonicParsing="false" text="Cancel">
+         <font>
+            <Font name="Futura Bold" size="13.0" />
+         </font>
+      </Button>
+      <ComboBox fx:id="employeeListComboBox" editable="true" layoutX="175.0" layoutY="123.0" prefWidth="250.0"> 
+      </ComboBox>
+   </children>
+</AnchorPane>

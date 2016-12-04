@@ -1,5 +1,10 @@
 package gc01coursework.users_and_login;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.stage.Stage;
+
 public class StaffMember {
 	protected static String username;
 	protected static String password;
@@ -33,5 +38,9 @@ public class StaffMember {
 
 	protected void setLastLogin(String lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+
+	public void initialize() {	
+		System.out.println("Implemented here so it could be used in Supervisor.");
 	}
 }

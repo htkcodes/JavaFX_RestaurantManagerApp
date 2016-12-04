@@ -1,27 +1,40 @@
 package gc01coursework.users_and_login;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class Supervisor extends StaffMember {
+public class Supervisor extends StaffMember implements Initializable {
 	private static final String ADMINNAME = "ss";
 	private static final String ADMINPASSWORD = "ss";
 	private static final Boolean isSupervisor = true;
+	public ObservableList<String> employeeNames = FXCollections.observableArrayList(); 
 
 	@FXML
 	private Button addEmployeeButton;
@@ -37,6 +50,12 @@ public class Supervisor extends StaffMember {
 
 	@FXML
 	private Button cancelAddingEmployee;
+
+	@FXML
+	private Button deleteEmployeeButton;
+	
+	@FXML
+	private ComboBox<String> employeeListComboBox;
 
 	public Supervisor() {
 		super(username, password, lastLogin);
@@ -62,6 +81,13 @@ public class Supervisor extends StaffMember {
 		System.out.println("Admin password cannot be changed.");
 	}
 
+	/**
+	 * Adding a New Employee!
+	 *
+	 * 
+	 * 
+	 */
+
 	@FXML
 	public void addEmployee(ActionEvent event) throws IOException {
 
@@ -75,8 +101,8 @@ public class Supervisor extends StaffMember {
 		primaryStage.setScene(scene);
 		primaryStage.showAndWait();
 	}
-	
-	
+
+
 	@FXML
 	public void saveEmployee(ActionEvent event) throws IOException {
 		Employee newEmployee = new Employee(employeeUsername.getText(), employeePassword.getText(), lastLogin);
@@ -102,8 +128,8 @@ public class Supervisor extends StaffMember {
 
 			//Going back to parent window. 
 			Stage stage = (Stage) saveNewEmployee.getScene().getWindow();
-		    stage.close();
-		    
+			stage.close();
+
 		} catch(IOException e){
 			e.printStackTrace();
 		}
@@ -112,7 +138,78 @@ public class Supervisor extends StaffMember {
 	@FXML
 	public void cancelAddingEmployee(ActionEvent event) throws IOException {
 		Stage stage = (Stage) saveNewEmployee.getScene().getWindow();
-	    stage.close();
+		stage.close();
 	} 
+
+	/**
+	 * Deleting an Employee!
+	 *
+	 * 
+	 * 
+	 */
+
+	
+	@FXML
+	public void deleteEmployee(ActionEvent event) throws IOException {
+		//Creating the Pop-Up Modal:
+		Stage primaryStage = new Stage();
+		Parent addEmployeePopUp = FXMLLoader.load(getClass().getResource("../admin_functionality/deleteEmployeePopUp.fxml"));
+
+		Scene scene = new Scene(addEmployeePopUp);
+		primaryStage.setTitle("Delete an Employee");
+		primaryStage.initModality(Modality.APPLICATION_MODAL);
+		primaryStage.initOwner(addEmployeeButton.getScene().getWindow());
+		primaryStage.setScene(scene);
+		primaryStage.show();
+
+
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader("./restaurant_staff_logins.txt"));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+
+			while (line != null) {
+				sb.append(line);
+				sb.append(System.lineSeparator());
+
+				if((line = br.readLine()) != null) {
+					String eachEmployee = line.substring(line.indexOf("Username:") + 10, line.indexOf(","));
+					employeeNames.add(eachEmployee);
+				} 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}	
+		
+		System.out.println(employeeNames);
+		employeeListComboBox = new ComboBox<String>(employeeNames);
+//employeeListComboBox.setItems(employeeNames);
+		System.out.println("bottom");
+		
+	}
+
+
+
 }
+
+
+	
+
 

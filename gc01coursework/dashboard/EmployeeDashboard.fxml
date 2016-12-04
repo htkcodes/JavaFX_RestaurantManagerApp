@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="249.0" layoutY="14.0" text="Employee Dashboard">
+         <font>
+            <Font name="Futura Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="68.0" layoutY="96.0" text="Menu" textFill="#a223d0">
+         <font>
+            <Font name="Futura Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>
-
