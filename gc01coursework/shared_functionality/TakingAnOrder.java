@@ -1,6 +1,9 @@
 package gc01coursework.shared_functionality;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.beans.property.*;
 import gc01coursework.users_and_login.Supervisor;
@@ -10,20 +13,22 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 public class TakingAnOrder implements Initializable {
-	private Label tableNumber;
 	private String tableClicked;
 	
 	@FXML
 	private GridPane orderGridPane;
+	@FXML
+	private Label tableNumber;
+	@FXML
+	private Label theDate;
+
 	
-	public TakingAnOrder(String tableClicked2) {
-		// TODO Auto-generated constructor stub
+	public TakingAnOrder(String tableNum) {
 	}
 
 
 	public void providingData(String theTable) {
 		setTableClicked(theTable);
-		System.out.println("The table = " + tableClicked);
 	}
 	
 	private String getTableClicked() {
@@ -36,8 +41,11 @@ public class TakingAnOrder implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		tableNumber = new Label(getTableClicked());
-		orderGridPane.add(tableNumber, 1, 0);
-
+		tableNumber.setText(getTableClicked());
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		String now = (dateFormat.format(date)).toString();
+		theDate.setText(now);
 	}
 }

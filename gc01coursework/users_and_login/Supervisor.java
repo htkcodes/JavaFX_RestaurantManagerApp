@@ -248,10 +248,7 @@ public class Supervisor extends StaffMember implements Initializable {
 	@FXML
 	public void takeAnOrder(ActionEvent event) throws IOException {
 
-		tableClicked = ((Labeled) event.getSource()).getText();
-		System.out.println(tableClicked + " <---Table Clicked");
-		setTableClicked(tableClicked);
-		
+		tableClicked = ((Labeled) event.getSource()).getText();		
 		TakingAnOrder newOrder = new TakingAnOrder(tableClicked);
 		newOrder.providingData(tableClicked);
 
@@ -261,7 +258,6 @@ public class Supervisor extends StaffMember implements Initializable {
 		loaderOrder.setController(newOrder);
 		Parent takeAnOrder = (Parent)loaderOrder.load();
 		Scene scene = new Scene(takeAnOrder);
-		
 		orderSheet.setTitle("Order Sheet!");
 		orderSheet.initModality(Modality.APPLICATION_MODAL);
 		orderSheet.initOwner(table.getScene().getWindow());
