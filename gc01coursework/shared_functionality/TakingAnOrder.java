@@ -95,19 +95,36 @@ public class TakingAnOrder implements Initializable {
 		
 		Element rootElement = xmlDoc.createElement("orders");
 		Element mainElement = xmlDoc.createElement("order");
+		
 		Text tableNumberText = xmlDoc.createTextNode("Table Number");
 		Element tableNumber = xmlDoc.createElement("tablenumber");		 
 		Text dateText = xmlDoc.createTextNode("Date");
 		Element date = xmlDoc.createElement("date");	
+		Text itemsText = xmlDoc.createTextNode("Items");
+		Element items = xmlDoc.createElement("items");
+		Text totalCostText = xmlDoc.createTextNode("Total Cost");
+		Element totalCost = xmlDoc.createElement("totalcost");
+		Text commentsText = xmlDoc.createTextNode("Comments");
+		Element comments = xmlDoc.createElement("comments");
+		Text specialRequestsText = xmlDoc.createTextNode("Special Requests");
+		Element specialRequests = xmlDoc.createElement("specialrequest");
 		
 		//Now we just append all the children.
 		
 		tableNumber.appendChild(tableNumberText);
 		date.appendChild(dateText);
+		items.appendChild(itemsText);
+		totalCost.appendChild(totalCostText);
+		comments.appendChild(commentsText);
+		specialRequests.appendChild(specialRequestsText);
 		
 		mainElement.appendChild(tableNumber);
 		mainElement.appendChild(date);
-		
+		mainElement.appendChild(items);
+		mainElement.appendChild(totalCost);
+		mainElement.appendChild(comments);
+		mainElement.appendChild(specialRequests);
+
 		rootElement.appendChild(mainElement);
 		
 		xmlDoc.appendChild(rootElement);
