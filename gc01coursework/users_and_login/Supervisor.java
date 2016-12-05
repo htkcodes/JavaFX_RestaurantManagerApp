@@ -169,15 +169,12 @@ public class Supervisor extends StaffMember implements Initializable {
 		//Creating the Pop-Up Modal:
 		Stage primaryStage = new Stage();
 		Parent addEmployeePopUp = FXMLLoader.load(getClass().getResource("../admin_functionality/deleteEmployeePopUp.fxml"));
-
 		Scene scene = new Scene(addEmployeePopUp);
 		primaryStage.setTitle("Delete an Employee");
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
 		primaryStage.initOwner(addEmployeeButton.getScene().getWindow());
 		primaryStage.setScene(scene);
 		primaryStage.show();
-
-
 	}
 
 	@Override
@@ -212,8 +209,10 @@ public class Supervisor extends StaffMember implements Initializable {
 				e.printStackTrace();
 			}
 		}
+		
 		System.out.println(employeeNames);
-		employeeListComboBox = new ComboBox<String>(employeeNames);
+		employeeListComboBox = new ComboBox<String>();
+		//employeeListComboBox.getItems().clear();
 		//employeeListComboBox.setItems(employeeNames);		
 	}
 

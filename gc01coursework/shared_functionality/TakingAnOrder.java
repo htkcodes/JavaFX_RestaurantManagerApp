@@ -1,5 +1,7 @@
 package gc01coursework.shared_functionality;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,6 +11,7 @@ import javafx.beans.property.*;
 import gc01coursework.users_and_login.Supervisor;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
@@ -21,6 +24,8 @@ public class TakingAnOrder implements Initializable {
 	private Label tableNumber;
 	@FXML
 	private Label theDate;
+	@FXML
+	private Button saveOrderButton;
 
 	
 	public TakingAnOrder(String tableNum) {
@@ -48,4 +53,10 @@ public class TakingAnOrder implements Initializable {
 		String now = (dateFormat.format(date)).toString();
 		theDate.setText(now);
 	}
+	
+	@FXML
+	private void saveOrder() {
+		
+	}
+	
 }

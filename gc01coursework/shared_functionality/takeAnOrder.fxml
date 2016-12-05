@@ -88,7 +88,7 @@
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="saveOrderButton" layoutX="217.0" layoutY="550.0" mnemonicParsing="false" text="Save Order">
+      <Button fx:id="saveOrderButton" layoutX="217.0" layoutY="550.0" mnemonicParsing="false" onAction="#saveOrder" text="Save Order">
          <font>
             <Font name="Futura Bold" size="14.0" />
          </font>
