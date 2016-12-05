@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import gc01coursework.shared_functionality.TakingAnOrder;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +31,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -38,7 +40,7 @@ public class Supervisor extends StaffMember implements Initializable {
 	private static final String ADMINPASSWORD = "ss";
 	private static final Boolean isSupervisor = true;
 	public ObservableList<String> employeeNames = FXCollections.observableArrayList(); 
-	protected String tableClicked;
+	public String tableClicked;
 
 	@FXML
 	private Button addEmployeeButton;
@@ -60,7 +62,7 @@ public class Supervisor extends StaffMember implements Initializable {
 	private Button takeAnOrderButton;
 	@FXML
 	private Button okayToSelectTableButton;
-	
+
 	public Supervisor() {
 		super(username, password, lastLogin);
 	}
@@ -74,8 +76,8 @@ public class Supervisor extends StaffMember implements Initializable {
 	protected String getPassword() {
 		return ADMINPASSWORD;
 	}
-	
-	
+
+
 	public String getTableClicked() {
 		return tableClicked;
 	}
@@ -154,8 +156,8 @@ public class Supervisor extends StaffMember implements Initializable {
 		stage.close();
 	} 
 
-	
-	
+
+
 	/**
 	 * Deleting an Employee!
 	 *
@@ -214,7 +216,7 @@ public class Supervisor extends StaffMember implements Initializable {
 		employeeListComboBox = new ComboBox<String>(employeeNames);
 		//employeeListComboBox.setItems(employeeNames);		
 	}
-	
+
 	/**
 	 * Taking An Order!
 	 *
@@ -242,32 +244,31 @@ public class Supervisor extends StaffMember implements Initializable {
 		Stage stage = (Stage) okayToSelectTableButton.getScene().getWindow();
 		stage.close();
 	}
-	
+
+	@FXML
 	public void takeAnOrder(ActionEvent event) throws IOException {
-		
+
 		tableClicked = ((Labeled) event.getSource()).getText();
-		System.out.println(tableClicked + "YOOOOOOOO___________");
+		System.out.println(tableClicked + " <---Table Clicked");
+		setTableClicked(tableClicked);
+		
+		TakingAnOrder newOrder = new TakingAnOrder(tableClicked);
+		newOrder.providingData(tableClicked);
 
 		Stage orderSheet = new Stage();
 		FXMLLoader loaderOrder = new FXMLLoader();
 		loaderOrder.setLocation(getClass().getResource("../shared_functionality/takeAnOrder.fxml"));
+		loaderOrder.setController(newOrder);
 		Parent takeAnOrder = (Parent)loaderOrder.load();
 		Scene scene = new Scene(takeAnOrder);
-		loaderOrder.getController();
-		System.out.println(loaderOrder.getController() + "YEY");
-		
-//		TakingAnOrder newOrder = (TakingAnOrder) loader.getController();
-		TakingAnOrder passingData = new TakingAnOrder();
-		passingData.setTableClicked(tableClicked);
-		passingData.initializeOrder();
 		
 		orderSheet.setTitle("Order Sheet!");
+		orderSheet.initModality(Modality.APPLICATION_MODAL);
+		orderSheet.initOwner(table.getScene().getWindow());
 		orderSheet.setScene(scene);
-		orderSheet.showAndWait();
 		
-//		new.initializeOrder(tableClicked);
+		orderSheet.showAndWait();
 	}
- 	
 }
 
 
