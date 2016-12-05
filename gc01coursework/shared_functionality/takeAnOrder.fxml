@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="gc01coursework.shared_functionality.TakingAnOrder">
    <children>
-      <GridPane gridLinesVisible="true" layoutY="48.0" prefHeight="552.0" prefWidth="600.0">
+      <GridPane fx:id="orderGridPane" gridLinesVisible="true" layoutY="48.0" prefHeight="552.0" prefWidth="600.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="138.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="487.0" minWidth="10.0" prefWidth="462.0" />
@@ -55,13 +55,8 @@
                   <Font name="Futura Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="tableNumber" alignment="CENTER" contentDisplay="CENTER" text="hey" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <font>
-                  <Font name="Futura Bold" size="14.0" />
-               </font>
-            </Label>
+            <Button fx:id="tableNumber" contentDisplay="CENTER" mnemonicParsing="false" onAction="#initializeOrder" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <Label fx:id="test" text="Label" GridPane.columnIndex="1" />
-            <Button fx:id="button" mnemonicParsing="false" onAction="#buttonTest" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <Label layoutX="241.0" layoutY="14.0" text="Order Sheet" textFill="#8d07b2">
@@ -69,5 +64,6 @@
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Label>
+      <Label fx:id="hello" text="Label" />
    </children>
 </AnchorPane>

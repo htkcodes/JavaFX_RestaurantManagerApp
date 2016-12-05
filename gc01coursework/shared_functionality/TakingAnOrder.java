@@ -3,33 +3,53 @@ package gc01coursework.shared_functionality;
 import java.io.IOException;
 
 import gc01coursework.users_and_login.Supervisor;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 
 public class TakingAnOrder {
+	private String tableClicked;
 	
 	@FXML
-	private Label tableNumber;
+	private GridPane orderGridPane;
+	
+	@FXML
+	private Button tableNumber;
+	
 	@FXML 
 	private Label test;
+	
 	@FXML
-	private Button button;
+	private Label hello;
 	
-	public void initializeOrder(String theTable) {
-		
-		Supervisor accessingData = new Supervisor();
-		System.out.println(accessingData.getTableClicked());
-		System.out.println(theTable + "YEHAHAHAHH");
+//	public TakingAnOrder(String tableClicked) {
+//		super();
+//		this.tableClicked = tableClicked;
+//	}
+
+	public void setTableClicked(String tableClicked) {
+		this.tableClicked = tableClicked;
+	}
+
+	@FXML
+	public void initializeOrder() {
+		System.out.println(orderGridPane);
+		System.out.println(tableClicked + "HELP");
+		tableNumber = new Button();
+		tableNumber.getId();
+//		tableNumber.setText("YO");
+//		System.out.println(test.getText());
+//		System.out.println(hello.getText());
+//		tableNumber.setText("PLEASE");
 //		System.out.println(tableNumber.getId());
-//		System.out.println(table);
-//		tableNumber.setText(theTable.toString());
-//		System.out.println(tableNumber.getText();
 	}
 	
-	public void buttonTest(ActionEvent event) throws IOException {
-		System.out.println(test.getText());
-		test.setText("SUP");
-	}
+//	public StringProperty initializeOrder() { 
+//	    return tableNumber.textProperty();
+//	}
+	
+
 }

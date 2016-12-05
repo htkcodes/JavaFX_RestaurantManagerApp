@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import gc01coursework.admin_functionality.Orders;
 import gc01coursework.shared_functionality.TakingAnOrder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -250,22 +249,23 @@ public class Supervisor extends StaffMember implements Initializable {
 		System.out.println(tableClicked + "YOOOOOOOO___________");
 
 		Stage orderSheet = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("../shared_functionality/takeAnOrder.fxml"));
-		Parent takeAnOrder = (Parent)loader.load();
-//		Parent takeAnOrder = FXMLLoader.load(getClass().getResource("../shared_functionality/takeAnOrder.fxml"));
+		FXMLLoader loaderOrder = new FXMLLoader();
+		loaderOrder.setLocation(getClass().getResource("../shared_functionality/takeAnOrder.fxml"));
+		Parent takeAnOrder = (Parent)loaderOrder.load();
 		Scene scene = new Scene(takeAnOrder);
+		loaderOrder.getController();
+		System.out.println(loaderOrder.getController() + "YEY");
 		
-		TakingAnOrder gagag = (TakingAnOrder) loader.getController();
-
-//		loader.setLocation(JfxUtils.class.getResource(fxml));
-
+//		TakingAnOrder newOrder = (TakingAnOrder) loader.getController();
+		TakingAnOrder passingData = new TakingAnOrder();
+		passingData.setTableClicked(tableClicked);
+		passingData.initializeOrder();
+		
 		orderSheet.setTitle("Order Sheet!");
 		orderSheet.setScene(scene);
-		orderSheet.show();
+		orderSheet.showAndWait();
 		
-//		TakingAnOrder newOrder = new TakingAnOrder();
-		gagag.initializeOrder(tableClicked);
+//		new.initializeOrder(tableClicked);
 	}
  	
 }
