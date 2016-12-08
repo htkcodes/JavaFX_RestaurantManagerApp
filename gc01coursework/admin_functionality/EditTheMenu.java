@@ -28,6 +28,14 @@ public class EditTheMenu {
 	
 	@FXML
 	private Button testButton;
+	@FXML
+	private Button addStarterButton;
+	@FXML
+	private Button addMainButton;
+	@FXML
+	private Button addDessertButton;
+	@FXML
+	private Button addDrinkButton;
 	
 	@FXML 
 	public void updateMenu() throws ParserConfigurationException, IOException, TransformerException {
