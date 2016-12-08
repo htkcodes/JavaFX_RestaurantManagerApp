@@ -77,7 +77,12 @@
             <Font name="Futura Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="takeAnOrderButton" layoutX="21.0" layoutY="218.0" mnemonicParsing="false" onAction="#takeAnOrderChooseATable" text="Take An Order">
+      <Button fx:id="takeAnOrderButton" layoutX="21.0" layoutY="217.0" mnemonicParsing="false" onAction="#takeAnOrderChooseATable" text="Take An Order">
+         <font>
+            <Font name="Futura Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="editMenuButton" layoutX="20.0" layoutY="256.0" mnemonicParsing="false" onAction="#editMenu" text="Edit Menu">
          <font>
             <Font name="Futura Bold" size="14.0" />
          </font>

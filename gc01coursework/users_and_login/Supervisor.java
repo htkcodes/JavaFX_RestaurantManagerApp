@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import gc01coursework.admin_functionality.EditTheMenu;
 import gc01coursework.shared_functionality.TakingAnOrder;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -264,6 +265,31 @@ public class Supervisor extends StaffMember implements Initializable {
 		
 		orderSheet.showAndWait();
 	}
+	
+	/**
+	 * Editting The Menu!
+	 *
+	 * 
+	 * 
+	 */
+
+	@FXML
+	public void editMenu(ActionEvent event) throws IOException {
+		
+		EditTheMenu menuEditter = new EditTheMenu();
+		Stage menuEdit = new Stage();
+		FXMLLoader loaderMenu = new FXMLLoader();
+		loaderMenu .setLocation(getClass().getResource("../admin_functionality/editTheMenu.fxml"));
+		loaderMenu .setController(menuEditter);
+		Parent editTheMenu = (Parent)loaderMenu.load();
+		Scene scene = new Scene(editTheMenu);
+		menuEdit.setTitle("Restaurant Menu");
+		menuEdit.initModality(Modality.APPLICATION_MODAL);
+		menuEdit.initOwner(table.getScene().getWindow());
+		menuEdit.setScene(scene);
+		
+		menuEdit.showAndWait();
+	}	
 }
 
 
