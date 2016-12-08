@@ -65,12 +65,12 @@
                   <Font name="Futura Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="commentsTextField" prefHeight="27.0" prefWidth="433.0" promptText="Enter comments for this order here." GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <TextField fx:id="comments" prefHeight="27.0" prefWidth="433.0" promptText="Enter comments for this order here." GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font name="Futura Medium" size="13.0" />
                </font>
             </TextField>
-            <TextField promptText="Enter any special requests here." GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <TextField fx:id="specialRequests" promptText="Enter any special requests here." GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font name="Futura Medium" size="13.0" />
                </font>

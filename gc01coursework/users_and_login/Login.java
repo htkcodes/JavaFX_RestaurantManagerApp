@@ -88,6 +88,7 @@ public class Login {
 				line = br.readLine();
 
 				String correctDetails = "Username: " + username + ", Password: " + password;
+				System.out.println(correctDetails);
 
 				if((line = br.readLine()) != null && line.contains(correctDetails)) {
 					isStaffMember = true;
