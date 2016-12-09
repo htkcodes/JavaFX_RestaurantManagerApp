@@ -21,13 +21,19 @@ import org.w3c.dom.Text;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Labeled;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class EditTheMenu {
-	
-	@FXML
-	private Button testButton;
+
 	@FXML
 	private Button addStarterButton;
 	@FXML
@@ -36,28 +42,46 @@ public class EditTheMenu {
 	private Button addDessertButton;
 	@FXML
 	private Button addDrinkButton;
-	
-	@FXML 
-	public void updateMenu() throws ParserConfigurationException, IOException, TransformerException {
-		addMenuStarters();
-		addMenuMains();
-		addMenuDesserts();
-		addMenuDrinks();
-	}
-	
+
 	/**
 	 * Starter XML!
+	 * @throws IOException 
+	 * @throws TransformerException 
+	 * @throws ParserConfigurationException 
 	 *
 	 * 
 	 * 
 	 */
-	
+	@FXML
+	private void addToMenu(ActionEvent event) throws IOException, ParserConfigurationException, TransformerException {
+		Stage primaryStage = new Stage();
+		Parent addMenuItemPopUp = FXMLLoader.load(getClass().getResource("../admin_functionality/addToMenu.fxml"));
+		Scene scene = new Scene(addMenuItemPopUp);
+		primaryStage.setTitle("Add A Menu Item");
+		primaryStage.initModality(Modality.APPLICATION_MODAL);
+		primaryStage.initOwner(addMenuItemPopUp.getScene().getWindow());
+		primaryStage.setScene(scene);
+		
+		String buttonClicked = ((Node) event.getSource()).getId();
+		if(buttonClicked.equals("addStarterButton")) {
+			addMenuStarters();
+		} else if(buttonClicked.equals("addMainButton")) {
+			addMenuMains();
+		} else if (buttonClicked.equals("addDessertButton")) {
+			addMenuDesserts();
+		} else if(buttonClicked.equals("addDrinkButton")) {
+			addMenuDrinks();
+		}
+		
+		primaryStage.showAndWait();
+	}
+
 	@FXML
 	private void addMenuStarters() throws ParserConfigurationException, IOException, TransformerException {
 
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.newDocument();	//Now we've created the document, we're ready to build the XML.
+		Document xmlDoc = docBuilder.newDocument();	
 
 		Element mainElement = xmlDoc.createElement("starter");
 
@@ -68,41 +92,41 @@ public class EditTheMenu {
 
 		starter.appendChild(starterText);
 		starterPrice.appendChild(starterPriceText);
-		
+
 		mainElement.appendChild(starter);
 		mainElement.appendChild(starterPrice);
 		xmlDoc.appendChild(mainElement);
 
 		OutputFormat outFormat = new OutputFormat(xmlDoc);
 		outFormat.setIndenting(true);
-		File xmlFile = new File("./starters.xml");
+		File xmlFile = new File("./menu.xml");
 		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
 
 		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
 		serializer.serialize(xmlDoc);
-		
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
-        DOMSource source = new DOMSource(xmlDoc);
-        StreamResult console = new StreamResult(System.out);
-        transformer.transform(source, console);
 
-        System.out.println("\nXML DOM Created Successfully..");
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
+		DOMSource source = new DOMSource(xmlDoc);
+		StreamResult console = new StreamResult(System.out);
+		transformer.transform(source, console);
+
+		System.out.println("\nXML DOM Created Successfully..");
 	}
-	
+
 	/**
 	 * Mains XML!
 	 *
 	 * 
 	 * 
 	 */
-	
+
 	@FXML
 	private void addMenuMains() throws ParserConfigurationException, IOException, TransformerException {
 
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.newDocument();	//Now we've created the document, we're ready to build the XML.
+		Document xmlDoc = docBuilder.newDocument();	
 
 		Element mainElement = xmlDoc.createElement("main");
 
@@ -120,35 +144,34 @@ public class EditTheMenu {
 
 		OutputFormat outFormat = new OutputFormat(xmlDoc);
 		outFormat.setIndenting(true);
-		File xmlFile = new File("./mains.xml");
+		File xmlFile = new File("./menu.xml");
 		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
 
 		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
 		serializer.serialize(xmlDoc);
-		
-		// output DOM XML to console 
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
-        DOMSource source = new DOMSource(xmlDoc);
-        StreamResult console = new StreamResult(System.out);
-        transformer.transform(source, console);
 
-        System.out.println("\nXML DOM Created Successfully..");
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
+		DOMSource source = new DOMSource(xmlDoc);
+		StreamResult console = new StreamResult(System.out);
+		transformer.transform(source, console);
+
+		System.out.println("\nXML DOM Created Successfully..");
 	}
-	
+
 	/**
 	 * Dessert XML!
 	 *
 	 * 
 	 * 
 	 */
-	
+
 	@FXML
 	private void addMenuDesserts() throws ParserConfigurationException, IOException, TransformerException {
 
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.newDocument();	//Now we've created the document, we're ready to build the XML.
+		Document xmlDoc = docBuilder.newDocument();	
 
 		Element mainElement = xmlDoc.createElement("dessert");
 
@@ -167,34 +190,34 @@ public class EditTheMenu {
 
 		OutputFormat outFormat = new OutputFormat(xmlDoc);
 		outFormat.setIndenting(true);
-		File xmlFile = new File("./desserts.xml");
+		File xmlFile = new File("./menu.xml");
 		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
 
 		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
 		serializer.serialize(xmlDoc);
-		
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
-        DOMSource source = new DOMSource(xmlDoc);
-        StreamResult console = new StreamResult(System.out);
-        transformer.transform(source, console);
 
-        System.out.println("\nXML DOM Created Successfully..");
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
+		DOMSource source = new DOMSource(xmlDoc);
+		StreamResult console = new StreamResult(System.out);
+		transformer.transform(source, console);
+
+		System.out.println("\nXML DOM Created Successfully..");
 	}
-	
+
 	/**
 	 * Drinks XML!
 	 *
 	 * 
 	 * 
 	 */
-	
+
 	@FXML
 	private void addMenuDrinks() throws ParserConfigurationException, IOException, TransformerException {
 
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.newDocument();	//Now we've created the document, we're ready to build the XML.
+		Document xmlDoc = docBuilder.newDocument();	
 
 		Element mainElement = xmlDoc.createElement("drink");
 
@@ -213,21 +236,19 @@ public class EditTheMenu {
 
 		OutputFormat outFormat = new OutputFormat(xmlDoc);
 		outFormat.setIndenting(true);
-		File xmlFile = new File("./drinks.xml");
+		File xmlFile = new File("./menu.xml");
 		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
 
-		//Serialize XML data with the specified OutputStream:
 		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
 		serializer.serialize(xmlDoc);
-		
-		// output DOM XML to console 
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
-        DOMSource source = new DOMSource(xmlDoc);
-        StreamResult console = new StreamResult(System.out);
-        transformer.transform(source, console);
 
-        System.out.println("\nXML DOM Created Successfully..");
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
+		DOMSource source = new DOMSource(xmlDoc);
+		StreamResult console = new StreamResult(System.out);
+		transformer.transform(source, console);
+
+		System.out.println("\nXML DOM Created Successfully..");
 	}
-	
+
 }

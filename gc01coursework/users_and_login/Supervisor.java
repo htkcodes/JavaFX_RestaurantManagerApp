@@ -63,7 +63,9 @@ public class Supervisor extends StaffMember implements Initializable {
 	private Button takeAnOrderButton;
 	@FXML
 	private Button okayToSelectTableButton;
-
+	@FXML
+	private Button editMenuButton;
+	
 	public Supervisor() {
 		super(username, password, lastLogin);
 	}
@@ -285,7 +287,7 @@ public class Supervisor extends StaffMember implements Initializable {
 		Scene scene = new Scene(editTheMenu);
 		menuEdit.setTitle("Restaurant Menu");
 		menuEdit.initModality(Modality.APPLICATION_MODAL);
-		menuEdit.initOwner(table.getScene().getWindow());
+		menuEdit.initOwner(editMenuButton.getScene().getWindow());
 		menuEdit.setScene(scene);
 		
 		menuEdit.showAndWait();
