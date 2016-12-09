@@ -134,7 +134,7 @@ public class TakingAnOrder implements Initializable {
 		outFormat.setIndenting(true);
 
 		//Declare the file:
-		File xmlFile = new File("./orders.xml");
+		File xmlFile = new File("./src/orders.xml");
 		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
 
 		//Serialize XML data with the specified OutputStream:

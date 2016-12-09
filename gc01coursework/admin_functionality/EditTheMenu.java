@@ -29,11 +29,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class EditTheMenu {
-
+	private static String theMenuItemTypeToBeAdded;
+	
 	@FXML
 	private Button addStarterButton;
 	@FXML
@@ -42,7 +44,15 @@ public class EditTheMenu {
 	private Button addDessertButton;
 	@FXML
 	private Button addDrinkButton;
-
+	@FXML
+	private TextField menuItemNameTextField;
+	@FXML
+	private TextField menuItemPriceTextField;
+	@FXML
+	private Button addMenuItemButton;
+	@FXML
+	private Button cancelMenuItemButton;
+	
 	/**
 	 * Starter XML!
 	 * @throws IOException 
@@ -52,6 +62,7 @@ public class EditTheMenu {
 	 * 
 	 * 
 	 */
+	
 	@FXML
 	private void addToMenu(ActionEvent event) throws IOException, ParserConfigurationException, TransformerException {
 		Stage primaryStage = new Stage();
@@ -62,33 +73,56 @@ public class EditTheMenu {
 		primaryStage.initOwner(addMenuItemPopUp.getScene().getWindow());
 		primaryStage.setScene(scene);
 		
-		String buttonClicked = ((Node) event.getSource()).getId();
-		if(buttonClicked.equals("addStarterButton")) {
-			addMenuStarters();
-		} else if(buttonClicked.equals("addMainButton")) {
-			addMenuMains();
-		} else if (buttonClicked.equals("addDessertButton")) {
-			addMenuDesserts();
-		} else if(buttonClicked.equals("addDrinkButton")) {
-			addMenuDrinks();
-		}
-		
+		theMenuItemTypeToBeAdded = ((Node) event.getSource()).getId();
 		primaryStage.showAndWait();
 	}
+	
+	@FXML
+	private void addMenuItem() throws ParserConfigurationException, IOException, TransformerException {
+		String newItemName = menuItemNameTextField.getText();
+		String newItemPrice = menuItemPriceTextField.getText();
+		System.out.println(newItemName + " " + newItemPrice);
+		String[] newItem = new String[2];
+		newItem[0] = newItemName;
+		newItem[1] = newItemPrice;
+		
+		String whichItemType = theMenuItemTypeToBeAdded;
+
+		if(whichItemType.equals("addStarterButton")) {
+			addMenuStarters(newItem);
+		} else if(whichItemType.equals("addMainButton")) {
+			addMenuMains(newItem);
+		} else if (whichItemType.equals("addDessertButton")) {
+			addMenuDesserts(newItem);
+		} else if(whichItemType.equals("addDrinkButton")) {
+			addMenuDrinks(newItem);
+		}
+		
+		Stage stage = (Stage) addMenuItemButton.getScene().getWindow();
+		stage.close();
+	}
+	
+	@FXML
+	public void cancelAddingMenuItem(ActionEvent event) throws IOException {
+		Stage stage = (Stage) cancelMenuItemButton.getScene().getWindow();
+		stage.close();
+	} 
 
 	@FXML
-	private void addMenuStarters() throws ParserConfigurationException, IOException, TransformerException {
-
+	private void addMenuStarters(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException {
+		String name = theNewItem[0];
+		String price = theNewItem[1];
+		
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		Document xmlDoc = docBuilder.newDocument();	
 
 		Element mainElement = xmlDoc.createElement("starter");
 
-		Text starterText = xmlDoc.createTextNode("Starter");
+		Text starterText = xmlDoc.createTextNode(name);
 		Element starter = xmlDoc.createElement("starter");	
 		Element starterPrice = xmlDoc.createElement("starterPrice");	
-		Text starterPriceText = xmlDoc.createTextNode(" Price = ");
+		Text starterPriceText = xmlDoc.createTextNode(price);
 
 		starter.appendChild(starterText);
 		starterPrice.appendChild(starterPriceText);
@@ -99,7 +133,7 @@ public class EditTheMenu {
 
 		OutputFormat outFormat = new OutputFormat(xmlDoc);
 		outFormat.setIndenting(true);
-		File xmlFile = new File("./menu.xml");
+		File xmlFile = new File("./src/menu.xml");
 		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
 
 		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
@@ -122,18 +156,20 @@ public class EditTheMenu {
 	 */
 
 	@FXML
-	private void addMenuMains() throws ParserConfigurationException, IOException, TransformerException {
-
+	private void addMenuMains(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException {	
+		String name = theNewItem[0];
+		String price = theNewItem[1];
+		
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		Document xmlDoc = docBuilder.newDocument();	
 
 		Element mainElement = xmlDoc.createElement("main");
 
-		Text mainText = xmlDoc.createTextNode("Mains");
+		Text mainText = xmlDoc.createTextNode(name);
 		Element main = xmlDoc.createElement("main");	
 		Element mainPrice = xmlDoc.createElement("mainPrice");	
-		Text mainPriceText = xmlDoc.createTextNode(" Price = ");
+		Text mainPriceText = xmlDoc.createTextNode(price);
 
 		main.appendChild(mainText);
 		mainPrice.appendChild(mainPriceText);
@@ -144,7 +180,7 @@ public class EditTheMenu {
 
 		OutputFormat outFormat = new OutputFormat(xmlDoc);
 		outFormat.setIndenting(true);
-		File xmlFile = new File("./menu.xml");
+		File xmlFile = new File("./src/menu.xml");
 		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
 
 		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
@@ -167,18 +203,20 @@ public class EditTheMenu {
 	 */
 
 	@FXML
-	private void addMenuDesserts() throws ParserConfigurationException, IOException, TransformerException {
-
+	private void addMenuDesserts(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException {
+		String name = theNewItem[0];
+		String price = theNewItem[1];
+		
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		Document xmlDoc = docBuilder.newDocument();	
 
 		Element mainElement = xmlDoc.createElement("dessert");
 
-		Text dessertText = xmlDoc.createTextNode("Desserts");
+		Text dessertText = xmlDoc.createTextNode(name);
 		Element dessert = xmlDoc.createElement("dessert");
 		Element dessertPrice = xmlDoc.createElement("dessertPrice");
-		Text dessertPriceText = xmlDoc.createTextNode(" Price = ");
+		Text dessertPriceText = xmlDoc.createTextNode(price);
 
 		dessert.appendChild(dessertText);
 		dessertPrice.appendChild(dessertPriceText);
@@ -190,7 +228,7 @@ public class EditTheMenu {
 
 		OutputFormat outFormat = new OutputFormat(xmlDoc);
 		outFormat.setIndenting(true);
-		File xmlFile = new File("./menu.xml");
+		File xmlFile = new File("./src/menu.xml");
 		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
 
 		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
@@ -213,18 +251,20 @@ public class EditTheMenu {
 	 */
 
 	@FXML
-	private void addMenuDrinks() throws ParserConfigurationException, IOException, TransformerException {
-
+	private void addMenuDrinks(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException {
+		String name = theNewItem[0];
+		String price = theNewItem[1];
+		
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		Document xmlDoc = docBuilder.newDocument();	
 
 		Element mainElement = xmlDoc.createElement("drink");
 
-		Text drinkText = xmlDoc.createTextNode("Drinks");
+		Text drinkText = xmlDoc.createTextNode(name);
 		Element drink = xmlDoc.createElement("drink");
 		Element drinkPrice = xmlDoc.createElement("drinkPrice");
-		Text drinkPriceText = xmlDoc.createTextNode(" Price = ");
+		Text drinkPriceText = xmlDoc.createTextNode(price);
 
 		drink.appendChild(drinkText);
 		drinkPrice.appendChild(drinkPriceText);
@@ -236,7 +276,7 @@ public class EditTheMenu {
 
 		OutputFormat outFormat = new OutputFormat(xmlDoc);
 		outFormat.setIndenting(true);
-		File xmlFile = new File("./menu.xml");
+		File xmlFile = new File("./src/menu.xml");
 		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
 
 		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
@@ -250,5 +290,4 @@ public class EditTheMenu {
 
 		System.out.println("\nXML DOM Created Successfully..");
 	}
-
 }
