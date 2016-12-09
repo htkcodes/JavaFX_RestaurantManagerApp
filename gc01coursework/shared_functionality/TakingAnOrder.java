@@ -8,14 +8,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.beans.property.*;
+import gc01coursework.admin_functionality.EditTheMenu;
 import gc01coursework.users_and_login.Supervisor;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -67,6 +73,7 @@ public class TakingAnOrder implements Initializable {
 
 	public TakingAnOrder(String tableNum) {
 	}
+
 
 	public void providingData(String theTable) {
 		setTableClicked(theTable);
@@ -168,56 +175,29 @@ public class TakingAnOrder implements Initializable {
 
 	/**
 	 * Rendering menu.xml so new order items can be added!
+	 * @throws IOException 
 	 *
 	 * 
 	 * 
 	 */
 
-//	@FXML
-//	public void getMenuXMLData() {
-//
-//		try {
-//
-//			File xmlFile = new File("menu.xml");
-//			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-//			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-//			Document doc = dBuilder.parse(xmlFile);
-//
-//			doc.getDocumentElement().normalize();
-//
-//			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-//
-//			NodeList nList = doc.getElementsByTagName("starter");
-//
-//			System.out.println("----------------------------");
-//
-//			for (int i = 0; i < nList.getLength(); i++) {
-//
-//				Node nNode = (javafx.scene.Node) nList.item(i);
-//
-//				System.out.println("\nCurrent Element :" + ((org.w3c.dom.Node) nNode).getNodeName());
-//
-////				if (((org.w3c.dom.Node) nNode).getNodeType() == Node.ELEMENT_NODE) {
-//
-//					Element eElement = (Element) nNode;
-//
-//					System.out.println("Staff id : " + eElement.getAttribute("starter"));
-//					System.out.println("First Name : " + eElement.getElementsByTagName("starterPrice").item(0).getTextContent());
-////				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	private static String getTagValue(String sTag, Element eElement) {
-//		NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
-//
-//		Node nValue = (Node) nlList.item(0);
-//
-//		return ((org.w3c.dom.Node) nValue).getNodeValue();
-//	}
+	@FXML
+	public void getMenuXMLData() throws IOException {
 
+		ViewTheMenu menuViewer = new ViewTheMenu();
+		Stage menuView = new Stage();
+		FXMLLoader loaderMenu = new FXMLLoader();
+		loaderMenu .setLocation(getClass().getResource("../shared_functionality/viewMenu.fxml"));
+		loaderMenu .setController(menuViewer);
+		Parent editTheMenu = (Parent)loaderMenu.load();
+		Scene scene = new Scene(editTheMenu);
+		menuView.setTitle("Rachel's Restaurant Menu");
+		menuView.initModality(Modality.APPLICATION_MODAL);
+		menuView.initOwner(viewMenuButton.getScene().getWindow());
+		menuView.setScene(scene);
+		
+		menuView.showAndWait();
+	}
 }
 
 
