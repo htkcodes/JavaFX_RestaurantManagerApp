@@ -11,6 +11,7 @@ import javafx.beans.property.*;
 import gc01coursework.users_and_login.Supervisor;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -28,15 +29,26 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import com.sun.org.apache.xml.internal.serialize.*;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Entity;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
+import java.io.File;
+
 public class TakingAnOrder implements Initializable {
 	private String tableClicked;
-	
+
 	@FXML
 	private GridPane orderGridPane;
 	@FXML
@@ -49,27 +61,29 @@ public class TakingAnOrder implements Initializable {
 	private TextField comments;
 	@FXML
 	private Button saveOrderButton;
+	@FXML
+	private Button viewMenuButton;
 
-	
+
 	public TakingAnOrder(String tableNum) {
 	}
 
 	public void providingData(String theTable) {
 		setTableClicked(theTable);
 	}
-	
+
 	private String getTableClicked() {
 		return tableClicked;
 	}
-	
+
 	private void setTableClicked(String tableClicked) {
 		this.tableClicked = tableClicked;
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tableNumber.setText(getTableClicked());
-		
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
 		String now = (dateFormat.format(date)).toString();
@@ -82,7 +96,7 @@ public class TakingAnOrder implements Initializable {
 	 * 
 	 * 
 	 */
-	
+
 	@FXML
 	private void saveOrder() throws ParserConfigurationException, IOException, TransformerException {
 		String tableNumberToSave = getTableClicked();
@@ -90,12 +104,12 @@ public class TakingAnOrder implements Initializable {
 		String commentsToSave = comments.getText();
 		String specialRequestsToSave = specialRequests.getText();
 		System.out.println(tableNumberToSave + " " + dateToSave + " " + specialRequestsToSave + " " + commentsToSave);
-		
+
 
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		Document xmlDoc = docBuilder.newDocument();	//Now we've created the document, we're ready to build the XML.
-
+		
 		Element mainElement = xmlDoc.createElement("order");
 
 		Text tableNumberText = xmlDoc.createTextNode(tableNumberToSave);
@@ -140,18 +154,72 @@ public class TakingAnOrder implements Initializable {
 		//Serialize XML data with the specified OutputStream:
 		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
 		serializer.serialize(xmlDoc);
-		
-		// output DOM XML to console 
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
-        DOMSource source = new DOMSource(xmlDoc);
-        StreamResult console = new StreamResult(System.out);
-        transformer.transform(source, console);
 
-        System.out.println("\nXML DOM Created Successfully..");
+		// output DOM XML to console 
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
+		DOMSource source = new DOMSource(xmlDoc);
+		StreamResult console = new StreamResult(System.out);
+		transformer.transform(source, console);
+
+		System.out.println("\nXML DOM Created Successfully..");
 	}
-	
+
+
+	/**
+	 * Rendering menu.xml so new order items can be added!
+	 *
+	 * 
+	 * 
+	 */
+
+//	@FXML
+//	public void getMenuXMLData() {
+//
+//		try {
+//
+//			File xmlFile = new File("menu.xml");
+//			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+//			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//			Document doc = dBuilder.parse(xmlFile);
+//
+//			doc.getDocumentElement().normalize();
+//
+//			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+//
+//			NodeList nList = doc.getElementsByTagName("starter");
+//
+//			System.out.println("----------------------------");
+//
+//			for (int i = 0; i < nList.getLength(); i++) {
+//
+//				Node nNode = (javafx.scene.Node) nList.item(i);
+//
+//				System.out.println("\nCurrent Element :" + ((org.w3c.dom.Node) nNode).getNodeName());
+//
+////				if (((org.w3c.dom.Node) nNode).getNodeType() == Node.ELEMENT_NODE) {
+//
+//					Element eElement = (Element) nNode;
+//
+//					System.out.println("Staff id : " + eElement.getAttribute("starter"));
+//					System.out.println("First Name : " + eElement.getElementsByTagName("starterPrice").item(0).getTextContent());
+////				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	private static String getTagValue(String sTag, Element eElement) {
+//		NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
+//
+//		Node nValue = (Node) nlList.item(0);
+//
+//		return ((org.w3c.dom.Node) nValue).getNodeValue();
+//	}
+
 }
+
 
 
 

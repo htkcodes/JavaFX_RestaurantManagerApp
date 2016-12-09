@@ -1,22 +1,29 @@
 package gc01coursework.admin_functionality;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
@@ -33,9 +40,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+
 public class EditTheMenu {
 	private static String theMenuItemTypeToBeAdded;
-	
+
 	@FXML
 	private Button addStarterButton;
 	@FXML
@@ -52,7 +60,7 @@ public class EditTheMenu {
 	private Button addMenuItemButton;
 	@FXML
 	private Button cancelMenuItemButton;
-	
+
 	/**
 	 * Starter XML!
 	 * @throws IOException 
@@ -62,7 +70,7 @@ public class EditTheMenu {
 	 * 
 	 * 
 	 */
-	
+
 	@FXML
 	private void addToMenu(ActionEvent event) throws IOException, ParserConfigurationException, TransformerException {
 		Stage primaryStage = new Stage();
@@ -72,20 +80,20 @@ public class EditTheMenu {
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
 		primaryStage.initOwner(addMenuItemPopUp.getScene().getWindow());
 		primaryStage.setScene(scene);
-		
+
 		theMenuItemTypeToBeAdded = ((Node) event.getSource()).getId();
 		primaryStage.showAndWait();
 	}
-	
+
 	@FXML
-	private void addMenuItem() throws ParserConfigurationException, IOException, TransformerException {
+	private void addMenuItem() throws ParserConfigurationException, IOException, TransformerException, SAXException {
 		String newItemName = menuItemNameTextField.getText();
 		String newItemPrice = menuItemPriceTextField.getText();
 		System.out.println(newItemName + " " + newItemPrice);
 		String[] newItem = new String[2];
 		newItem[0] = newItemName;
 		newItem[1] = newItemPrice;
-		
+
 		String whichItemType = theMenuItemTypeToBeAdded;
 
 		if(whichItemType.equals("addStarterButton")) {
@@ -97,197 +105,175 @@ public class EditTheMenu {
 		} else if(whichItemType.equals("addDrinkButton")) {
 			addMenuDrinks(newItem);
 		}
-		
+
 		Stage stage = (Stage) addMenuItemButton.getScene().getWindow();
 		stage.close();
 	}
-	
+
 	@FXML
 	public void cancelAddingMenuItem(ActionEvent event) throws IOException {
 		Stage stage = (Stage) cancelMenuItemButton.getScene().getWindow();
 		stage.close();
 	} 
 
+	/**
+	 * Starter XML!
+	 *
+	 * 
+	 * 
+	 */
+	
 	@FXML
-	private void addMenuStarters(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException {
-		String name = theNewItem[0];
-		String price = theNewItem[1];
-		
+	private void addMenuStarters(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.newDocument();	
 
-		Element mainElement = xmlDoc.createElement("starter");
+		Document xmlDoc = docBuilder.parse("starters.xml");	
 
-		Text starterText = xmlDoc.createTextNode(name);
-		Element starter = xmlDoc.createElement("starter");	
+		Element root = xmlDoc.getDocumentElement();
+
+		Element starter = xmlDoc.createElement("starter");
+
+		Text starterText = xmlDoc.createTextNode(theNewItem[0]);
+		Element starterName = xmlDoc.createElement("starterName");	
 		Element starterPrice = xmlDoc.createElement("starterPrice");	
-		Text starterPriceText = xmlDoc.createTextNode(price);
+		Text starterPriceText = xmlDoc.createTextNode(theNewItem[1]);
 
-		starter.appendChild(starterText);
+		starterName.appendChild(starterText);
 		starterPrice.appendChild(starterPriceText);
 
-		mainElement.appendChild(starter);
-		mainElement.appendChild(starterPrice);
-		xmlDoc.appendChild(mainElement);
+		starter.appendChild(starterName);
+		starter.appendChild(starterPrice);
 
-		OutputFormat outFormat = new OutputFormat(xmlDoc);
-		outFormat.setIndenting(true);
-		File xmlFile = new File("./src/menu.xml");
-		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
+		root.appendChild(starter);
 
-		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
-		serializer.serialize(xmlDoc);
-
-		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
 		DOMSource source = new DOMSource(xmlDoc);
-		StreamResult console = new StreamResult(System.out);
-		transformer.transform(source, console);
 
-		System.out.println("\nXML DOM Created Successfully..");
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		StreamResult result = new StreamResult("starters.xml");
+		transformer.transform(source, result);
+
 	}
 
 	/**
 	 * Mains XML!
+	 * @throws SAXException 
 	 *
 	 * 
 	 * 
 	 */
 
 	@FXML
-	private void addMenuMains(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException {	
-		String name = theNewItem[0];
-		String price = theNewItem[1];
-		
+	private void addMenuMains(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {	
+
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.newDocument();	
 
-		Element mainElement = xmlDoc.createElement("main");
+		Document xmlDoc = docBuilder.parse("mains.xml");	
 
-		Text mainText = xmlDoc.createTextNode(name);
-		Element main = xmlDoc.createElement("main");	
+		Element root = xmlDoc.getDocumentElement();
+
+		Element main = xmlDoc.createElement("main");
+
+		Text mainText = xmlDoc.createTextNode(theNewItem[0]);
+		Element mainName = xmlDoc.createElement("mainName");	
 		Element mainPrice = xmlDoc.createElement("mainPrice");	
-		Text mainPriceText = xmlDoc.createTextNode(price);
+		Text mainPriceText = xmlDoc.createTextNode(theNewItem[1]);
 
-		main.appendChild(mainText);
+		mainName.appendChild(mainText);
 		mainPrice.appendChild(mainPriceText);
 
-		mainElement.appendChild(main);
-		mainElement.appendChild(mainPrice);
-		xmlDoc.appendChild(mainElement);
+		main.appendChild(mainName);
+		main.appendChild(mainPrice);
 
-		OutputFormat outFormat = new OutputFormat(xmlDoc);
-		outFormat.setIndenting(true);
-		File xmlFile = new File("./src/menu.xml");
-		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
+		root.appendChild(main);
 
-		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
-		serializer.serialize(xmlDoc);
-
-		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
 		DOMSource source = new DOMSource(xmlDoc);
-		StreamResult console = new StreamResult(System.out);
-		transformer.transform(source, console);
 
-		System.out.println("\nXML DOM Created Successfully..");
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		StreamResult result = new StreamResult("mains.xml");
+		transformer.transform(source, result);
 	}
 
 	/**
 	 * Dessert XML!
+	 * @throws SAXException 
 	 *
 	 * 
 	 * 
 	 */
 
 	@FXML
-	private void addMenuDesserts(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException {
-		String name = theNewItem[0];
-		String price = theNewItem[1];
-		
+	private void addMenuDesserts(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.newDocument();	
 
-		Element mainElement = xmlDoc.createElement("dessert");
+		Document xmlDoc = docBuilder.parse("desserts.xml");	
 
-		Text dessertText = xmlDoc.createTextNode(name);
+		Element root = xmlDoc.getDocumentElement();
+
 		Element dessert = xmlDoc.createElement("dessert");
-		Element dessertPrice = xmlDoc.createElement("dessertPrice");
-		Text dessertPriceText = xmlDoc.createTextNode(price);
 
-		dessert.appendChild(dessertText);
+		Text dessertText = xmlDoc.createTextNode(theNewItem[0]);
+		Element dessertName = xmlDoc.createElement("dessertName");	
+		Element dessertPrice = xmlDoc.createElement("dessertPrice");	
+		Text dessertPriceText = xmlDoc.createTextNode(theNewItem[1]);
+
+		dessertName.appendChild(dessertText);
 		dessertPrice.appendChild(dessertPriceText);
 
-		mainElement.appendChild(dessert);
-		mainElement.appendChild(dessertPrice);
+		dessert.appendChild(dessertName);
+		dessert.appendChild(dessertPrice);
 
-		xmlDoc.appendChild(mainElement);
+		root.appendChild(dessert);
 
-		OutputFormat outFormat = new OutputFormat(xmlDoc);
-		outFormat.setIndenting(true);
-		File xmlFile = new File("./src/menu.xml");
-		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
-
-		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
-		serializer.serialize(xmlDoc);
-
-		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
 		DOMSource source = new DOMSource(xmlDoc);
-		StreamResult console = new StreamResult(System.out);
-		transformer.transform(source, console);
 
-		System.out.println("\nXML DOM Created Successfully..");
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		StreamResult result = new StreamResult("desserts.xml");
+		transformer.transform(source, result);
 	}
 
 	/**
 	 * Drinks XML!
+	 * @throws SAXException 
 	 *
 	 * 
 	 * 
 	 */
 
 	@FXML
-	private void addMenuDrinks(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException {
-		String name = theNewItem[0];
-		String price = theNewItem[1];
-		
+	private void addMenuDrinks(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.newDocument();	
 
-		Element mainElement = xmlDoc.createElement("drink");
+		Document xmlDoc = docBuilder.parse("drinks.xml");	
 
-		Text drinkText = xmlDoc.createTextNode(name);
+		Element root = xmlDoc.getDocumentElement();
+
 		Element drink = xmlDoc.createElement("drink");
-		Element drinkPrice = xmlDoc.createElement("drinkPrice");
-		Text drinkPriceText = xmlDoc.createTextNode(price);
 
-		drink.appendChild(drinkText);
+		Text drinkText = xmlDoc.createTextNode(theNewItem[0]);
+		Element drinkName = xmlDoc.createElement("drinkName");	
+		Element drinkPrice = xmlDoc.createElement("drinkPrice");	
+		Text drinkPriceText = xmlDoc.createTextNode(theNewItem[1]);
+
+		drinkName.appendChild(drinkText);
 		drinkPrice.appendChild(drinkPriceText);
 
-		mainElement.appendChild(drink);
-		mainElement.appendChild(drinkPrice);
+		drink.appendChild(drinkName);
+		drink.appendChild(drinkPrice);
 
-		xmlDoc.appendChild(mainElement);
+		root.appendChild(drink);
 
-		OutputFormat outFormat = new OutputFormat(xmlDoc);
-		outFormat.setIndenting(true);
-		File xmlFile = new File("./src/menu.xml");
-		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
-
-		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
-		serializer.serialize(xmlDoc);
-
-		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
 		DOMSource source = new DOMSource(xmlDoc);
-		StreamResult console = new StreamResult(System.out);
-		transformer.transform(source, console);
 
-		System.out.println("\nXML DOM Created Successfully..");
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		StreamResult result = new StreamResult("drinks.xml");
+		transformer.transform(source, result);
 	}
 }

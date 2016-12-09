@@ -76,7 +76,7 @@
                </font>
             </TextField>
             <Label fx:id="totalCost" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="viewMenuButton" mnemonicParsing="false" text="View Menu" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Button fx:id="viewMenuButton" mnemonicParsing="false" onAction="#getMenuXMLData" text="View Menu" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font name="Futura Medium" size="13.0" />
                </font>
