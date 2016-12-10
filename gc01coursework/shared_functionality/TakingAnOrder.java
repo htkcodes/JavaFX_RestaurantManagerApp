@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -103,6 +104,8 @@ public class TakingAnOrder implements Initializable {
 	@FXML
 	private ListView<String> selectedMainsList;
 	@FXML
+	private ListView<String> mainQuantitiesList;
+	@FXML
 	private Button selectMain;
 	@FXML
 	private Button removeMain;
@@ -110,6 +113,8 @@ public class TakingAnOrder implements Initializable {
 	private ListView<String> dessertList;
 	@FXML
 	private ListView<String> selectedDessertsList;
+	@FXML
+	private ListView<String> dessertQuantitiesList;
 	@FXML
 	private Button selectDessert;
 	@FXML
@@ -119,9 +124,21 @@ public class TakingAnOrder implements Initializable {
 	@FXML
 	private ListView<String> selectedDrinksList;
 	@FXML
+	private ListView<String> drinkQuantitiesList;
+	@FXML
 	private Button selectDrink;
 	@FXML
 	private Button removeDrink;
+	
+	
+	
+	@FXML
+	private Button hiddenMainsQuantityButton;
+	@FXML
+	private Button hiddenDessertsQuantityButton;
+	@FXML
+	private Button hiddenDrinksQuantityButton;
+	
 	
 	public TakingAnOrder(String tableNum) {
 	}
@@ -217,6 +234,10 @@ public class TakingAnOrder implements Initializable {
 		    	
 		    	ListView<String> starterQuantitiesList = new ListView<>(starterQuantities);
 		    	menuGridPane.add(starterQuantitiesList, 4, 1);
+		    	
+		    	hiddenMainsQuantityButton.fire();
+		    	hiddenDessertsQuantityButton.fire();
+		    	hiddenDrinksQuantityButton.fire();
 		    });
 		}
 	}
@@ -279,6 +300,28 @@ public class TakingAnOrder implements Initializable {
 		        }
 		      }
 		    });
+		    
+		    hiddenMainsQuantityButton.setOnAction((ActionEvent event) -> {
+		    	ArrayList<String> quantities = new ArrayList<String>();
+		    	
+		    	Set<String> unique = new HashSet<String>(selectedMains);
+		    	for (String key : unique) {
+		    		String item = key;
+		    		String[] parts = item.split(" - ");
+		    		String name = parts[0]; 
+		    		String price = parts[1]; 
+		    		int quantity = Collections.frequency(selectedMains, key);
+		    		System.out.println(name + " " + price + " " + quantity);
+		    		
+		    		String nameAndQuantity = quantity + " x " + name;
+		    		quantities.add(nameAndQuantity);
+		    	}
+		    	
+		    	ObservableList<String> mainQuantities = FXCollections.observableArrayList(quantities);
+		    	
+		    	ListView<String> mainQuantitiesList = new ListView<>(mainQuantities);
+		    	menuGridPane.add(mainQuantitiesList, 4, 2);
+		    });
 		}
 	}
 	
@@ -340,6 +383,28 @@ public class TakingAnOrder implements Initializable {
 		        }
 		      }
 		    });
+		    
+		    hiddenDessertsQuantityButton.setOnAction((ActionEvent event) -> {
+		    	ArrayList<String> quantities = new ArrayList<String>();
+		    	
+		    	Set<String> unique = new HashSet<String>(selectedDesserts);
+		    	for (String key : unique) {
+		    		String item = key;
+		    		String[] parts = item.split(" - ");
+		    		String name = parts[0]; 
+		    		String price = parts[1]; 
+		    		int quantity = Collections.frequency(selectedDesserts, key);
+		    		System.out.println(name + " " + price + " " + quantity);
+		    		
+		    		String nameAndQuantity = quantity + " x " + name;
+		    		quantities.add(nameAndQuantity);
+		    	}
+		    	
+		    	ObservableList<String> dessertQuantities = FXCollections.observableArrayList(quantities);
+		    	
+		    	ListView<String> dessertQuantitiesList = new ListView<>(dessertQuantities);
+		    	menuGridPane.add(dessertQuantitiesList, 4, 3);
+		    });
 		}
 	}
 	
@@ -400,6 +465,28 @@ public class TakingAnOrder implements Initializable {
 		        	drinkItems.add(undo);
 		        }
 		      }
+		    });
+		    
+		    hiddenDrinksQuantityButton.setOnAction((ActionEvent event) -> {
+		    	ArrayList<String> quantities = new ArrayList<String>();
+		    	
+		    	Set<String> unique = new HashSet<String>(selectedDrinks);
+		    	for (String key : unique) {
+		    		String item = key;
+		    		String[] parts = item.split(" - ");
+		    		String name = parts[0]; 
+		    		String price = parts[1]; 
+		    		int quantity = Collections.frequency(selectedDrinks, key);
+		    		System.out.println(name + " " + price + " " + quantity);
+		    		
+		    		String nameAndQuantity = quantity + " x " + name;
+		    		quantities.add(nameAndQuantity);
+		    	}
+		    	
+		    	ObservableList<String> drinkQuantities = FXCollections.observableArrayList(quantities);
+		    	
+		    	ListView<String> drinkQuantitiesList = new ListView<>(drinkQuantities);
+		    	menuGridPane.add(drinkQuantitiesList, 4, 4);
 		    });
 		}
 	}

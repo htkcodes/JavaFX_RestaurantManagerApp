@@ -158,11 +158,17 @@
                   <ListView fx:id="dessertList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <ListView fx:id="drinkList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <ListView fx:id="starterQuantitiesList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                  <Button fx:id="clickForQuantitiesButton" mnemonicParsing="false" text="Get Quantities" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+                  <Button fx:id="clickForQuantitiesButton" mnemonicParsing="false" text="Get Quantities   " GridPane.columnIndex="4" GridPane.halignment="CENTER">
                      <font>
                         <Font name="Futura Medium" size="11.0" />
                      </font>
                   </Button>
+                  <ListView fx:id="mainQuantitiesList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <Button fx:id="hiddenMainsQuantityButton" mnemonicParsing="false" GridPane.columnIndex="4" />
+                  <ListView fx:id="dessertQuantitiesList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <ListView fx:id="dessertQuantitiesList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <Button fx:id="hiddenDessertsQuantityButton" mnemonicParsing="false" GridPane.columnIndex="4" />
+                  <Button fx:id="hiddenDrinksQuantityButton" mnemonicParsing="false" GridPane.columnIndex="4" />
                </children>
             </GridPane>
          </children>
