@@ -157,15 +157,12 @@
                   </Button>
                   <ListView fx:id="dessertList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <ListView fx:id="drinkList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label alignment="CENTER" text="Quantity" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+                  <ListView fx:id="starterQuantitiesList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <Button fx:id="clickForQuantitiesButton" mnemonicParsing="false" text="Get Quantities" GridPane.columnIndex="4" GridPane.halignment="CENTER">
                      <font>
                         <Font name="Futura Medium" size="11.0" />
                      </font>
-                  </Label>
-                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                  <TextField GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  </Button>
                </children>
             </GridPane>
          </children>

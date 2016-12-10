@@ -6,8 +6,12 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
+
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,7 +66,6 @@ import org.w3c.dom.Element;
 
 public class TakingAnOrder implements Initializable {
 	private String tableClicked;
-	private ObservableList<String> starterItems;
 
 	@FXML
 	private GridPane orderGridPane;
@@ -80,11 +83,17 @@ public class TakingAnOrder implements Initializable {
 	//Inside Items Panel:
 	@FXML
 	private GridPane menuGridPane;
+	@FXML
+	private Button clickForQuantitiesButton;
 	
 	@FXML
 	private ListView<String> starterList;
 	@FXML
 	private ListView<String> selectedStartersList;
+	@FXML
+	private ObservableList<String> selectedStarters;
+	@FXML
+	private ListView<String> starterQuantitiesList;
 	@FXML
 	private Button selectStarter;
 	@FXML
@@ -158,7 +167,7 @@ public class TakingAnOrder implements Initializable {
 				allStarters.add(fullStarter);
 			}
 			
-			ObservableList<String> starterItems = FXCollections.observableArrayList(allStarters);
+			final ObservableList<String> starterItems = FXCollections.observableArrayList(allStarters);
 			System.out.println(starterItems);
 			ListView<String> starterList = new ListView<String>(starterItems);
 			
@@ -186,6 +195,28 @@ public class TakingAnOrder implements Initializable {
 		        	starterItems.add(undo);
 		        }
 		      }
+		    });
+		    
+		    clickForQuantitiesButton.setOnAction((ActionEvent event) -> {
+		    	ArrayList<String> quantities = new ArrayList<String>();
+		    	
+		    	Set<String> unique = new HashSet<String>(selectedStarters);
+		    	for (String key : unique) {
+		    		String item = key;
+		    		String[] parts = item.split(" - ");
+		    		String name = parts[0]; 
+		    		String price = parts[1]; 
+		    		int quantity = Collections.frequency(selectedStarters, key);
+		    		System.out.println(name + " " + price + " " + quantity);
+		    		
+		    		String nameAndQuantity = quantity + " x " + name;
+		    		quantities.add(nameAndQuantity);
+		    	}
+		    	
+		    	ObservableList<String> starterQuantities = FXCollections.observableArrayList(quantities);
+		    	
+		    	ListView<String> starterQuantitiesList = new ListView<>(starterQuantities);
+		    	menuGridPane.add(starterQuantitiesList, 4, 1);
 		    });
 		}
 	}
