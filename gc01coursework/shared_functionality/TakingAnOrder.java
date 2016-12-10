@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import gc01coursework.admin_functionality.EditTheMenu;
 import gc01coursework.users_and_login.Supervisor;
 import javafx.fxml.FXML;
@@ -79,14 +80,39 @@ public class TakingAnOrder implements Initializable {
 	//Inside Items Panel:
 	@FXML
 	private GridPane menuGridPane;
-	@FXML
-	private Label theItems;
+	
 	@FXML
 	private ListView<String> starterList;
+	@FXML
+	private ListView<String> selectedStartersList;
 	@FXML
 	private Button selectStarter;
 	@FXML
 	private Button removeStarter;
+	
+	private ListView<String> mainList;
+	@FXML
+	private ListView<String> selectedMainsList;
+	@FXML
+	private Button selectMain;
+	@FXML
+	private Button removeMain;
+	
+	private ListView<String> dessertList;
+	@FXML
+	private ListView<String> selectedDessertsList;
+	@FXML
+	private Button selectDessert;
+	@FXML
+	private Button removeDessert;
+	
+	private ListView<String> drinkList;
+	@FXML
+	private ListView<String> selectedDrinksList;
+	@FXML
+	private Button selectDrink;
+	@FXML
+	private Button removeDrink;
 	
 	public TakingAnOrder(String tableNum) {
 	}
@@ -102,6 +128,13 @@ public class TakingAnOrder implements Initializable {
 	private void setTableClicked(String tableClicked) {
 		this.tableClicked = tableClicked;
 	}
+	
+	/**
+	 * Pulling Starters from XML and populating Order Form!
+	 *
+	 * 
+	 * 
+	 */
 	
 	@FXML
 	private void getStarters() throws ParserConfigurationException, SAXException, IOException {
@@ -129,16 +162,232 @@ public class TakingAnOrder implements Initializable {
 			System.out.println(starterItems);
 			ListView<String> starterList = new ListView<String>(starterItems);
 			
-			menuGridPane.add(starterList, 1, 0);
+			menuGridPane.add(starterList, 1, 1);
+			
+			ObservableList<String> selectedStarters = FXCollections.observableArrayList();
+		    ListView<String> selectedStartersList = new ListView<>(selectedStarters);
+		    menuGridPane.add(selectedStartersList, 3, 1);
+		    
+		    selectStarter.setOnAction((ActionEvent event) -> {
+		        String potential = starterList.getSelectionModel().getSelectedItem();
+		        if (potential != null) {
+		          starterList.getSelectionModel().clearSelection();
+		          selectedStarters.add(potential);
+		        }
+		      });
+		    
+		    removeStarter.setOnAction((ActionEvent event) -> {
+		      String undo = selectedStartersList.getSelectionModel().getSelectedItem();
+		      if (undo != null) {
+		    	selectedStartersList.getSelectionModel().clearSelection();
+		        selectedStarters.remove(undo);
+		        
+		        if(!starterItems.contains(undo)) {
+		        	starterItems.add(undo);
+		        }
+		      }
+		    });
 		}
 	}
 	
+	/**
+	 * Pulling Mains from XML and populating Order Form!
+	 *
+	 * 
+	 * 
+	 */
+	
+	@FXML
+	private void getMains() throws ParserConfigurationException, SAXException, IOException {
+		ArrayList<String> allMains = new ArrayList<String>();
+
+		File file = new File("mains.xml");
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document doc = documentBuilder.parse(file);
+
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("main");
+
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node nNode = nList.item(i);
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+				String mainName = eElement.getElementsByTagName("mainName").item(0).getTextContent();
+				String mainPrice = eElement.getElementsByTagName("mainPrice").item(0).getTextContent();
+				String fullMain = mainName + " - £" + mainPrice;
+				allMains.add(fullMain);
+			}
+			
+			ObservableList<String> mainItems = FXCollections.observableArrayList(allMains);
+			System.out.println(mainItems);
+			ListView<String> mainList = new ListView<String>(mainItems);
+			
+			menuGridPane.add(mainList, 1, 2);
+			
+			ObservableList<String> selectedMains = FXCollections.observableArrayList();
+		    ListView<String> selectedMainsList = new ListView<>(selectedMains);
+		    menuGridPane.add(selectedMainsList, 3, 2);
+		    
+		    selectMain.setOnAction((ActionEvent event) -> {
+		        String potential = mainList.getSelectionModel().getSelectedItem();
+		        if (potential != null) {
+		          mainList.getSelectionModel().clearSelection();
+		          selectedMains.add(potential);
+		        }
+		      });
+		    
+		    removeMain.setOnAction((ActionEvent event) -> {
+		      String undo = selectedMainsList.getSelectionModel().getSelectedItem();
+		      if (undo != null) {
+		    	selectedMainsList.getSelectionModel().clearSelection();
+		        selectedMains.remove(undo);
+		        
+		        if(!mainItems.contains(undo)) {
+		        	mainItems.add(undo);
+		        }
+		      }
+		    });
+		}
+	}
+	
+	/**
+	 * Pulling Mains from XML and populating Order Form!
+	 *
+	 * 
+	 * 
+	 */
+	
+	@FXML
+	private void getDesserts() throws ParserConfigurationException, SAXException, IOException {
+		ArrayList<String> allDesserts = new ArrayList<String>();
+
+		File file = new File("desserts.xml");
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document doc = documentBuilder.parse(file);
+
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("dessert");
+
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node nNode = nList.item(i);
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+				String dessertName = eElement.getElementsByTagName("dessertName").item(0).getTextContent();
+				String dessertPrice = eElement.getElementsByTagName("dessertPrice").item(0).getTextContent();
+				String fullDessert = dessertName + " - £" + dessertPrice;
+				allDesserts.add(fullDessert);
+			}
+			
+			ObservableList<String> dessertItems = FXCollections.observableArrayList(allDesserts);
+			System.out.println(dessertItems);
+			ListView<String> dessertList = new ListView<String>(dessertItems);
+			
+			menuGridPane.add(dessertList, 1, 3);
+			
+			ObservableList<String> selectedDesserts = FXCollections.observableArrayList();
+		    ListView<String> selectedDessertsList = new ListView<>(selectedDesserts);
+		    menuGridPane.add(selectedDessertsList, 3, 3);
+		    
+		    selectDessert.setOnAction((ActionEvent event) -> {
+		        String potential = dessertList.getSelectionModel().getSelectedItem();
+		        if (potential != null) {
+		        	dessertList.getSelectionModel().clearSelection();
+		        	selectedDesserts.add(potential);
+		        }
+		      });
+		    
+		    removeDessert.setOnAction((ActionEvent event) -> {
+		      String undo = selectedDessertsList.getSelectionModel().getSelectedItem();
+		      if (undo != null) {
+		    	selectedDessertsList.getSelectionModel().clearSelection();
+		        selectedDesserts.remove(undo);
+		        
+		        if(!dessertItems.contains(undo)) {
+		        	dessertItems.add(undo);
+		        }
+		      }
+		    });
+		}
+	}
+	
+	/**
+	 * Pulling Drinks from XML and populating Order Form!
+	 *
+	 * 
+	 * 
+	 */
+	
+	@FXML
+	private void getDrinks() throws ParserConfigurationException, SAXException, IOException {
+		ArrayList<String> allDrinks = new ArrayList<String>();
+
+		File file = new File("drinks.xml");
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document doc = documentBuilder.parse(file);
+
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("drink");
+
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node nNode = nList.item(i);
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+				String drinkName = eElement.getElementsByTagName("drinkName").item(0).getTextContent();
+				String drinkPrice = eElement.getElementsByTagName("drinkPrice").item(0).getTextContent();
+				String fullDrink = drinkName + " - £" + drinkPrice;
+				allDrinks.add(fullDrink);
+			}
+			
+			ObservableList<String> drinkItems = FXCollections.observableArrayList(allDrinks);
+			System.out.println(drinkItems);
+			ListView<String> drinkList = new ListView<String>(drinkItems);
+			
+			menuGridPane.add(drinkList, 1, 4);
+			
+			ObservableList<String> selectedDrinks = FXCollections.observableArrayList();
+		    ListView<String> selectedDrinksList = new ListView<>(selectedDrinks);
+		    menuGridPane.add(selectedDrinksList, 3, 4);
+		    
+		    selectDrink.setOnAction((ActionEvent event) -> {
+		        String potential = drinkList.getSelectionModel().getSelectedItem();
+		        if (potential != null) {
+		        	drinkList.getSelectionModel().clearSelection();
+		        	selectedDrinks.add(potential);
+		        }
+		      });
+		    
+		    removeDrink.setOnAction((ActionEvent event) -> {
+		      String undo = selectedDrinksList.getSelectionModel().getSelectedItem();
+		      if (undo != null) {
+		    	selectedDrinksList.getSelectionModel().clearSelection();
+		        selectedDrinks.remove(undo);
+		        
+		        if(!drinkItems.contains(undo)) {
+		        	drinkItems.add(undo);
+		        }
+		      }
+		    });
+		}
+	}
+	
+	/**
+	 * Initializing Components on Order Form!
+	 *
+	 * 
+	 * 
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tableNumber.setText(getTableClicked());
 		
 		try {
 			getStarters();
+			getMains();
+			getDesserts();
+			getDrinks();
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
