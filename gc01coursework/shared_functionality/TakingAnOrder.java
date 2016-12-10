@@ -37,6 +37,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
@@ -69,11 +71,9 @@ public class TakingAnOrder implements Initializable {
 	private Button saveOrderButton;
 	@FXML
 	private Button viewMenuButton;
-
-
+	
 	public TakingAnOrder(String tableNum) {
 	}
-
 
 	public void providingData(String theTable) {
 		setTableClicked(theTable);
@@ -176,21 +176,23 @@ public class TakingAnOrder implements Initializable {
 	/**
 	 * Rendering menu.xml so new order items can be added!
 	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
 	 *
 	 * 
 	 * 
 	 */
 
 	@FXML
-	public void getMenuXMLData() throws IOException {
+	public void getMenuXMLData() throws IOException, ParserConfigurationException, SAXException {
 
 		ViewTheMenu menuViewer = new ViewTheMenu();
 		Stage menuView = new Stage();
 		FXMLLoader loaderMenu = new FXMLLoader();
-		loaderMenu .setLocation(getClass().getResource("../shared_functionality/viewMenu.fxml"));
-		loaderMenu .setController(menuViewer);
-		Parent editTheMenu = (Parent)loaderMenu.load();
-		Scene scene = new Scene(editTheMenu);
+		loaderMenu.setLocation(getClass().getResource("../shared_functionality/viewMenu.fxml"));
+		loaderMenu.setController(menuViewer);
+		Parent viewTheMenu = (Parent)loaderMenu.load();
+		Scene scene = new Scene(viewTheMenu);
 		menuView.setTitle("Rachel's Restaurant Menu");
 		menuView.initModality(Modality.APPLICATION_MODAL);
 		menuView.initOwner(viewMenuButton.getScene().getWindow());
