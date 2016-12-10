@@ -6,6 +6,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -67,6 +68,14 @@ import org.w3c.dom.Element;
 
 public class TakingAnOrder implements Initializable {
 	private String tableClicked;
+	private int startersTotalPrice;
+	private int mainsTotalPrice;
+	private int dessertsTotalPrice;
+	private int drinksTotalPrice;
+	private ArrayList<String> finalStarters;
+	private ArrayList<String> finalMains;
+	private ArrayList<String> finalDesserts;
+	private ArrayList<String> finalDrinks;
 
 	@FXML
 	private GridPane orderGridPane;
@@ -74,6 +83,8 @@ public class TakingAnOrder implements Initializable {
 	private Label tableNumber;
 	@FXML
 	private Label theDate;
+	@FXML
+	private Label totalCost;
 	@FXML 
 	private TextField specialRequests;
 	@FXML 
@@ -131,7 +142,6 @@ public class TakingAnOrder implements Initializable {
 	private Button removeDrink;
 	
 	
-	
 	@FXML
 	private Button hiddenMainsQuantityButton;
 	@FXML
@@ -155,6 +165,78 @@ public class TakingAnOrder implements Initializable {
 		this.tableClicked = tableClicked;
 	}
 	
+	
+	private int getStartersTotalPrice() {
+		return startersTotalPrice;
+	}
+
+	private int getMainsTotalPrice() {
+		return mainsTotalPrice;
+	}
+
+	private int getDessertsTotalPrice() {
+		return dessertsTotalPrice;
+	}
+
+	private int getDrinksTotalPrice() {
+		return drinksTotalPrice;
+	}
+
+	private void setStartersTotalPrice(int startersTotalPrice) {
+		this.startersTotalPrice = startersTotalPrice;
+	}
+
+	private void setMainsTotalPrice(int mainsTotalPrice) {
+		this.mainsTotalPrice = mainsTotalPrice;
+	}
+
+	private void setDessertsTotalPrice(int dessertsTotalPrice) {
+		this.dessertsTotalPrice = dessertsTotalPrice;
+	}
+
+	private void setDrinksTotalPrice(int drinksTotalPrice) {
+		this.drinksTotalPrice = drinksTotalPrice;
+	}
+	
+	private void displayFinalPrice() {
+		int finalPrice = getStartersTotalPrice() + getMainsTotalPrice() + getDessertsTotalPrice() + getDrinksTotalPrice();
+		totalCost.setText("£" + finalPrice);
+	}
+	
+	
+	
+	private ArrayList<String> getFinalStarters() {
+		return finalStarters;
+	}
+
+	private ArrayList<String> getFinalMains() {
+		return finalMains;
+	}
+
+	private ArrayList<String> getFinalDesserts() {
+		return finalDesserts;
+	}
+
+	private ArrayList<String> getFinalDrinks() {
+		return finalDrinks;
+	}
+
+	private void setFinalStarters(ArrayList<String> finalStarters) {
+		this.finalStarters = finalStarters;
+	}
+
+	private void setFinalMains(ArrayList<String> finalMains) {
+		this.finalMains = finalMains;
+	}
+
+	private void setFinalDesserts(ArrayList<String> finalDesserts) {
+		this.finalDesserts = finalDesserts;
+	}
+
+	private void setFinalDrinks(ArrayList<String> finalDrinks) {
+		this.finalDrinks = finalDrinks;
+	}
+
 	/**
 	 * Pulling Starters from XML and populating Order Form!
 	 *
@@ -188,11 +270,11 @@ public class TakingAnOrder implements Initializable {
 			System.out.println(starterItems);
 			ListView<String> starterList = new ListView<String>(starterItems);
 			
-			menuGridPane.add(starterList, 1, 1);
+			menuGridPane.add(starterList, 1, 0);
 			
 			ObservableList<String> selectedStarters = FXCollections.observableArrayList();
 		    ListView<String> selectedStartersList = new ListView<>(selectedStarters);
-		    menuGridPane.add(selectedStartersList, 3, 1);
+		    menuGridPane.add(selectedStartersList, 3, 0);
 		    
 		    selectStarter.setOnAction((ActionEvent event) -> {
 		        String potential = starterList.getSelectionModel().getSelectedItem();
@@ -216,6 +298,7 @@ public class TakingAnOrder implements Initializable {
 		    
 		    clickForQuantitiesButton.setOnAction((ActionEvent event) -> {
 		    	ArrayList<String> quantities = new ArrayList<String>();
+		    	int startersTotal = 0;
 		    	
 		    	Set<String> unique = new HashSet<String>(selectedStarters);
 		    	for (String key : unique) {
@@ -226,18 +309,38 @@ public class TakingAnOrder implements Initializable {
 		    		int quantity = Collections.frequency(selectedStarters, key);
 		    		System.out.println(name + " " + price + " " + quantity);
 		    		
-		    		String nameAndQuantity = quantity + " x " + name;
+		    		String[] priceParts = price.split("£");
+		    		String priceWithoutSymbol = priceParts[1];
+		    		int priceAsNum = (int) Integer.parseInt(priceWithoutSymbol);
+		    		int eachItemPriceSum = (quantity * priceAsNum);
+		    		String nameAndQuantity = quantity + " x " + name + " (= £" + eachItemPriceSum + ")";
 		    		quantities.add(nameAndQuantity);
+		    		
+		    		startersTotal += eachItemPriceSum;
+		    		
+		    		
+		    		ArrayList<String> finalStarters = new ArrayList<String>();
+
+		    		for(int k=0; k<quantities.size(); k++) {
+		    			String eachSelected = quantities.get(k);
+		    			finalStarters.add(eachSelected);
+		    		}
+		    		setFinalStarters(finalStarters);
 		    	}
+		    	
 		    	
 		    	ObservableList<String> starterQuantities = FXCollections.observableArrayList(quantities);
 		    	
 		    	ListView<String> starterQuantitiesList = new ListView<>(starterQuantities);
-		    	menuGridPane.add(starterQuantitiesList, 4, 1);
+		    	menuGridPane.add(starterQuantitiesList, 4, 0);
+		    	
+		    	setStartersTotalPrice(startersTotal);
 		    	
 		    	hiddenMainsQuantityButton.fire();
 		    	hiddenDessertsQuantityButton.fire();
 		    	hiddenDrinksQuantityButton.fire();
+		    	
+		    	displayFinalPrice();
 		    });
 		}
 	}
@@ -275,11 +378,11 @@ public class TakingAnOrder implements Initializable {
 			System.out.println(mainItems);
 			ListView<String> mainList = new ListView<String>(mainItems);
 			
-			menuGridPane.add(mainList, 1, 2);
+			menuGridPane.add(mainList, 1, 1);
 			
 			ObservableList<String> selectedMains = FXCollections.observableArrayList();
 		    ListView<String> selectedMainsList = new ListView<>(selectedMains);
-		    menuGridPane.add(selectedMainsList, 3, 2);
+		    menuGridPane.add(selectedMainsList, 3, 1);
 		    
 		    selectMain.setOnAction((ActionEvent event) -> {
 		        String potential = mainList.getSelectionModel().getSelectedItem();
@@ -303,7 +406,8 @@ public class TakingAnOrder implements Initializable {
 		    
 		    hiddenMainsQuantityButton.setOnAction((ActionEvent event) -> {
 		    	ArrayList<String> quantities = new ArrayList<String>();
-		    	
+		    	int mainsTotal = 0;
+
 		    	Set<String> unique = new HashSet<String>(selectedMains);
 		    	for (String key : unique) {
 		    		String item = key;
@@ -314,19 +418,37 @@ public class TakingAnOrder implements Initializable {
 		    		System.out.println(name + " " + price + " " + quantity);
 		    		
 		    		String nameAndQuantity = quantity + " x " + name;
-		    		quantities.add(nameAndQuantity);
+		    		
+		    		String[] priceParts = price.split("£");
+		    		String priceWithoutSymbol = priceParts[1];
+		    		int priceAsNum = (int) Integer.parseInt(priceWithoutSymbol);
+		    		int eachItemPriceSum = (quantity * priceAsNum);
+		    		String nameAndQuantityMains = quantity + " x " + name + " (= £" + eachItemPriceSum + ")";
+		    		
+		    		quantities.add(nameAndQuantityMains);
+		    		
+		    		mainsTotal += eachItemPriceSum;
+		    		
+		    		ArrayList<String> finalMains = new ArrayList<String>();
+		    		for(int k=0; k<quantities.size(); k++) {
+		    			String eachSelected = quantities.get(k);
+		    			finalMains.add(eachSelected);
+		    		}
+		    		setFinalMains(finalMains);
 		    	}
 		    	
 		    	ObservableList<String> mainQuantities = FXCollections.observableArrayList(quantities);
 		    	
 		    	ListView<String> mainQuantitiesList = new ListView<>(mainQuantities);
-		    	menuGridPane.add(mainQuantitiesList, 4, 2);
+		    	menuGridPane.add(mainQuantitiesList, 4, 1);
+		    	
+		    	setMainsTotalPrice(mainsTotal);
 		    });
 		}
 	}
 	
 	/**
-	 * Pulling Mains from XML and populating Order Form!
+	 * Pulling Desserts from XML and populating Order Form!
 	 *
 	 * 
 	 * 
@@ -358,11 +480,11 @@ public class TakingAnOrder implements Initializable {
 			System.out.println(dessertItems);
 			ListView<String> dessertList = new ListView<String>(dessertItems);
 			
-			menuGridPane.add(dessertList, 1, 3);
+			menuGridPane.add(dessertList, 1, 2);
 			
 			ObservableList<String> selectedDesserts = FXCollections.observableArrayList();
 		    ListView<String> selectedDessertsList = new ListView<>(selectedDesserts);
-		    menuGridPane.add(selectedDessertsList, 3, 3);
+		    menuGridPane.add(selectedDessertsList, 3, 2);
 		    
 		    selectDessert.setOnAction((ActionEvent event) -> {
 		        String potential = dessertList.getSelectionModel().getSelectedItem();
@@ -386,7 +508,8 @@ public class TakingAnOrder implements Initializable {
 		    
 		    hiddenDessertsQuantityButton.setOnAction((ActionEvent event) -> {
 		    	ArrayList<String> quantities = new ArrayList<String>();
-		    	
+		    	int dessertsTotal = 0;
+
 		    	Set<String> unique = new HashSet<String>(selectedDesserts);
 		    	for (String key : unique) {
 		    		String item = key;
@@ -397,13 +520,31 @@ public class TakingAnOrder implements Initializable {
 		    		System.out.println(name + " " + price + " " + quantity);
 		    		
 		    		String nameAndQuantity = quantity + " x " + name;
-		    		quantities.add(nameAndQuantity);
+		    		
+		    		String[] priceParts = price.split("£");
+		    		String priceWithoutSymbol = priceParts[1];
+		    		int priceAsNum = (int) Integer.parseInt(priceWithoutSymbol);
+		    		int eachItemPriceSum = (quantity * priceAsNum);
+		    		String nameAndQuantityDesserts = quantity + " x " + name + " (= £" + eachItemPriceSum + ")";
+		    		
+		    		quantities.add(nameAndQuantityDesserts);
+		    		
+		    		dessertsTotal += eachItemPriceSum;
+		    		
+		    		ArrayList<String> finalDesserts = new ArrayList<String>();
+		    		for(int k=0; k<quantities.size(); k++) {
+		    			String eachSelected = quantities.get(k);
+		    			finalDesserts.add(eachSelected);
+		    		}
+		    		setFinalDesserts(finalDesserts);
 		    	}
 		    	
 		    	ObservableList<String> dessertQuantities = FXCollections.observableArrayList(quantities);
 		    	
 		    	ListView<String> dessertQuantitiesList = new ListView<>(dessertQuantities);
-		    	menuGridPane.add(dessertQuantitiesList, 4, 3);
+		    	menuGridPane.add(dessertQuantitiesList, 4, 2);
+		    	
+		    	setDessertsTotalPrice(dessertsTotal);
 		    });
 		}
 	}
@@ -441,11 +582,11 @@ public class TakingAnOrder implements Initializable {
 			System.out.println(drinkItems);
 			ListView<String> drinkList = new ListView<String>(drinkItems);
 			
-			menuGridPane.add(drinkList, 1, 4);
+			menuGridPane.add(drinkList, 1, 3);
 			
 			ObservableList<String> selectedDrinks = FXCollections.observableArrayList();
 		    ListView<String> selectedDrinksList = new ListView<>(selectedDrinks);
-		    menuGridPane.add(selectedDrinksList, 3, 4);
+		    menuGridPane.add(selectedDrinksList, 3, 3);
 		    
 		    selectDrink.setOnAction((ActionEvent event) -> {
 		        String potential = drinkList.getSelectionModel().getSelectedItem();
@@ -469,7 +610,8 @@ public class TakingAnOrder implements Initializable {
 		    
 		    hiddenDrinksQuantityButton.setOnAction((ActionEvent event) -> {
 		    	ArrayList<String> quantities = new ArrayList<String>();
-		    	
+		    	int drinksTotal = 0;
+
 		    	Set<String> unique = new HashSet<String>(selectedDrinks);
 		    	for (String key : unique) {
 		    		String item = key;
@@ -480,13 +622,32 @@ public class TakingAnOrder implements Initializable {
 		    		System.out.println(name + " " + price + " " + quantity);
 		    		
 		    		String nameAndQuantity = quantity + " x " + name;
-		    		quantities.add(nameAndQuantity);
+		    		
+		    		String[] priceParts = price.split("£");
+		    		String priceWithoutSymbol = priceParts[1];
+		    		int priceAsNum = (int) Integer.parseInt(priceWithoutSymbol);
+		    		int eachItemPriceSum = (quantity * priceAsNum);
+		    		String nameAndQuantityDrinks = quantity + " x " + name + " (= £" + eachItemPriceSum + ")";
+		    		
+		    		quantities.add(nameAndQuantityDrinks);
+		    		
+		    		drinksTotal += eachItemPriceSum;
+		    		
+		    		ArrayList<String> finalDrinks = new ArrayList<String>();
+
+		    		for(int k=0; k<quantities.size(); k++) {
+		    			String eachSelected = quantities.get(k);
+		    			finalDrinks.add(eachSelected);
+		    		}
+		    		setFinalDrinks(finalDrinks);
 		    	}
 		    	
 		    	ObservableList<String> drinkQuantities = FXCollections.observableArrayList(quantities);
 		    	
 		    	ListView<String> drinkQuantitiesList = new ListView<>(drinkQuantities);
-		    	menuGridPane.add(drinkQuantitiesList, 4, 4);
+		    	menuGridPane.add(drinkQuantitiesList, 4, 3);
+		    	
+		    	setDrinksTotalPrice(drinksTotal);
 		    });
 		}
 	}
@@ -518,79 +679,116 @@ public class TakingAnOrder implements Initializable {
 
 	/**
 	 * Generating Order XML!
+	 * @throws SAXException 
 	 *
 	 * 
 	 * 
 	 */
 
 	@FXML
-	private void saveOrder() throws ParserConfigurationException, IOException, TransformerException {
+	private void saveOrder() throws ParserConfigurationException, IOException, TransformerException, SAXException {
+		clickForQuantitiesButton.fire();	//In case the user has not updated the quantities & prices before trying to save. 
+		
 		String tableNumberToSave = getTableClicked();
 		String dateToSave = theDate.getText();
 		String commentsToSave = comments.getText();
 		String specialRequestsToSave = specialRequests.getText();
-		System.out.println(tableNumberToSave + " " + dateToSave + " " + specialRequestsToSave + " " + commentsToSave);
-
+		String totalCostToSave = totalCost.getText();
 
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.newDocument();	//Now we've created the document, we're ready to build the XML.
-		
-		Element mainElement = xmlDoc.createElement("order");
+
+		Document xmlDoc = docBuilder.parse("allOrders.xml");	
+
+		Element root = xmlDoc.getDocumentElement();
+
+		Element order = xmlDoc.createElement("order");
 
 		Text tableNumberText = xmlDoc.createTextNode(tableNumberToSave);
 		Element tableNumber = xmlDoc.createElement("tablenumber");		 
 		Text dateText = xmlDoc.createTextNode(dateToSave);
 		Element date = xmlDoc.createElement("date");	
-		Text itemsText = xmlDoc.createTextNode("Items");
-		Element items = xmlDoc.createElement("items");
-		Text totalCostText = xmlDoc.createTextNode("Total Cost");
+		Text totalCostText = xmlDoc.createTextNode(totalCostToSave);
 		Element totalCost = xmlDoc.createElement("totalcost");
 		Text commentsText = xmlDoc.createTextNode(commentsToSave);
 		Element comments = xmlDoc.createElement("comments");
 		Text specialRequestsText = xmlDoc.createTextNode(specialRequestsToSave);
-		Element specialRequests = xmlDoc.createElement("specialrequest");
-
-		//Now we just append all the children.
-
+		Element specialRequests = xmlDoc.createElement("specialrequests");
 		tableNumber.appendChild(tableNumberText);
 		date.appendChild(dateText);
-		items.appendChild(itemsText);
 		totalCost.appendChild(totalCostText);
 		comments.appendChild(commentsText);
 		specialRequests.appendChild(specialRequestsText);
+		
+		Element orderedItems = xmlDoc.createElement("orderedItems");
+		
+		Element starters = xmlDoc.createElement("starters");
+		ArrayList<String> startersForSaving = getFinalStarters();
+		
+		if(startersForSaving != null) {
+		for (String eachStarter : startersForSaving) {
+            Element starter = xmlDoc.createElement("starter");
+			starter.appendChild(xmlDoc.createTextNode(eachStarter));
+			starters.appendChild(starter);
+			}
+		}
+		
+		Element mains = xmlDoc.createElement("mains");
+		ArrayList<String> mainsForSaving = getFinalMains();
+		
+		if(mainsForSaving != null) {
+		for (String eachMain : mainsForSaving) {
+            Element main = xmlDoc.createElement("main");
+			main.appendChild(xmlDoc.createTextNode(eachMain));
+			mains.appendChild(main);
+			}
+		}
+		
+		Element desserts = xmlDoc.createElement("desserts");
+		
+		ArrayList<String> dessertsForSaving = getFinalDesserts();
+		
+		if(dessertsForSaving != null) {
+			for (String eachDessert : dessertsForSaving) {
+				Element dessert = xmlDoc.createElement("dessert");
+				dessert.appendChild(xmlDoc.createTextNode(eachDessert));
+				desserts.appendChild(dessert);
+			}
+		}
+		
+		Element drinks = xmlDoc.createElement("drinks");	
+		ArrayList<String> drinksForSaving = getFinalDrinks();
+		
+		if(drinksForSaving != null) {
+		for (String eachDrink : drinksForSaving) {
+            Element drink = xmlDoc.createElement("drink");
+			drink.appendChild(xmlDoc.createTextNode(eachDrink));
+			drinks.appendChild(drink);
+			}
+		}
+		
+		orderedItems.appendChild(starters);
+		orderedItems.appendChild(mains);
+		orderedItems.appendChild(desserts);
+		orderedItems.appendChild(drinks);
+		
+		order.appendChild(tableNumber);
+		order.appendChild(date);
+		order.appendChild(orderedItems);
+		order.appendChild(totalCost);
+		order.appendChild(comments);
+		order.appendChild(specialRequests);
+		order.appendChild(orderedItems);
 
-		mainElement.appendChild(tableNumber);
-		mainElement.appendChild(date);
-		mainElement.appendChild(items);
-		mainElement.appendChild(totalCost);
-		mainElement.appendChild(comments);
-		mainElement.appendChild(specialRequests);
+		root.appendChild(order);
 
-		xmlDoc.appendChild(mainElement);
-
-		//Now we need to set the output format. 
-		OutputFormat outFormat = new OutputFormat(xmlDoc);
-		outFormat.setIndenting(true);
-
-		//Declare the file:
-		File xmlFile = new File("./src/orders.xml");
-		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
-
-		//Serialize XML data with the specified OutputStream:
-		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
-		serializer.serialize(xmlDoc);
-
-		// output DOM XML to console 
-		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
 		DOMSource source = new DOMSource(xmlDoc);
-		StreamResult console = new StreamResult(System.out);
-		transformer.transform(source, console);
 
-		System.out.println("\nXML DOM Created Successfully..");
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		StreamResult result = new StreamResult("allOrders.xml");
+		transformer.transform(source, result);
 	}
-
 }
 
 

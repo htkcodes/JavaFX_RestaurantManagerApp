@@ -44,6 +44,7 @@ public class Main extends Application {
 			generateMainXML();
 			generateDessertXML();
 			generateDrinkXML();
+			generateOrdersXML();
 
 			primaryStage.show();
 
@@ -147,6 +148,30 @@ public class Main extends Application {
 			finishXMLCreation(xmlDoc, xmlFile);
 		}
 	}
+	
+	/**
+	 * Generating Order XML file for Menu!
+	 *
+	 * 
+	 * 
+	 */
+	private void generateOrdersXML() throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
+
+		File xmlFile = new File("allOrders.xml");
+
+		if(!xmlFile.createNewFile()) {
+			System.out.println("Orders XML is ready to add orders to.");
+		} else {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			Document xmlDoc = docBuilder.newDocument();	
+			Element orderElement = xmlDoc.createElement("orders");
+			xmlDoc.appendChild(orderElement);
+
+			finishXMLCreation(xmlDoc, xmlFile);
+		}
+	}
+	
 
 	private void finishXMLCreation(Document xmlDoc, File xmlFile) throws IOException, TransformerFactoryConfigurationError, TransformerException {
 		OutputFormat outFormat = new OutputFormat(xmlDoc);
