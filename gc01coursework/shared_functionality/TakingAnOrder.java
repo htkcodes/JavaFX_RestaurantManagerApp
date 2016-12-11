@@ -44,6 +44,11 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -340,8 +345,10 @@ public class TakingAnOrder implements Initializable {
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) nNode;
 
-					String existingDate = eElement.getElementsByTagName("date").item(0).getTextContent();
-					theDate.setText(existingDate);
+					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					Date date = new Date();
+					String updatedDate = (dateFormat.format(date)).toString();
+					theDate.setText(updatedDate);
 
 					String existingCost = eElement.getElementsByTagName("totalcost").item(0).getTextContent();
 					totalCost.setText(existingCost);
@@ -533,6 +540,12 @@ public class TakingAnOrder implements Initializable {
 					for(int k=0; k<quantities.size(); k++) {
 						String eachSelected = quantities.get(k);
 						finalStarters.add(eachSelected);
+					}
+					
+					if(getCurrentStarters() != null) {
+						for(int m=0; m<getCurrentStarters().size(); m++) {
+							finalStarters.add(getCurrentStarters().get(m));
+						}
 					}
 					setFinalStarters(finalStarters);		    		
 				}
@@ -909,7 +922,7 @@ public class TakingAnOrder implements Initializable {
 		Document xmlDoc = docBuilder.parse("allOrders.xml");	
 
 		Element root = xmlDoc.getDocumentElement();
-
+				
 		Element order = xmlDoc.createElement("order");
 
 		Text tableNumberText = xmlDoc.createTextNode(tableNumberToSave);
@@ -999,7 +1012,13 @@ public class TakingAnOrder implements Initializable {
 	}
 
 	@FXML
-	private void updateOrder() {
+	private void updateOrder() throws ParserConfigurationException, IOException, TransformerException, SAXException {
+		saveOrder();
+	}
+	
+	@FXML 
+	private void deleteOrder() throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException {
+		String tableOrderToDelete = getTableClicked();
 
 	}
 }
