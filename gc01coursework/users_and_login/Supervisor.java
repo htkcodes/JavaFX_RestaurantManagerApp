@@ -16,6 +16,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import gc01coursework.admin_functionality.EditTheMenu;
 import gc01coursework.shared_functionality.TakingAnOrder;
 import javafx.beans.property.*;
@@ -42,6 +52,7 @@ public class Supervisor extends StaffMember implements Initializable {
 	private static final Boolean isSupervisor = true;
 	public ObservableList<String> employeeNames = FXCollections.observableArrayList(); 
 	public String tableClicked;
+	public Boolean orderExists = false;
 
 	@FXML
 	private Button addEmployeeButton;
@@ -248,11 +259,32 @@ public class Supervisor extends StaffMember implements Initializable {
 	}
 
 	@FXML
-	public void takeAnOrder(ActionEvent event) throws IOException {
+	public void takeAnOrder(ActionEvent event) throws IOException, SAXException, ParserConfigurationException {
+		
+		tableClicked = ((Labeled) event.getSource()).getText();	
+		
+		File file = new File("allOrders.xml");
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document doc = documentBuilder.parse(file);
 
-		tableClicked = ((Labeled) event.getSource()).getText();		
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("order");
+		
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node nNode = nList.item(i);
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+				String tableNumber = eElement.getElementsByTagName("tablenumber").item(0).getTextContent();
+				
+				if(tableNumber.equals(tableClicked)) {
+					orderExists = true;
+				}
+			}
+		}
+					
 		TakingAnOrder newOrder = new TakingAnOrder(tableClicked);
-		newOrder.providingData(tableClicked);
+		newOrder.providingData(tableClicked, orderExists);
 
 		Stage orderSheet = new Stage();
 		FXMLLoader loaderOrder = new FXMLLoader();
