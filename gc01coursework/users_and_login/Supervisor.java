@@ -261,8 +261,7 @@ public class Supervisor extends StaffMember implements Initializable {
 	@FXML
 	public void takeAnOrder(ActionEvent event) throws IOException, SAXException, ParserConfigurationException {
 		
-		tableClicked = ((Labeled) event.getSource()).getText();	
-		
+		tableClicked = ((Labeled) event.getSource()).getText();			
 		File file = new File("allOrders.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -284,7 +283,7 @@ public class Supervisor extends StaffMember implements Initializable {
 		}
 					
 		TakingAnOrder newOrder = new TakingAnOrder(tableClicked);
-		newOrder.providingData(tableClicked, orderExists);
+		newOrder.providingData(tableClicked);
 
 		Stage orderSheet = new Stage();
 		FXMLLoader loaderOrder = new FXMLLoader();
@@ -297,9 +296,11 @@ public class Supervisor extends StaffMember implements Initializable {
 		orderSheet.initOwner(table.getScene().getWindow());
 		orderSheet.setScene(scene);
 		
+		newOrder.reinitialize();
 		orderSheet.showAndWait();
 	}
 	
+
 	/**
 	 * Editting The Menu!
 	 *

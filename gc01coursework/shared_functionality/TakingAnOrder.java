@@ -73,7 +73,7 @@ import java.io.File;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
-public class TakingAnOrder implements Initializable {
+public class TakingAnOrder {
 	private String tableClicked;
 	private Boolean isOrderForTable = false;
 	private int startersTotalPrice;
@@ -90,6 +90,7 @@ public class TakingAnOrder implements Initializable {
 	List<String> currentDrinks; 
 	private int currentCost;
 	private String currentDate;
+	private Boolean starterExists;
 
 	@FXML
 	private GridPane orderGridPane;
@@ -171,9 +172,26 @@ public class TakingAnOrder implements Initializable {
 	public TakingAnOrder(String tableNum) {
 	}
 
-	public void providingData(String theTable, Boolean isOrder) {
+	public void providingData(String theTable) throws ParserConfigurationException, SAXException, IOException {
+		
 		setTableClicked(theTable);
-		setIsOrderForTable(isOrder);
+		
+		String tableClicked = getTableClicked();
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document doc = documentBuilder.parse("allOrders.xml");
+
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("order");
+		
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node order = nList.item(i);
+		
+			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableClicked)) {
+				isOrderForTable = true;
+			}
+		setIsOrderForTable(isOrderForTable);
+		}
 	}
 
 	private Boolean getIsOrderForTable() {
@@ -320,8 +338,9 @@ public class TakingAnOrder implements Initializable {
 	 * 
 	 */
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void test() {
+		
+		System.out.println("STARTER CALLED");
 
 		tableNumber.setText(getTableClicked());
 
@@ -332,7 +351,7 @@ public class TakingAnOrder implements Initializable {
 		
 		
 		if(getIsOrderForTable()) {
-			
+			System.out.println("IS ORDER FOR TABLE");
 		    saveOrderButton.setDisable(true);
 		    String existingTableOrder = getTableClicked();
 
@@ -376,10 +395,14 @@ public class TakingAnOrder implements Initializable {
 					String existingComments = eElement.getElementsByTagName("comments").item(0).getTextContent();
 					comments.setText(existingComments);
 					
-					
+					NodeList starterCheck = eElement.getElementsByTagName("starter");
+					NodeList mainCheck = eElement.getElementsByTagName("main");
+					NodeList dessertCheck = eElement.getElementsByTagName("dessert");
+					NodeList drinkCheck = eElement.getElementsByTagName("drink");
+
 					// Existing Starters:
+					if(starterCheck.getLength() != 0) {
 					String existingStarters = eElement.getElementsByTagName("starters").item(0).getTextContent();
-					System.out.println(existingStarters + " existingStarters");
 					
 					String[] allStarters = existingStarters.split("(?=\\d+)");
 					setCurrentStarters(Arrays.asList(allStarters));
@@ -387,8 +410,10 @@ public class TakingAnOrder implements Initializable {
 
 					ListView<String> starterQuantitiesList = new ListView<>(starterQuantities);
 					menuGridPane.add(starterQuantitiesList, 4, 0);
-
+					}
+					
 					//Existing Mains:
+					if(mainCheck.getLength() != 0) {
 					String existingMains = eElement.getElementsByTagName("mains").item(0).getTextContent();
 					String[] allMains = existingMains.split("(?=\\d+)");
 					
@@ -398,8 +423,10 @@ public class TakingAnOrder implements Initializable {
 
 					ListView<String> mainQuantitiesList = new ListView<>(mainQuantities);
 					menuGridPane.add(mainQuantitiesList, 4, 1);
+					}
 					
 					//Existing Desserts:
+					if(dessertCheck.getLength() != 0) {
 					String existingDesserts = eElement.getElementsByTagName("desserts").item(0).getTextContent();
 					String[] allDesserts = existingDesserts.split("(?=\\d+)");
 					setCurrentDesserts(Arrays.asList(allDesserts));
@@ -408,8 +435,10 @@ public class TakingAnOrder implements Initializable {
 
 					ListView<String> dessertQuantitiesList = new ListView<>(dessertQuantities);
 					menuGridPane.add(dessertQuantitiesList, 4, 2);
+					}
 					
 					//Existing Drinks:
+					if(drinkCheck.getLength() != 0) {
 					String existingDrinks = eElement.getElementsByTagName("drinks").item(0).getTextContent();
 					String[] allDrinks = existingDrinks.split("(?=\\d+)");
 					setCurrentDrinks(Arrays.asList(allDrinks));
@@ -418,6 +447,7 @@ public class TakingAnOrder implements Initializable {
 
 					ListView<String> drinkQuantitiesList = new ListView<>(drinkQuantities);
 					menuGridPane.add(drinkQuantitiesList, 4, 3);
+					}
 					
 					try {
 						getStarters();
@@ -432,13 +462,16 @@ public class TakingAnOrder implements Initializable {
 
 
 		} else { 	//If there is NOT an order for the selected table.
+			System.out.println("NO ORDER FOR TABLE");
 		    updateOrderButton.setDisable(true);
 
 			try {
+				
 				getStarters();
 				getMains();
 				getDesserts();
 				getDrinks();
+				
 			} catch (ParserConfigurationException | SAXException | IOException e) {
 				e.printStackTrace();
 			}
@@ -461,6 +494,7 @@ public class TakingAnOrder implements Initializable {
 
 	@FXML
 	private void getStarters() throws ParserConfigurationException, SAXException, IOException {
+		System.out.println("IN IT");
 		ArrayList<String> allStarters = new ArrayList<String>();
 
 		File file = new File("starters.xml");
@@ -487,10 +521,11 @@ public class TakingAnOrder implements Initializable {
 			menuGridPane.add(starterList, 1, 0);
 			
 			ObservableList<String> selectedStarters = FXCollections.observableArrayList();
-			
+						
 			if(getCurrentStarters() != null) {
 				for(int m=0; m<getCurrentStarters().size(); m++) {		
-					String eachStarter = getCurrentStarters().get(m);					
+					String eachStarter = getCurrentStarters().get(m);	
+					
 					String[] parts = eachStarter.split(" x ");
 					String howMany = parts[0]; 
 					String name = parts[1];
@@ -553,7 +588,6 @@ public class TakingAnOrder implements Initializable {
 					String nameAndQuantity = quantity + " x " + name;
 					quantities.add(nameAndQuantity);
 					
-					System.out.println(quantities + " new itemssss");
 					startersTotal += eachItemPriceSum;
 
 
@@ -564,12 +598,7 @@ public class TakingAnOrder implements Initializable {
 						finalStarters.add(eachSelected);
 					}
 					
-//					if(getCurrentStarters() != null) {
-//						for(int m=0; m<getCurrentStarters().size(); m++) {
-//							finalStarters.add(getCurrentStarters().get(m));
-//						}
-//					}
-					setFinalStarters(finalStarters);		    		
+					setFinalStarters(finalStarters);	
 				}
 				
 				ObservableList<String> starterQuantities = FXCollections.observableArrayList(quantities);
@@ -617,13 +646,28 @@ public class TakingAnOrder implements Initializable {
 				allMains.add(fullMain);
 			}
 
-			ObservableList<String> mainItems = FXCollections.observableArrayList(allMains);
-			System.out.println(mainItems);
+			final ObservableList<String> mainItems = FXCollections.observableArrayList(allMains);
 			ListView<String> mainList = new ListView<String>(mainItems);
 
 			menuGridPane.add(mainList, 1, 1);
 
 			ObservableList<String> selectedMains = FXCollections.observableArrayList();
+					
+			if(getCurrentMains() != null) {
+				for(int m=0; m<getCurrentMains().size(); m++) {
+					String eachMain = getCurrentMains().get(m);	
+					String[] parts = eachMain.split(" x ");					
+					String howMany = parts[0]; 
+					String name = parts[1];
+					
+					for(int k=0; k<mainItems.size(); k++) {
+						if(mainItems.get(k).contains(name)) {
+							selectedMains.add(mainItems.get(k));
+						}
+					}
+				}
+			}
+			
 			ListView<String> selectedMainsList = new ListView<>(selectedMains);
 			menuGridPane.add(selectedMainsList, 3, 1);
 
@@ -658,7 +702,6 @@ public class TakingAnOrder implements Initializable {
 					String name = parts[0]; 
 					String price = parts[1]; 
 					int quantity = Collections.frequency(selectedMains, key);
-					System.out.println(name + " " + price + " " + quantity);
 
 					String nameAndQuantity = quantity + " x " + name;
 					
@@ -678,12 +721,6 @@ public class TakingAnOrder implements Initializable {
 						finalMains.add(eachSelected);
 					}
 					setFinalMains(finalMains);
-				}
-				
-				if(getCurrentMains() != null) {
-					for(int m=0; m<getCurrentMains().size(); m++) {
-						quantities.add(getCurrentMains().get(m));
-					}
 				}
 				
 				ObservableList<String> mainQuantities = FXCollections.observableArrayList(quantities);
@@ -725,13 +762,29 @@ public class TakingAnOrder implements Initializable {
 				allDesserts.add(fullDessert);
 			}
 
-			ObservableList<String> dessertItems = FXCollections.observableArrayList(allDesserts);
-			System.out.println(dessertItems);
+			final ObservableList<String> dessertItems = FXCollections.observableArrayList(allDesserts);
 			ListView<String> dessertList = new ListView<String>(dessertItems);
 
 			menuGridPane.add(dessertList, 1, 2);
 
 			ObservableList<String> selectedDesserts = FXCollections.observableArrayList();
+			
+			if(getCurrentDesserts() != null) {
+				for(int m=0; m<getCurrentDesserts().size(); m++) {		
+					String eachDessert = getCurrentDesserts().get(m);	
+					
+					String[] parts = eachDessert.split(" x ");
+					String howMany = parts[0]; 
+					String name = parts[1];
+					
+					for(int k=0; k<dessertItems.size(); k++) {
+						if(dessertItems.get(k).contains(name)) {
+							selectedDesserts.add(dessertItems.get(k));
+						}
+					}
+				}
+			}
+			
 			ListView<String> selectedDessertsList = new ListView<>(selectedDesserts);
 			menuGridPane.add(selectedDessertsList, 3, 2);
 
@@ -787,12 +840,6 @@ public class TakingAnOrder implements Initializable {
 					}
 					setFinalDesserts(finalDesserts);
 				}
-
-				if(getCurrentDesserts() != null) {
-					for(int m=0; m<getCurrentDesserts().size(); m++) {
-						quantities.add(getCurrentDesserts().get(m));
-					}
-				}
 				
 				ObservableList<String> dessertQuantities = FXCollections.observableArrayList(quantities);
 
@@ -833,13 +880,29 @@ public class TakingAnOrder implements Initializable {
 				allDrinks.add(fullDrink);
 			}
 
-			ObservableList<String> drinkItems = FXCollections.observableArrayList(allDrinks);
-			System.out.println(drinkItems);
+			final ObservableList<String> drinkItems = FXCollections.observableArrayList(allDrinks);
 			ListView<String> drinkList = new ListView<String>(drinkItems);
 
 			menuGridPane.add(drinkList, 1, 3);
 
 			ObservableList<String> selectedDrinks = FXCollections.observableArrayList();
+			
+			if(getCurrentDrinks() != null) {
+				for(int m=0; m<getCurrentDrinks().size(); m++) {		
+					String eachDrink = getCurrentDrinks().get(m);	
+					
+					String[] parts = eachDrink.split(" x ");
+					String howMany = parts[0]; 
+					String name = parts[1];
+					
+					for(int k=0; k<drinkItems.size(); k++) {
+						if(drinkItems.get(k).contains(name)) {
+							selectedDrinks.add(drinkItems.get(k));
+						}
+					}
+				}
+			}
+			
 			ListView<String> selectedDrinksList = new ListView<>(selectedDrinks);
 			menuGridPane.add(selectedDrinksList, 3, 3);
 
@@ -895,12 +958,6 @@ public class TakingAnOrder implements Initializable {
 						finalDrinks.add(eachSelected);
 					}
 					setFinalDrinks(finalDrinks);
-				}
-				
-				if(getCurrentDrinks() != null) {
-					for(int m=0; m<getCurrentDrinks().size(); m++) {
-						quantities.add(getCurrentDrinks().get(m));
-					}
 				}
 			
 				ObservableList<String> drinkQuantities = FXCollections.observableArrayList(quantities);
