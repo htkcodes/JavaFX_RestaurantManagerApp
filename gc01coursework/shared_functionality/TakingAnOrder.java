@@ -89,6 +89,7 @@ public class TakingAnOrder implements Initializable {
 	List<String> currentDesserts; 
 	List<String> currentDrinks; 
 	private int currentCost;
+	private String currentDate;
 
 	@FXML
 	private GridPane orderGridPane;
@@ -303,6 +304,14 @@ public class TakingAnOrder implements Initializable {
 	private void setCurrentCost(int currentCost) {
 		this.currentCost = currentCost;
 	}
+	
+	private String getCurrentDate() {
+		return currentDate;
+	}
+
+	private void setCurrentDate(String currentDate) {
+		this.currentDate = currentDate;
+	}
 
 	/**
 	 * Initializing Components on Order Form!
@@ -316,11 +325,16 @@ public class TakingAnOrder implements Initializable {
 
 		tableNumber.setText(getTableClicked());
 
+		
+		
 		//If there is already an order for the selected table:
 
+		
+		
 		if(getIsOrderForTable()) {
 			
 		    saveOrderButton.setDisable(true);
+		    String existingTableOrder = getTableClicked();
 
 			File file = new File("allOrders.xml");
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -337,95 +351,85 @@ public class TakingAnOrder implements Initializable {
 				e.printStackTrace();
 			}
 
+			
 			doc.getDocumentElement().normalize();
 			NodeList nList = doc.getElementsByTagName("order");
 
 			for (int i = 0; i < nList.getLength(); i++) {
 				Node nNode = nList.item(i);
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				if (nNode.getNodeType() == Node.ELEMENT_NODE && nNode.getFirstChild().getFirstChild().getNodeValue().equals(existingTableOrder)) {
 					Element eElement = (Element) nNode;
-
+				
+					String existingDate = eElement.getElementsByTagName("date").item(0).getTextContent();
+					theDate.setText(existingDate);					
 					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					Date date = new Date();
 					String updatedDate = (dateFormat.format(date)).toString();
-					theDate.setText(updatedDate);
-
+					setCurrentDate(updatedDate);
+					
 					String existingCost = eElement.getElementsByTagName("totalcost").item(0).getTextContent();
 					totalCost.setText(existingCost);
-					int currentTotalOrder = Integer.parseInt(existingCost.substring(1));
-					setCurrentCost(currentTotalOrder);
 
 					String existingRequests = eElement.getElementsByTagName("specialrequests").item(0).getTextContent();
 					specialRequests.setText(existingRequests);
 
 					String existingComments = eElement.getElementsByTagName("comments").item(0).getTextContent();
 					comments.setText(existingComments);
+					
+					
+					// Existing Starters:
+					String existingStarters = eElement.getElementsByTagName("starters").item(0).getTextContent();
+					System.out.println(existingStarters + " existingStarters");
+					
+					String[] allStarters = existingStarters.split("(?=\\d+)");
+					setCurrentStarters(Arrays.asList(allStarters));
+					ObservableList<String> starterQuantities = FXCollections.observableArrayList(allStarters);
+
+					ListView<String> starterQuantitiesList = new ListView<>(starterQuantities);
+					menuGridPane.add(starterQuantitiesList, 4, 0);
+
+					//Existing Mains:
+					String existingMains = eElement.getElementsByTagName("mains").item(0).getTextContent();
+					String[] allMains = existingMains.split("(?=\\d+)");
+					
+					setCurrentMains(Arrays.asList(allMains));
+
+					ObservableList<String> mainQuantities = FXCollections.observableArrayList(allMains);
+
+					ListView<String> mainQuantitiesList = new ListView<>(mainQuantities);
+					menuGridPane.add(mainQuantitiesList, 4, 1);
+					
+					//Existing Desserts:
+					String existingDesserts = eElement.getElementsByTagName("desserts").item(0).getTextContent();
+					String[] allDesserts = existingDesserts.split("(?=\\d+)");
+					setCurrentDesserts(Arrays.asList(allDesserts));
+					
+					ObservableList<String> dessertQuantities = FXCollections.observableArrayList(allDesserts);
+
+					ListView<String> dessertQuantitiesList = new ListView<>(dessertQuantities);
+					menuGridPane.add(dessertQuantitiesList, 4, 2);
+					
+					//Existing Drinks:
+					String existingDrinks = eElement.getElementsByTagName("drinks").item(0).getTextContent();
+					String[] allDrinks = existingDrinks.split("(?=\\d+)");
+					setCurrentDrinks(Arrays.asList(allDrinks));
+					
+					ObservableList<String> drinkQuantities = FXCollections.observableArrayList(allDrinks);
+
+					ListView<String> drinkQuantitiesList = new ListView<>(drinkQuantities);
+					menuGridPane.add(drinkQuantitiesList, 4, 3);
+					
+					try {
+						getStarters();
+						getMains();
+						getDesserts();
+						getDrinks();
+					} catch (ParserConfigurationException | SAXException | IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
-			
-			Node starterNode = nList.item(0);
-			if (starterNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) starterNode;
-				String existingStarters = eElement.getElementsByTagName("starters").item(0).getTextContent();
-				String[] allStarters = existingStarters.split("(?=\\d+)");
-				setCurrentStarters(Arrays.asList(allStarters));
-				
 
-				ObservableList<String> starterQuantities = FXCollections.observableArrayList(allStarters);
-
-				ListView<String> starterQuantitiesList = new ListView<>(starterQuantities);
-				menuGridPane.add(starterQuantitiesList, 4, 0);
-
-			}
-			
-			Node mainsNode = nList.item(0);
-			if (mainsNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) mainsNode;
-				String existingMains = eElement.getElementsByTagName("mains").item(0).getTextContent();
-				String[] allMains = existingMains.split("(?=\\d+)");
-				
-				setCurrentMains(Arrays.asList(allMains));
-
-				ObservableList<String> mainQuantities = FXCollections.observableArrayList(allMains);
-
-				ListView<String> mainQuantitiesList = new ListView<>(mainQuantities);
-				menuGridPane.add(mainQuantitiesList, 4, 1);
-			}
-			
-			Node dessertNode = nList.item(0);
-			if (dessertNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) dessertNode;
-				String existingDesserts = eElement.getElementsByTagName("desserts").item(0).getTextContent();
-				String[] allDesserts = existingDesserts.split("(?=\\d+)");
-				setCurrentDesserts(Arrays.asList(allDesserts));
-				
-				ObservableList<String> dessertQuantities = FXCollections.observableArrayList(allDesserts);
-
-				ListView<String> dessertQuantitiesList = new ListView<>(dessertQuantities);
-				menuGridPane.add(dessertQuantitiesList, 4, 2);
-			}
-			
-			Node drinkNode = nList.item(0);
-			if (drinkNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) drinkNode;
-				String existingDrinks = eElement.getElementsByTagName("drinks").item(0).getTextContent();
-				String[] allDrinks = existingDrinks.split("(?=\\d+)");
-				setCurrentDrinks(Arrays.asList(allDrinks));
-				
-				ObservableList<String> drinkQuantities = FXCollections.observableArrayList(allDrinks);
-
-				ListView<String> drinkQuantitiesList = new ListView<>(drinkQuantities);
-				menuGridPane.add(drinkQuantitiesList, 4, 3);
-			}
-
-			try {
-				getStarters();
-				getMains();
-				getDesserts();
-				getDrinks();
-			} catch (ParserConfigurationException | SAXException | IOException e) {
-				e.printStackTrace();
-			}
 
 		} else { 	//If there is NOT an order for the selected table.
 		    updateOrderButton.setDisable(true);
@@ -443,6 +447,7 @@ public class TakingAnOrder implements Initializable {
 			Date date = new Date();
 			String now = (dateFormat.format(date)).toString();
 			theDate.setText(now);
+			setCurrentDate(now);
 
 		}
 	}
@@ -480,11 +485,27 @@ public class TakingAnOrder implements Initializable {
 			ListView<String> starterList = new ListView<String>(starterItems);
 
 			menuGridPane.add(starterList, 1, 0);
-
+			
 			ObservableList<String> selectedStarters = FXCollections.observableArrayList();
+			
+			if(getCurrentStarters() != null) {
+				for(int m=0; m<getCurrentStarters().size(); m++) {		
+					String eachStarter = getCurrentStarters().get(m);					
+					String[] parts = eachStarter.split(" x ");
+					String howMany = parts[0]; 
+					String name = parts[1];
+					
+					for(int k=0; k<starterItems.size(); k++) {
+						if(starterItems.get(k).contains(name)) {
+							selectedStarters.add(starterItems.get(k));
+						}
+					}
+				}
+			}
+			
 			ListView<String> selectedStartersList = new ListView<>(selectedStarters);
 			menuGridPane.add(selectedStartersList, 3, 0);
-
+			
 			selectStarter.setOnAction((ActionEvent event) -> {
 				String potential = starterList.getSelectionModel().getSelectedItem();
 				if (potential != null) {
@@ -492,7 +513,7 @@ public class TakingAnOrder implements Initializable {
 					selectedStarters.add(potential);
 				}
 			});
-
+			
 			removeStarter.setOnAction((ActionEvent event) -> {
 				String undo = selectedStartersList.getSelectionModel().getSelectedItem();
 				if (undo != null) {
@@ -531,7 +552,8 @@ public class TakingAnOrder implements Initializable {
 					int eachItemPriceSum = (quantity * priceAsNum);
 					String nameAndQuantity = quantity + " x " + name;
 					quantities.add(nameAndQuantity);
-
+					
+					System.out.println(quantities + " new itemssss");
 					startersTotal += eachItemPriceSum;
 
 
@@ -542,25 +564,19 @@ public class TakingAnOrder implements Initializable {
 						finalStarters.add(eachSelected);
 					}
 					
-					if(getCurrentStarters() != null) {
-						for(int m=0; m<getCurrentStarters().size(); m++) {
-							finalStarters.add(getCurrentStarters().get(m));
-						}
-					}
+//					if(getCurrentStarters() != null) {
+//						for(int m=0; m<getCurrentStarters().size(); m++) {
+//							finalStarters.add(getCurrentStarters().get(m));
+//						}
+//					}
 					setFinalStarters(finalStarters);		    		
-				}
-				
-				if(getCurrentStarters() != null) {
-					for(int m=0; m<getCurrentStarters().size(); m++) {
-						quantities.add(getCurrentStarters().get(m));
-					}
 				}
 				
 				ObservableList<String> starterQuantities = FXCollections.observableArrayList(quantities);
 
 				ListView<String> starterQuantitiesList = new ListView<>(starterQuantities);
 				menuGridPane.add(starterQuantitiesList, 4, 0);
-
+				
 				setStartersTotalPrice(startersTotal);
 
 				hiddenMainsQuantityButton.fire();
@@ -911,7 +927,7 @@ public class TakingAnOrder implements Initializable {
 		clickForQuantitiesButton.fire();	//In case the user has not updated the quantities & prices before trying to save. 
 
 		String tableNumberToSave = getTableClicked();
-		String dateToSave = theDate.getText();
+		String dateToSave = getCurrentDate();
 		String commentsToSave = comments.getText();
 		String specialRequestsToSave = specialRequests.getText();
 		String totalCostToSave = totalCost.getText();
@@ -1012,7 +1028,8 @@ public class TakingAnOrder implements Initializable {
 	}
 
 	@FXML
-	private void updateOrder() throws ParserConfigurationException, IOException, TransformerException, SAXException {
+	private void updateOrder() throws ParserConfigurationException, IOException, TransformerException, SAXException, XPathExpressionException {
+		deleteOrder();
 		saveOrder();
 	}
 	
@@ -1031,37 +1048,10 @@ public class TakingAnOrder implements Initializable {
 			Node order = nList.item(i);
 		
 			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete)) {
-
-//				NodeList again = order.getChildNodes();
-//				System.out.println(again + " these should be the child nodes");
-
 				while (order.hasChildNodes())
 			       order.removeChild(order.getFirstChild());
 				
 				order.getParentNode().removeChild(order);
-				
-//				for(int y=0; y<again.getLength(); y++) {
-//					Node thisone = (Node) again.item(y);
-//					
-//					System.out.println(thisone + "hahaah an element");
-//					
-//					Element q = (Element) again.item(y);
-//					
-//					System.out.println(q +  " hehe the elemtns");
-//					
-//					
-//	                 thisone.getParentNode().removeChild(thisone);
-//
-//	                if(thisone.getNodeName().equals("specialrequest")) {
-//	                	System.out.println(" in special request");
-//						thisone.removeChild(thisone.getFirstChild());
-//					}
-//	                 
-//	                if(thisone.getNodeName().equals("date")) {
-//	                	System.out.println(" need a date");
-//		                 thisone.getParentNode().removeChild(thisone);
-//					}
-//				}
 			}
 		}
 		
