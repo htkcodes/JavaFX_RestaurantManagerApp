@@ -1020,6 +1020,56 @@ public class TakingAnOrder implements Initializable {
 	private void deleteOrder() throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException {
 		String tableOrderToDelete = getTableClicked();
 
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document doc = documentBuilder.parse("allOrders.xml");
+
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("order");
+		
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node order = nList.item(i);
+		
+			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete)) {
+
+//				NodeList again = order.getChildNodes();
+//				System.out.println(again + " these should be the child nodes");
+
+				while (order.hasChildNodes())
+			       order.removeChild(order.getFirstChild());
+				
+				order.getParentNode().removeChild(order);
+				
+//				for(int y=0; y<again.getLength(); y++) {
+//					Node thisone = (Node) again.item(y);
+//					
+//					System.out.println(thisone + "hahaah an element");
+//					
+//					Element q = (Element) again.item(y);
+//					
+//					System.out.println(q +  " hehe the elemtns");
+//					
+//					
+//	                 thisone.getParentNode().removeChild(thisone);
+//
+//	                if(thisone.getNodeName().equals("specialrequest")) {
+//	                	System.out.println(" in special request");
+//						thisone.removeChild(thisone.getFirstChild());
+//					}
+//	                 
+//	                if(thisone.getNodeName().equals("date")) {
+//	                	System.out.println(" need a date");
+//		                 thisone.getParentNode().removeChild(thisone);
+//					}
+//				}
+			}
+		}
+		
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer t = tf.newTransformer();
+		DOMSource source = new DOMSource(doc);
+		StreamResult result = new StreamResult(new File("allOrders.xml"));
+		t.transform(source, result);
 	}
 }
 
