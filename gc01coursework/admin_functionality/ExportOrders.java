@@ -106,15 +106,13 @@ public class ExportOrders implements Initializable {
 		populateExistingOrders(tablesWithOrders, dateStampForOrders);
 	}
 
-	private void populateExistingOrders(ArrayList<String> listOfTablesWithOrders,
-			ArrayList<String> listOfDateStampsForOrders) {
+	private void populateExistingOrders(ArrayList<String> listOfTablesWithOrders, ArrayList<String> listOfDateStampsForOrders) {
 		// Populating orders for selection column:
 		selectableOrders = new ArrayList<String>();
 		String eachOrder;
 
 		for (int k = 0; k < listOfTablesWithOrders.size(); k++) {
-			eachOrder = "Order @ Table " + listOfTablesWithOrders.get(k) + " (created on "
-					+ listOfDateStampsForOrders.get(k) + ")";
+			eachOrder = "Order @ Table " + listOfTablesWithOrders.get(k) + " (created on " + listOfDateStampsForOrders.get(k) + ")";
 			selectableOrders.add(eachOrder);
 		}
 
@@ -201,7 +199,6 @@ public class ExportOrders implements Initializable {
 		Document doc = docBuilder.parse("allOrders.xml");
 		doc.getDocumentElement().normalize();
 		
-		// Reading the Existing Orders Data in order to match the selected orders.
 		DocumentBuilderFactory exportingFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder exportingBuilder = exportingFactory.newDocumentBuilder();
 		Document export = exportingBuilder.parse(file);
