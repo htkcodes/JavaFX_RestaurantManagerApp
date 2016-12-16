@@ -338,18 +338,11 @@ public class TakingAnOrder {
 	 * 
 	 */
 
-	public void test() {
-		
-		System.out.println("STARTER CALLED");
-
+	public void reinitialize() {
 		tableNumber.setText(getTableClicked());
 
-		
-		
 		//If there is already an order for the selected table:
 
-		
-		
 		if(getIsOrderForTable()) {
 			System.out.println("IS ORDER FOR TABLE");
 		    saveOrderButton.setDisable(true);
@@ -494,7 +487,6 @@ public class TakingAnOrder {
 
 	@FXML
 	private void getStarters() throws ParserConfigurationException, SAXException, IOException {
-		System.out.println("IN IT");
 		ArrayList<String> allStarters = new ArrayList<String>();
 
 		File file = new File("starters.xml");

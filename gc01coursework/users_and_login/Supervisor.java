@@ -27,6 +27,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import gc01coursework.admin_functionality.EditTheMenu;
+import gc01coursework.admin_functionality.ExportOrders;
 import gc01coursework.shared_functionality.TakingAnOrder;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -76,6 +77,8 @@ public class Supervisor extends StaffMember implements Initializable {
 	private Button okayToSelectTableButton;
 	@FXML
 	private Button editMenuButton;
+	@FXML
+	private Button exportOrdersButton;
 	
 	public Supervisor() {
 		super(username, password, lastLogin);
@@ -325,6 +328,31 @@ public class Supervisor extends StaffMember implements Initializable {
 		
 		menuEdit.showAndWait();
 	}	
+	
+	/**
+	 * Exporting Orders!
+	 *
+	 * 
+	 * 
+	 */
+	@FXML
+	public void exportOrders(ActionEvent event) throws IOException {
+		
+		ExportOrders exporter = new ExportOrders();
+		Stage orderExporting = new Stage();
+		FXMLLoader exportScreen = new FXMLLoader();
+		exportScreen.setLocation(getClass().getResource("../admin_functionality/exportOrders.fxml"));
+		exportScreen.setController(exporter);
+		Parent export = (Parent)exportScreen.load();
+		Scene scene = new Scene(export);
+		orderExporting.setTitle("Select Orders For Exporting!");
+		orderExporting.initModality(Modality.APPLICATION_MODAL);
+		orderExporting.initOwner(exportOrdersButton.getScene().getWindow());
+		orderExporting.setScene(scene);
+		
+		orderExporting.showAndWait();
+	}
+	
 }
 
 

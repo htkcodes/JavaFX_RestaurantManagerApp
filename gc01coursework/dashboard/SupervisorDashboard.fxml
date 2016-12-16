@@ -87,5 +87,10 @@
             <Font name="Futura Bold" size="14.0" />
          </font>
       </Button>
+      <Button fx:id="exportOrdersButton" layoutX="20.0" layoutY="294.0" mnemonicParsing="false" onAction="#exportOrders" text="Export Orders">
+         <font>
+            <Font name="Futura Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
