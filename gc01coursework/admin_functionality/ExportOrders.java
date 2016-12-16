@@ -39,6 +39,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 public class ExportOrders implements Initializable {
 	private ArrayList<String> tablesWithOrders;
@@ -155,9 +157,19 @@ public class ExportOrders implements Initializable {
 	
 	@FXML
 	public void exportAsXML(ActionEvent event) throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException, SAXException {
-
+		
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save Image");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("(*.xml)", "*.xml");
+        fileChooser.getExtensionFilters().add(extFilter);
+        Window primaryStage = null;
+		File file = fileChooser.showSaveDialog(primaryStage);
+        System.out.println("file is " + file.getName());
+        System.out.println(file.getAbsolutePath() + "PATH");
+        String fileName = file.getAbsolutePath();
+        
 		//Creating The Export File:
-		File xmlFile = new File("export.xml");
+		File xmlFile = new File(fileName);
 		DocumentBuilderFactory exportFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder exportBuilder = exportFactory.newDocumentBuilder();
 		Document xmlExport = exportBuilder.newDocument();	
@@ -178,10 +190,10 @@ public class ExportOrders implements Initializable {
 		transformer.transform(source, console);
 		System.out.println("\nXML DOM Created Successfully..");
 		
-		addTheSelectedOrders();
+		addTheSelectedOrders(fileName);
 	}
 	
-	private void addTheSelectedOrders() throws ParserConfigurationException, SAXException, IOException, TransformerException {
+	private void addTheSelectedOrders(String file) throws ParserConfigurationException, SAXException, IOException, TransformerException {
 		
 		// Reading the Existing Orders Data in order to match the selected orders.
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -192,11 +204,7 @@ public class ExportOrders implements Initializable {
 		// Reading the Existing Orders Data in order to match the selected orders.
 		DocumentBuilderFactory exportingFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder exportingBuilder = exportingFactory.newDocumentBuilder();
-		Document export = exportingBuilder.parse("export.xml");
-		System.out.println("HELLO");
-//		export.getDocumentElement().normalize();
-//		Node test = export.getParentNode();
-//		System.out.println(test + "??????S");
+		Document export = exportingBuilder.parse(file);
 		
 		// Extracting details necessary to match orders.
 		for (int i = 0; i < selectedExports.size(); i++) {
@@ -216,9 +224,7 @@ public class ExportOrders implements Initializable {
 			for (int j = 0; j < orderList.getLength(); j++) {
 				Node order = orderList.item(j);
 				Node theDate = order.getFirstChild().getNextSibling();
-				if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableNumber) && theDate.getFirstChild().getNodeValue().equals(dateCreated)) {
-					System.out.println("gotcha!!!!!");
-					
+				if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableNumber) && theDate.getFirstChild().getNodeValue().equals(dateCreated)) {					
 					Element root = export.getDocumentElement();
 			        Node selected = export.importNode(order, true);
 					root.appendChild(selected);
@@ -228,7 +234,7 @@ public class ExportOrders implements Initializable {
 			DOMSource source = new DOMSource(export);
 			TransformerFactory tFactory = TransformerFactory.newInstance(); 
 			Transformer transformer = tFactory.newTransformer();
-			StreamResult result = new StreamResult("export.xml");
+			StreamResult result = new StreamResult(file);
 			transformer.transform(source, result); 
 		}	
 		
