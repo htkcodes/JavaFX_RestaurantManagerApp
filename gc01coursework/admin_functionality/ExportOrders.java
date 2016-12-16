@@ -220,23 +220,16 @@ public class ExportOrders implements Initializable {
 					System.out.println("gotcha!!!!!");
 					
 					Element root = export.getDocumentElement();
-					Element theOrder = export.createElement("order");		 
-					root.appendChild(theOrder);
-					
 			        Node selected = export.importNode(order, true);
-					theOrder.appendChild(selected);
+					root.appendChild(selected);
 				}		
-		
-
 			}
 			
-			//write out the modified document to a new file
+			DOMSource source = new DOMSource(export);
 			TransformerFactory tFactory = TransformerFactory.newInstance(); 
 			Transformer transformer = tFactory.newTransformer();
-			Source source = new DOMSource(export);
-			Result output = new StreamResult(new File("test.xml"));
-			transformer.transform(source, output); 
-			
+			StreamResult result = new StreamResult("export.xml");
+			transformer.transform(source, result); 
 		}	
 		
 	}
