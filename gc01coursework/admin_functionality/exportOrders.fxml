@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="117.0" layoutY="107.0" text="Please Select The Orders You'd Like To Include:" textFill="#d00fa0">
          <font>
@@ -49,7 +48,7 @@
             </Button>
          </children>
       </GridPane>
-      <Button layoutX="193.0" layoutY="481.0" mnemonicParsing="false" text="Export as XML">
+      <Button fx:id="exportButton" layoutX="193.0" layoutY="481.0" mnemonicParsing="false" onAction="#exportAsXML" text="Export as XML">
          <font>
             <Font name="System Italic" size="13.0" />
          </font>
