@@ -37,6 +37,9 @@ public class SearchOrders implements Initializable{
 	private ArrayList<String> commentsForOrders;
 	private ArrayList<String> specialRequestsForOrders;
 	private ArrayList<String> startersForOrders;
+	private ArrayList<String> mainsForOrders;
+	private ArrayList<String> dessertsForOrders;
+	private ArrayList<String> drinksForOrders;
 
 	@FXML
 	public ObservableList<OrderDataModel> data;
@@ -192,13 +195,12 @@ public class SearchOrders implements Initializable{
 			}
 		}
 		
-//		 Getting starters of the existing orders:
+		// Getting starters of the existing orders:
 		startersForOrders = new ArrayList<String>();
 		NodeList startersList = doc.getElementsByTagName("starters");
 		for (int k = 0; k < startersList.getLength(); k++) {
 			
 			Node parent = doc.getDocumentElement().getChildNodes().item(k);
-			String eachOrdersDateStamp = parent.getFirstChild().getNextSibling().getFirstChild().getNodeValue();
 			
 			if (startersList != null && startersList.getLength() > 0) {
 				Node eachOrdersStarters = parent.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getFirstChild();
@@ -220,12 +222,86 @@ public class SearchOrders implements Initializable{
 			}
 		}
 		
-		System.out.println(startersForOrders + " <3 <3");
+		// Getting mains of the existing orders:
+		mainsForOrders = new ArrayList<String>();
+		NodeList mainsList = doc.getElementsByTagName("mains");
+		for (int k = 0; k < mainsList.getLength(); k++) {
+			
+			Node parent = doc.getDocumentElement().getChildNodes().item(k);
+			
+			if (mainsList != null && mainsList.getLength() > 0) {
+				Node eachOrdersMains = parent.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getFirstChild().getNextSibling();
+				
+				NodeList mainsSubList = eachOrdersMains.getChildNodes();
+
+				if (mainsSubList != null && mainsSubList.getLength() > 0) {	
+					
+					String mainsTogether = "";
+					for(int r=0; r<mainsSubList.getLength(); r++) {
+						String main = mainsSubList.item(r).getFirstChild().getNodeValue();
+						mainsTogether += " and " + main;						
+					}
+					String formatted = mainsTogether.substring(5);
+					mainsForOrders.add(formatted);
+				} else {
+					mainsForOrders.add("---");
+				}
+			}
+		}
 		
+		// Getting desserts of the existing orders:
+		dessertsForOrders = new ArrayList<String>();
+		NodeList dessertsList = doc.getElementsByTagName("desserts");
+		for (int k = 0; k < dessertsList.getLength(); k++) {
 			
+			Node parent = doc.getDocumentElement().getChildNodes().item(k);
 			
+			if (dessertsList != null && dessertsList.getLength() > 0) {
+				Node eachOrdersDesserts = parent.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getFirstChild().getNextSibling().getNextSibling();
+				
+				NodeList dessertsSubList = eachOrdersDesserts.getChildNodes();
+
+				if (dessertsSubList != null && dessertsSubList.getLength() > 0) {	
+					
+					String dessertsTogether = "";
+					for(int r=0; r<dessertsSubList.getLength(); r++) {
+						String dessert = dessertsSubList.item(r).getFirstChild().getNodeValue();
+						dessertsTogether += " and " + dessert;						
+					}
+					String formatted = dessertsTogether.substring(5);
+					dessertsForOrders.add(formatted);
+				} else {
+					dessertsForOrders.add("---");
+				}
+			}
+		}
+		
+		// Getting drinks of the existing orders:
+		drinksForOrders = new ArrayList<String>();
+		NodeList drinksList = doc.getElementsByTagName("drinks");
+		for (int k = 0; k < drinksList.getLength(); k++) {
 			
+			Node parent = doc.getDocumentElement().getChildNodes().item(k);
 			
+			if (drinksList != null && drinksList.getLength() > 0) {
+				Node eachOrdersDrinks = parent.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getFirstChild().getNextSibling().getNextSibling().getNextSibling();
+				
+				NodeList drinksSubList = eachOrdersDrinks.getChildNodes();
+
+				if (drinksSubList != null && drinksSubList.getLength() > 0) {	
+					
+					String drinksTogether = "";
+					for(int r=0; r<drinksSubList.getLength(); r++) {
+						String drink = drinksSubList.item(r).getFirstChild().getNodeValue();
+						drinksTogether += " and " + drink;						
+					}
+					String formatted = drinksTogether.substring(5);
+					drinksForOrders.add(formatted);
+				} else {
+					drinksForOrders.add("---");
+				}
+			}
+		}				
 			
 		data = FXCollections.observableArrayList();
 
@@ -235,10 +311,13 @@ public class SearchOrders implements Initializable{
 			String cost = costsForOrders.get(y);
 			String comment = commentsForOrders.get(y);
 			String specialRequest = specialRequestsForOrders.get(y);
+			String starter = startersForOrders.get(y);
+			String main = mainsForOrders.get(y);
+			String dessert = dessertsForOrders.get(y);
+			String drink = drinksForOrders.get(y);
 
-			OrderDataModel eachOrder = new OrderDataModel(tableNum, date, cost, comment, specialRequest);
+			OrderDataModel eachOrder = new OrderDataModel(tableNum, date, cost, comment, specialRequest, starter, main, dessert, drink);
 			data.add(eachOrder);
-
 		}
 
 		tableNumberColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("tableNumber"));
@@ -246,6 +325,10 @@ public class SearchOrders implements Initializable{
 		costColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("totalCost"));
 		commentsColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("comments"));
 		specialRequestsColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("specialRequests"));
+		startersColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("starters"));
+		mainsColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("mains"));
+		dessertsColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("desserts"));
+		drinksColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("drinks"));
 
 		table.setItems(data);
 		table.getColumns();
@@ -331,6 +414,67 @@ public class SearchOrders implements Initializable{
 				}
 			});
 		});
+		
+		startersFilteredSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(order -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (order.getStarters().toLowerCase().contains(lowerCaseFilter)) {
+					return true; 
+				}  else {
+					return false; 
+				}
+			});
+		});
+		
+		mainsFilteredSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(order -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (order.getMains().toLowerCase().contains(lowerCaseFilter)) {
+					return true; 
+				}  else {
+					return false; 
+				}
+			});
+		});
+		
+		dessertsFilteredSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(order -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (order.getDesserts().toLowerCase().contains(lowerCaseFilter)) {
+					return true; 
+				}  else {
+					return false; 
+				}
+			});
+		});
+		
+		drinksFilteredSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(order -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (order.getDrinks().toLowerCase().contains(lowerCaseFilter)) {
+					return true; 
+				}  else {
+					return false; 
+				}
+			});
+		});
+		
 		SortedList<OrderDataModel> sortedData = new SortedList<>(filteredData);
 		sortedData.comparatorProperty().bind(table.comparatorProperty());
 		table.setItems(sortedData);
