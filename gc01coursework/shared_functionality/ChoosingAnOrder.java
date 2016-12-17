@@ -5,6 +5,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import gc01coursework.users_and_login.Supervisor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +27,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ChoosingAnOrder {
-
+	private String theTable;
+	
 	@FXML
 	private Button selectThisTableOrder;
 	@FXML
@@ -35,6 +41,16 @@ public class ChoosingAnOrder {
 	private ObservableList<String> selectedOrder;
 	@FXML
 	private Button okButton;
+	
+
+	private String getTheTable() {
+		return theTable;
+	}
+
+	public void setTheTable(String theTable) {
+		this.theTable = theTable;
+	}
+
 
 	public void initial(ArrayList<String> dates) {
 
@@ -69,12 +85,9 @@ public class ChoosingAnOrder {
 		
 	}
 	
-	@
-	FXML
-	private void retrieveSelectedOrder() throws IOException {
-					
+	@FXML
+	private void retrieveSelectedOrder(ActionEvent event) throws IOException, ParserConfigurationException, SAXException {		
 		if(selectedOrder.size() > 1) {
-			System.out.println(selectedOrder.size() + "ahahhahah");
 			Stage primaryStage = new Stage();
 			Parent chooseATablePopUp = FXMLLoader.load(getClass().getResource("../shared_functionality/multipleOrdersWarning.fxml"));
 			Scene scene = new Scene(chooseATablePopUp);
@@ -82,17 +95,20 @@ public class ChoosingAnOrder {
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
 			primaryStage.initOwner(goButton.getScene().getWindow());
 			primaryStage.setScene(scene);
-			primaryStage.show();
+			primaryStage.showAndWait();
 		} else {
-			System.out.println(selectedOrder.size() + "dbdbdbbd");
+			Supervisor user = new Supervisor();
+			String theDateSelected = selectedOrder.get(0);
+			String theTableSelected = getTheTable();
+			user.goToOrder(theTableSelected, theDateSelected);
 		}
 	}
 	
-		@FXML
-		public void okayWillSelectOneTable(ActionEvent event) throws IOException {
-		Stage stage = (Stage) okButton.getScene().getWindow();
-		stage.close();
-		}
+	@FXML
+	public void okayWillSelectOneTable(ActionEvent event) throws IOException {
+	Stage stage = (Stage) okButton.getScene().getWindow();
+	stage.close();
+	}
 	
 }
 

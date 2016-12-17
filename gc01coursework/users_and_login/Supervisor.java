@@ -294,14 +294,10 @@ public class Supervisor extends StaffMember implements Initializable {
 				}
 			}
 		}
-		
-		System.out.println(tablePossibilities.size() + "tables");
-		System.out.println(datePossibilities.size() + " dates");
-		
+
 		if(tablePossibilities.size() > 1) {
 			
 			ChoosingAnOrder multiple = new ChoosingAnOrder();
-			
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("../shared_functionality/chooseAnOrderPopUp.fxml"));
@@ -312,34 +308,21 @@ public class Supervisor extends StaffMember implements Initializable {
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
 			primaryStage.initOwner(table.getScene().getWindow());
 			primaryStage.setScene(scene);
-
+			
+			multiple.setTheTable(tableClicked);
 			multiple.initial(datePossibilities);
 			primaryStage.showAndWait();
 			
 		} else {
-			TakingAnOrder newOrder = new TakingAnOrder(tableClicked);
-			
-			newOrder.providingData(tableClicked);
-			Stage orderSheet = new Stage();
-			FXMLLoader loaderOrder = new FXMLLoader();
-			loaderOrder.setLocation(getClass().getResource("../shared_functionality/takeAnOrder.fxml"));
-			loaderOrder.setController(newOrder);
-			Parent takeAnOrder = (Parent)loaderOrder.load();
-			Scene scene = new Scene(takeAnOrder);
-			orderSheet.setTitle("Order Sheet!");
-			orderSheet.initModality(Modality.APPLICATION_MODAL);
-			orderSheet.initOwner(table.getScene().getWindow());
-			orderSheet.setScene(scene);
-			
-			newOrder.reinitialize();
-			orderSheet.showAndWait();
+			goToOrder(tableClicked, null);
 		}
 	}
 	
-	private void goToOrder() throws ParserConfigurationException, SAXException, IOException {
-		TakingAnOrder newOrder = new TakingAnOrder(tableClicked);
+	public void goToOrder(String tableClicked, String dateSelection) throws ParserConfigurationException, SAXException, IOException {
 		
-		newOrder.providingData(tableClicked);
+		TakingAnOrder newOrder = new TakingAnOrder(tableClicked);
+		newOrder.providingData(tableClicked, dateSelection);
+		
 		Stage orderSheet = new Stage();
 		FXMLLoader loaderOrder = new FXMLLoader();
 		loaderOrder.setLocation(getClass().getResource("../shared_functionality/takeAnOrder.fxml"));
@@ -348,7 +331,6 @@ public class Supervisor extends StaffMember implements Initializable {
 		Scene scene = new Scene(takeAnOrder);
 		orderSheet.setTitle("Order Sheet!");
 		orderSheet.initModality(Modality.APPLICATION_MODAL);
-		orderSheet.initOwner(table.getScene().getWindow());
 		orderSheet.setScene(scene);
 		
 		newOrder.reinitialize();

@@ -75,6 +75,7 @@ import org.w3c.dom.Element;
 
 public class TakingAnOrder {
 	private String tableClicked;
+	private String dateClicked;
 	private Boolean isOrderForTable = false;
 	private int startersTotalPrice;
 	private int mainsTotalPrice;
@@ -172,11 +173,14 @@ public class TakingAnOrder {
 	public TakingAnOrder(String tableNum) {
 	}
 
-	public void providingData(String theTable) throws ParserConfigurationException, SAXException, IOException {
+	public void providingData(String theTable, String theDate) throws ParserConfigurationException, SAXException, IOException {
 		
 		setTableClicked(theTable);
+		setDateClicked(theDate);
 		
 		String tableClicked = getTableClicked();
+		String date = getDateClicked();
+		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document doc = documentBuilder.parse("allOrders.xml");
@@ -190,6 +194,7 @@ public class TakingAnOrder {
 			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableClicked)) {
 				isOrderForTable = true;
 			}
+			
 		setIsOrderForTable(isOrderForTable);
 		}
 	}
@@ -208,6 +213,15 @@ public class TakingAnOrder {
 
 	private void setTableClicked(String tableClicked) {
 		this.tableClicked = tableClicked;
+	}
+	
+	
+	private String getDateClicked() {
+		return dateClicked;
+	}
+
+	private void setDateClicked(String dateClicked) {
+		this.dateClicked = dateClicked;
 	}
 
 	private int getStartersTotalPrice() {
@@ -344,10 +358,11 @@ public class TakingAnOrder {
 		//If there is already an order for the selected table:
 
 		if(getIsOrderForTable()) {
-			System.out.println("IS ORDER FOR TABLE");
 		    saveOrderButton.setDisable(true);
 		    String existingTableOrder = getTableClicked();
-
+		    String dateChosen = getDateClicked();
+		    
+		    System.out.println(dateChosen + " this is what it thinks!!!");
 			File file = new File("allOrders.xml");
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = null;
@@ -362,16 +377,22 @@ public class TakingAnOrder {
 			} catch (SAXException | IOException e) {
 				e.printStackTrace();
 			}
-
 			
 			doc.getDocumentElement().normalize();
 			NodeList nList = doc.getElementsByTagName("order");
 
 			for (int i = 0; i < nList.getLength(); i++) {
 				Node nNode = nList.item(i);
-				if (nNode.getNodeType() == Node.ELEMENT_NODE && nNode.getFirstChild().getFirstChild().getNodeValue().equals(existingTableOrder)) {
-					Element eElement = (Element) nNode;
 				
+				if (nNode.getFirstChild().getFirstChild().getNodeValue().equals(existingTableOrder) && nNode.getFirstChild().getNextSibling().getFirstChild().getNodeValue().equals(dateChosen) || nNode.getFirstChild().getFirstChild().getNodeValue().equals(existingTableOrder) && getDateClicked() == null) {
+					
+					System.out.println(nNode.getFirstChild().getNextSibling().getFirstChild().getNodeValue() + " ______");
+					Element eElement = (Element) nNode;
+					
+					if(getDateClicked() == null) {
+						System.out.println("ALL GOOD NO DUPLICATE");
+					}
+			
 					String existingDate = eElement.getElementsByTagName("date").item(0).getTextContent();
 					theDate.setText(existingDate);					
 					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

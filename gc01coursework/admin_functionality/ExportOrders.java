@@ -175,7 +175,7 @@ public class ExportOrders implements Initializable {
 		Node ftt = xmlExport.getParentNode();
 		xmlExport.appendChild(initialize);
 		
-//		//Finishing the XML creation. 
+		//Finishing the XML creation. 
 		OutputFormat outFormat = new OutputFormat(xmlExport);
 		outFormat.setIndenting(true);
 		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
