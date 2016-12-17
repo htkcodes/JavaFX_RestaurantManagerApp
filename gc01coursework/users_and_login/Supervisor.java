@@ -29,6 +29,7 @@ import org.xml.sax.SAXException;
 import gc01coursework.admin_functionality.EditTheMenu;
 import gc01coursework.admin_functionality.ExportOrders;
 import gc01coursework.admin_functionality.ImportOrders;
+import gc01coursework.shared_functionality.ChoosingAnOrder;
 import gc01coursework.shared_functionality.TakingAnOrder;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -43,6 +44,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -275,22 +277,69 @@ public class Supervisor extends StaffMember implements Initializable {
 
 		doc.getDocumentElement().normalize();
 		NodeList nList = doc.getElementsByTagName("order");
-		
+		ArrayList<String> tablePossibilities = new ArrayList<String>();
+		ArrayList<String> datePossibilities = new ArrayList<String>();
+
 		for (int i = 0; i < nList.getLength(); i++) {
 			Node nNode = nList.item(i);
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) nNode;
 				String tableNumber = eElement.getElementsByTagName("tablenumber").item(0).getTextContent();
-				
+				String date = eElement.getElementsByTagName("date").item(0).getTextContent();
+
 				if(tableNumber.equals(tableClicked)) {
+					tablePossibilities.add(tableNumber);
+					datePossibilities.add(date);
 					orderExists = true;
 				}
 			}
 		}
-					
-		TakingAnOrder newOrder = new TakingAnOrder(tableClicked);
-		newOrder.providingData(tableClicked);
+		
+		System.out.println(tablePossibilities.size() + "tables");
+		System.out.println(datePossibilities.size() + " dates");
+		
+		if(tablePossibilities.size() > 1) {
+			
+			ChoosingAnOrder multiple = new ChoosingAnOrder();
+			
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("../shared_functionality/chooseAnOrderPopUp.fxml"));
+			loader.setController(multiple);
+			Parent choose = (Parent)loader.load();
+			Scene scene = new Scene(choose);
+			primaryStage.setTitle("Please choose which order you'd like to see!");
+			primaryStage.initModality(Modality.APPLICATION_MODAL);
+			primaryStage.initOwner(table.getScene().getWindow());
+			primaryStage.setScene(scene);
 
+			multiple.initial(datePossibilities);
+			primaryStage.showAndWait();
+			
+		} else {
+			TakingAnOrder newOrder = new TakingAnOrder(tableClicked);
+			
+			newOrder.providingData(tableClicked);
+			Stage orderSheet = new Stage();
+			FXMLLoader loaderOrder = new FXMLLoader();
+			loaderOrder.setLocation(getClass().getResource("../shared_functionality/takeAnOrder.fxml"));
+			loaderOrder.setController(newOrder);
+			Parent takeAnOrder = (Parent)loaderOrder.load();
+			Scene scene = new Scene(takeAnOrder);
+			orderSheet.setTitle("Order Sheet!");
+			orderSheet.initModality(Modality.APPLICATION_MODAL);
+			orderSheet.initOwner(table.getScene().getWindow());
+			orderSheet.setScene(scene);
+			
+			newOrder.reinitialize();
+			orderSheet.showAndWait();
+		}
+	}
+	
+	private void goToOrder() throws ParserConfigurationException, SAXException, IOException {
+		TakingAnOrder newOrder = new TakingAnOrder(tableClicked);
+		
+		newOrder.providingData(tableClicked);
 		Stage orderSheet = new Stage();
 		FXMLLoader loaderOrder = new FXMLLoader();
 		loaderOrder.setLocation(getClass().getResource("../shared_functionality/takeAnOrder.fxml"));
@@ -357,7 +406,7 @@ public class Supervisor extends StaffMember implements Initializable {
 	}
 	
 	/**
-	 * Exporting Orders!
+	 * Importing Orders!
 	 *
 	 * 
 	 * 

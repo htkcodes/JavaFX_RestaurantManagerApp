@@ -133,19 +133,6 @@ public class ImportOrders implements Initializable{
 			
 		}
 		
-//		OutputFormat outFormat = new OutputFormat(doc);
-//		outFormat.setIndenting(true);
-//		FileOutputStream outStream = new FileOutputStream(doc, true);
-//		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
-//		serializer.serialize(doc);
-//		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-//		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
-//		DOMSource source = new DOMSource(doc);
-//		StreamResult console = new StreamResult(System.out);
-//		transformer.transform(source, console);
-//		System.out.println("\nXML DOM Created Successfully..");
-//		
-//		
 		DOMSource source = new DOMSource(doc);
 		TransformerFactory tFactory = TransformerFactory.newInstance(); 
 		Transformer transformer = tFactory.newTransformer();

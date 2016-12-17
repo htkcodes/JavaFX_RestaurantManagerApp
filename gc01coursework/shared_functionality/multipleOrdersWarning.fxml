@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gc01coursework.shared_functionality.ChoosingAnOrder">
+   <children>
+      <Label layoutX="31.0" layoutY="78.0" text="Please Choose One Order Only!" textFill="#7511e1">
+         <font>
+            <Font name="Futura Medium" size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="okButton" layoutX="130.0" layoutY="156.0" mnemonicParsing="false" onAction="#okayWillSelectOneTable" text="Ok!">
+         <font>
+            <Font name="Futura Medium" size="13.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
