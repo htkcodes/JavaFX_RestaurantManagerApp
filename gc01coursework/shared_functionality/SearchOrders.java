@@ -16,6 +16,8 @@ import org.xml.sax.SAXException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -67,6 +69,16 @@ public class SearchOrders implements Initializable{
 	private TableColumn<OrderDataModel, String> commentsColumn;
 	@FXML
 	private TableColumn<OrderDataModel, String> specialRequestsColumn;
+	@FXML
+	private TextField tableNumberFilteredSearch;
+	@FXML
+	private TextField dateFilteredSearch;
+	@FXML
+	private TextField costFilteredSearch;
+	@FXML
+	private TextField commentsFilteredSearch;
+	@FXML
+	private TextField specialRequestsFilteredSearch;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -111,7 +123,7 @@ public class SearchOrders implements Initializable{
 				}
 			}
 		}
-		
+
 		// Getting total costs of the existing orders:
 		costsForOrders = new ArrayList<String>();
 		NodeList costList = doc.getElementsByTagName("totalcost");
@@ -123,10 +135,12 @@ public class SearchOrders implements Initializable{
 				if (costSubList != null && costSubList.getLength() > 0) {
 					String cost = costSubList.item(0).getNodeValue();
 					costsForOrders.add(cost);
+				} else {
+					costsForOrders.add("---");
 				}
 			}
 		}
-		
+
 		// Getting comments of the existing orders:
 		commentsForOrders = new ArrayList<String>();
 		NodeList commentList = doc.getElementsByTagName("comments");
@@ -138,10 +152,12 @@ public class SearchOrders implements Initializable{
 				if (commentSubList != null && commentSubList.getLength() > 0) {
 					String comment = commentSubList.item(0).getNodeValue();
 					commentsForOrders.add(comment);
+				} else {
+					commentsForOrders.add("---");
 				}
 			}
 		}
-		
+
 		// Getting special requests of the existing orders:
 		specialRequestsForOrders = new ArrayList<String>();
 		NodeList specialRequestsList = doc.getElementsByTagName("specialrequests");
@@ -153,67 +169,119 @@ public class SearchOrders implements Initializable{
 				if (specialRequestsSubList != null && specialRequestsSubList.getLength() > 0) {
 					String specialRequest = specialRequestsSubList.item(0).getNodeValue();
 					specialRequestsForOrders.add(specialRequest);
+				} else {
+					specialRequestsForOrders.add("---");
 				}
 			}
 		}
-		
-		tableNumberOptions = FXCollections.observableArrayList(tablesWithOrders);
-		tableNumberComboBox.getItems().removeAll(tableNumberComboBox.getItems());
-		tableNumberComboBox.setItems(tableNumberOptions);
-		tableNumberComboBox.getSelectionModel().select(tableNumberOptions.get(0));
-
-		dateOptions = FXCollections.observableArrayList(dateStampForOrders);
-		datesComboBox.getItems().removeAll(datesComboBox.getItems());
-		datesComboBox.setItems(dateOptions);
-		datesComboBox.getSelectionModel().select(dateOptions.get(0));
-		
-		System.out.println(costsForOrders + " all the costs.");
-		System.out.println(commentsForOrders + " all the comments.");
-		System.out.println(specialRequestsForOrders + " all the special requests.");
-		
-		
-		searchButton.setOnAction((ActionEvent event) -> {
-			String table = tableNumberComboBox.getSelectionModel().getSelectedItem();
-			String date = datesComboBox.getSelectionModel().getSelectedItem();
-			String cost = totalCostInput.getText();
-			String comments = commentsInput.getText();
-			String specialRequests = specialRequestsInput.getText();
-			
-			System.out.println(table + " " + date + " " + cost + " " + comments + " " +  specialRequests);
-			filterBySearchCriteria(table, date, cost, comments, specialRequests);
-		});
-		
-//	    table = new TableView<OrderDataModel>();
 
 		data = FXCollections.observableArrayList();
-		
+
 		for(int y=0; y<tablesWithOrders.size(); y++) {
 			String tableNum = tablesWithOrders.get(y);
 			String date = dateStampForOrders.get(y);
 			String cost = costsForOrders.get(y);
 			String comment = commentsForOrders.get(y);
 			String specialRequest = specialRequestsForOrders.get(y);
-			
+
 			OrderDataModel eachOrder = new OrderDataModel(tableNum, date, cost, comment, specialRequest);
 			data.add(eachOrder);
 
 		}
-		
+
 		tableNumberColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("tableNumber"));
 		dateColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("date"));
-		costColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("cost"));
+		costColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("totalCost"));
 		commentsColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("comments"));
 		specialRequestsColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("specialRequests"));
-		
+
 		table.setItems(data);
 		table.getColumns();
-//        table.getColumns().addAll(tableNumberColumn, dateColumn, costColumn, commentsColumn, specialRequestsColumn);
 
-	}
-	
-	
-	private void filterBySearchCriteria(String table, String date, String cost, String comments, String specialRequests) {
+		// 1. Wrap the ObservableList in a FilteredList (initially display all data). http://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
+		FilteredList<OrderDataModel> filteredData = new FilteredList<>(data, p -> true);
+
+		// 2. Set the filter Predicate whenever the filter changes.
+		tableNumberFilteredSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(order -> {
+				// If filter text is empty, display all persons.
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				// Compare first name and last name of every person with filter text.
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (order.getTableNumber().toLowerCase().contains(lowerCaseFilter)) {
+					return true; // Filter matches first name.
+				}  else { 
+					return false; // Does not match.
+				}	
+			});
+		});
 		
+		dateFilteredSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(order -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (order.getDate().toLowerCase().contains(lowerCaseFilter)) {
+					return true; 
+				}  else {
+					return false; 
+				}
+			});
+		});
+		
+		costFilteredSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(order -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (order.getTotalCost().toLowerCase().contains(lowerCaseFilter)) {
+					return true; 
+				}  else {
+					return false; 
+				}
+			});
+		});
+		
+		commentsFilteredSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(order -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (order.getComments().toLowerCase().contains(lowerCaseFilter)) {
+					return true; 
+				}  else {
+					return false; 
+				}
+			});
+		});
+		
+		specialRequestsFilteredSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(order -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (order.getSpecialRequests().toLowerCase().contains(lowerCaseFilter)) {
+					return true; 
+				}  else {
+					return false; 
+				}
+			});
+		});
+		SortedList<OrderDataModel> sortedData = new SortedList<>(filteredData);
+		sortedData.comparatorProperty().bind(table.comparatorProperty());
+		table.setItems(sortedData);
 	}
 
 }
