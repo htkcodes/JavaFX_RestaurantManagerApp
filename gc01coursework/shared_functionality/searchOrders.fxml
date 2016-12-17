@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="650.0" prefWidth="650.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
+<AnchorPane prefHeight="650.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
    <children>
       <Label layoutX="271.0" layoutY="14.0" text="Search All Orders" textFill="#cd0fb0">
          <font>
@@ -62,13 +62,17 @@
             <Font name="Futura Condensed ExtraBold" size="18.0" />
          </font>
       </Label>
-      <TableView fx:id="table" layoutX="17.0" layoutY="167.0" prefHeight="200.0" prefWidth="636.0">
+      <TableView fx:id="table" layoutX="17.0" layoutY="167.0" prefHeight="200.0" prefWidth="1109.0">
         <columns>
           <TableColumn fx:id="tableNumberColumn" prefWidth="105.0" text="Table Number" />
           <TableColumn fx:id="dateColumn" prefWidth="177.0" text="Date" />
             <TableColumn fx:id="costColumn" prefWidth="91.0" text="Cost" />
             <TableColumn fx:id="commentsColumn" prefWidth="144.0" text="Comments" />
             <TableColumn fx:id="specialRequestsColumn" prefWidth="118.0" text="Special Requests" />
+            <TableColumn fx:id="startersColumn" prefWidth="118.0" text="Starters" />
+            <TableColumn fx:id="mainsColumn" prefWidth="118.0" text="Mains" />
+            <TableColumn fx:id="dessertsColumn" prefWidth="118.0" text="Desserts" />
+            <TableColumn fx:id="drinksColumn" prefWidth="118.0" text="Drinks" />
         </columns>
       </TableView>
       <TextField fx:id="tableNumberFilteredSearch" layoutX="14.0" layoutY="131.0" prefHeight="27.0" prefWidth="112.0" promptText="Type Here" />

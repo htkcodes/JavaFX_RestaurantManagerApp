@@ -36,9 +36,10 @@ public class SearchOrders implements Initializable{
 	private ArrayList<String> costsForOrders;
 	private ArrayList<String> commentsForOrders;
 	private ArrayList<String> specialRequestsForOrders;
+	private ArrayList<String> startersForOrders;
+
 	@FXML
 	public ObservableList<OrderDataModel> data;
-
 	@FXML
 	private GridPane searchResultsGridPane;
 	@FXML
@@ -70,6 +71,14 @@ public class SearchOrders implements Initializable{
 	@FXML
 	private TableColumn<OrderDataModel, String> specialRequestsColumn;
 	@FXML
+	private TableColumn<OrderDataModel, String> startersColumn;
+	@FXML
+	private TableColumn<OrderDataModel, String> mainsColumn;
+	@FXML
+	private TableColumn<OrderDataModel, String> dessertsColumn;
+	@FXML
+	private TableColumn<OrderDataModel, String> drinksColumn;
+	@FXML
 	private TextField tableNumberFilteredSearch;
 	@FXML
 	private TextField dateFilteredSearch;
@@ -79,6 +88,14 @@ public class SearchOrders implements Initializable{
 	private TextField commentsFilteredSearch;
 	@FXML
 	private TextField specialRequestsFilteredSearch;
+	@FXML
+	private TextField startersFilteredSearch;
+	@FXML
+	private TextField mainsFilteredSearch;
+	@FXML
+	private TextField dessertsFilteredSearch;
+	@FXML
+	private TextField drinksFilteredSearch;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -174,7 +191,42 @@ public class SearchOrders implements Initializable{
 				}
 			}
 		}
+		
+//		 Getting starters of the existing orders:
+		startersForOrders = new ArrayList<String>();
+		NodeList startersList = doc.getElementsByTagName("starters");
+		for (int k = 0; k < startersList.getLength(); k++) {
+			
+			Node parent = doc.getDocumentElement().getChildNodes().item(k);
+			String eachOrdersDateStamp = parent.getFirstChild().getNextSibling().getFirstChild().getNodeValue();
+			
+			if (startersList != null && startersList.getLength() > 0) {
+				Node eachOrdersStarters = parent.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getFirstChild();
+				
+				NodeList startersSubList = eachOrdersStarters.getChildNodes();
 
+				if (startersSubList != null && startersSubList.getLength() > 0) {	
+					
+					String startersTogether = "";
+					for(int r=0; r<startersSubList.getLength(); r++) {
+						String starter = startersSubList.item(r).getFirstChild().getNodeValue();
+						startersTogether += " and " + starter;						
+					}
+					String formatted = startersTogether.substring(5);
+					startersForOrders.add(formatted);
+				} else {
+					startersForOrders.add("---");
+				}
+			}
+		}
+		
+		System.out.println(startersForOrders + " <3 <3");
+		
+			
+			
+			
+			
+			
 		data = FXCollections.observableArrayList();
 
 		for(int y=0; y<tablesWithOrders.size(); y++) {
