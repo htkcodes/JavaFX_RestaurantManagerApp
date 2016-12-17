@@ -362,7 +362,6 @@ public class TakingAnOrder {
 		    String existingTableOrder = getTableClicked();
 		    String dateChosen = getDateClicked();
 		    
-		    System.out.println(dateChosen + " this is what it thinks!!!");
 			File file = new File("allOrders.xml");
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = null;
@@ -386,13 +385,8 @@ public class TakingAnOrder {
 				
 				if (nNode.getFirstChild().getFirstChild().getNodeValue().equals(existingTableOrder) && nNode.getFirstChild().getNextSibling().getFirstChild().getNodeValue().equals(dateChosen) || nNode.getFirstChild().getFirstChild().getNodeValue().equals(existingTableOrder) && getDateClicked() == null) {
 					
-					System.out.println(nNode.getFirstChild().getNextSibling().getFirstChild().getNodeValue() + " ______");
 					Element eElement = (Element) nNode;
 					
-					if(getDateClicked() == null) {
-						System.out.println("ALL GOOD NO DUPLICATE");
-					}
-			
 					String existingDate = eElement.getElementsByTagName("date").item(0).getTextContent();
 					theDate.setText(existingDate);					
 					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -1106,7 +1100,8 @@ public class TakingAnOrder {
 	@FXML 
 	private void deleteOrder() throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException {
 		String tableOrderToDelete = getTableClicked();
-
+		String specificDate = getDateClicked();
+		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document doc = documentBuilder.parse("allOrders.xml");
@@ -1116,12 +1111,12 @@ public class TakingAnOrder {
 		
 		for (int i = 0; i < nList.getLength(); i++) {
 			Node order = nList.item(i);
-		
-			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete)) {
+			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete) && order.getFirstChild().getNextSibling().getFirstChild().getNodeValue().equals(specificDate) || order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete) && getDateClicked() == null) {
+
+//			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete)) {
 				while (order.hasChildNodes())
 			       order.removeChild(order.getFirstChild());
-				
-				order.getParentNode().removeChild(order);
+			       order.getParentNode().removeChild(order);
 			}
 		}
 		
