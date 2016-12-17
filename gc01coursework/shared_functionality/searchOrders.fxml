@@ -4,6 +4,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -12,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
+<AnchorPane prefHeight="750.0" prefWidth="750.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
    <children>
       <Label layoutX="235.0" layoutY="14.0" text="Search All Orders" textFill="#cd0fb0">
          <font>
@@ -82,17 +84,17 @@
             <TextField fx:id="specialRequestsInput" GridPane.columnIndex="4" />
          </children>
       </GridPane>
-      <Button fx:id="searchButton" layoutX="278.0" layoutY="227.0" mnemonicParsing="false" text="Search">
+      <Button fx:id="searchButton" layoutX="329.0" layoutY="178.0" mnemonicParsing="false" text="Search">
          <font>
             <Font name="Futura Medium" size="13.0" />
          </font>
       </Button>
-      <Label layoutX="286.0" layoutY="340.0" text="Results" textFill="#da0b0b">
+      <Label layoutX="337.0" layoutY="215.0" text="Results" textFill="#da0b0b">
          <font>
             <Font name="Futura Medium" size="14.0" />
          </font>
       </Label>
-      <GridPane fx:id="searchResultsGridPane" gridLinesVisible="true" layoutX="52.0" layoutY="392.0" prefHeight="134.0" prefWidth="501.0">
+      <GridPane fx:id="searchResultsGridPane" gridLinesVisible="true" layoutX="104.0" layoutY="241.0" prefHeight="134.0" prefWidth="501.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="424.0" minWidth="10.0" prefWidth="424.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="77.0" />
@@ -104,5 +106,14 @@
             <ListView fx:id="searchResults" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </GridPane>
+      <TableView fx:id="table" layoutX="38.0" layoutY="438.0" prefHeight="200.0" prefWidth="501.0">
+        <columns>
+          <TableColumn fx:id="tableNumberColumn" prefWidth="118.0" text="Table Number" />
+          <TableColumn fx:id="dateColumn" prefWidth="69.0" text="Date" />
+            <TableColumn fx:id="costColumn" prefWidth="68.0" text="Cost" />
+            <TableColumn fx:id="commentsColumn" prefWidth="93.0" text="Comments" />
+            <TableColumn fx:id="specialRequestsColumn" prefWidth="144.0" text="SpecialRequests" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

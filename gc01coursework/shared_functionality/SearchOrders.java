@@ -21,7 +21,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -31,7 +34,8 @@ public class SearchOrders implements Initializable{
 	private ArrayList<String> costsForOrders;
 	private ArrayList<String> commentsForOrders;
 	private ArrayList<String> specialRequestsForOrders;
-	private ArrayList<String> startersForOrders;
+	@FXML
+	public ObservableList<OrderDataModel> data;
 
 	@FXML
 	private GridPane searchResultsGridPane;
@@ -51,6 +55,18 @@ public class SearchOrders implements Initializable{
 	private TextField specialRequestsInput;
 	@FXML
 	private Button searchButton;
+	@FXML
+	private TableView<OrderDataModel> table;
+	@FXML
+	private TableColumn<OrderDataModel, String> tableNumberColumn;
+	@FXML
+	private TableColumn<OrderDataModel, String> dateColumn;
+	@FXML
+	private TableColumn<OrderDataModel, String> costColumn;
+	@FXML
+	private TableColumn<OrderDataModel, String> commentsColumn;
+	@FXML
+	private TableColumn<OrderDataModel, String> specialRequestsColumn;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -164,7 +180,40 @@ public class SearchOrders implements Initializable{
 			String specialRequests = specialRequestsInput.getText();
 			
 			System.out.println(table + " " + date + " " + cost + " " + comments + " " +  specialRequests);
+			filterBySearchCriteria(table, date, cost, comments, specialRequests);
 		});
+		
+//	    table = new TableView<OrderDataModel>();
+
+		data = FXCollections.observableArrayList();
+		
+		for(int y=0; y<tablesWithOrders.size(); y++) {
+			String tableNum = tablesWithOrders.get(y);
+			String date = dateStampForOrders.get(y);
+			String cost = costsForOrders.get(y);
+			String comment = commentsForOrders.get(y);
+			String specialRequest = specialRequestsForOrders.get(y);
+			
+			OrderDataModel eachOrder = new OrderDataModel(tableNum, date, cost, comment, specialRequest);
+			data.add(eachOrder);
+
+		}
+		
+		tableNumberColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("tableNumber"));
+		dateColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("date"));
+		costColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("cost"));
+		commentsColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("comments"));
+		specialRequestsColumn.setCellValueFactory(new PropertyValueFactory<OrderDataModel,String>("specialRequests"));
+		
+		table.setItems(data);
+		table.getColumns();
+//        table.getColumns().addAll(tableNumberColumn, dateColumn, costColumn, commentsColumn, specialRequestsColumn);
+
+	}
+	
+	
+	private void filterBySearchCriteria(String table, String date, String cost, String comments, String specialRequests) {
+		
 	}
 
 }
