@@ -97,5 +97,10 @@
             <Font name="Futura Bold" size="14.0" />
          </font>
       </Button>
+      <Button fx:id="searchOrdersButton" layoutX="20.0" layoutY="369.0" mnemonicParsing="false" onAction="#searchOrders" text="Search Orders">
+         <font>
+            <Font name="Futura Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

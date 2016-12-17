@@ -30,6 +30,7 @@ import gc01coursework.admin_functionality.EditTheMenu;
 import gc01coursework.admin_functionality.ExportOrders;
 import gc01coursework.admin_functionality.ImportOrders;
 import gc01coursework.shared_functionality.ChoosingAnOrder;
+import gc01coursework.shared_functionality.SearchOrders;
 import gc01coursework.shared_functionality.TakingAnOrder;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -84,6 +85,8 @@ public class Supervisor extends StaffMember implements Initializable {
 	private Button exportOrdersButton;
 	@FXML
 	private Button importOrdersButton;
+	@FXML
+	private Button searchOrdersButton;
 	
 	public Supervisor() {
 		super(username, password, lastLogin);
@@ -410,6 +413,33 @@ public class Supervisor extends StaffMember implements Initializable {
 		orderImporting.setScene(scene);
 		
 		orderImporting.showAndWait();
+	}
+	
+	/**
+	 * Search Orders!
+	 * @throws IOException 
+	 *
+	 * 
+	 * 
+	 */
+	
+	@FXML
+	private void searchOrders() throws IOException {
+		
+		Stage orderSearch = new Stage();
+		SearchOrders search = new SearchOrders();
+		
+		FXMLLoader searchScreen = new FXMLLoader();
+		searchScreen.setLocation(getClass().getResource("../shared_functionality/searchOrders.fxml"));
+		searchScreen.setController(search);
+		Parent imports = (Parent)searchScreen.load();
+		Scene scene = new Scene(imports);
+		orderSearch.setTitle("Select Orders For Exporting!");
+		orderSearch.initModality(Modality.APPLICATION_MODAL);
+		orderSearch.initOwner(searchOrdersButton.getScene().getWindow());
+		orderSearch.setScene(scene);
+
+		orderSearch.showAndWait();
 	}
 }
 

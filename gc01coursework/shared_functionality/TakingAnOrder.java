@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -27,7 +28,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -111,6 +115,8 @@ public class TakingAnOrder {
 	private Button updateOrderButton;
 	@FXML
 	private Button deleteOrderButton;
+	@FXML
+	private Button cancelOrderButton;
 
 	//Inside Items Panel:
 	@FXML
@@ -1093,7 +1099,32 @@ public class TakingAnOrder {
 
 	@FXML
 	private void updateOrder() throws ParserConfigurationException, IOException, TransformerException, SAXException, XPathExpressionException {
-		deleteOrder();
+		String tableOrderToDelete = getTableClicked();
+		String specificDate = getDateClicked();
+
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document doc = documentBuilder.parse("allOrders.xml");
+
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("order");
+		
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node order = nList.item(i);
+			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete) && order.getFirstChild().getNextSibling().getFirstChild().getNodeValue().equals(specificDate) || order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete) && getDateClicked() == null) {
+
+				while (order.hasChildNodes())
+			       order.removeChild(order.getFirstChild());
+			       order.getParentNode().removeChild(order);
+			}
+		}
+		
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer t = tf.newTransformer();
+		DOMSource source = new DOMSource(doc);
+		StreamResult result = new StreamResult(new File("allOrders.xml"));
+		t.transform(source, result);
+
 		saveOrder();
 	}
 	
@@ -1101,6 +1132,14 @@ public class TakingAnOrder {
 	private void deleteOrder() throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException {
 		String tableOrderToDelete = getTableClicked();
 		String specificDate = getDateClicked();
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Warning!");
+		alert.setHeaderText("You are about to delete this order!");
+		alert.setContentText("Would you like to proceed?");
+
+		Optional<ButtonType> continueDelete = alert.showAndWait();
+		if (continueDelete.get() == ButtonType.OK){
 		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -1113,7 +1152,6 @@ public class TakingAnOrder {
 			Node order = nList.item(i);
 			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete) && order.getFirstChild().getNextSibling().getFirstChild().getNodeValue().equals(specificDate) || order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete) && getDateClicked() == null) {
 
-//			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableOrderToDelete)) {
 				while (order.hasChildNodes())
 			       order.removeChild(order.getFirstChild());
 			       order.getParentNode().removeChild(order);
@@ -1125,7 +1163,17 @@ public class TakingAnOrder {
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = new StreamResult(new File("allOrders.xml"));
 		t.transform(source, result);
+		} else {
+			System.out.println("Order deletion cancelled.");
+		}
 	}
+	
+	@FXML
+	public void cancelOrder(ActionEvent event) throws IOException {
+		Stage stage = (Stage) cancelOrderButton.getScene().getWindow();
+		stage.close();
+	}
+	
 }
 
 
