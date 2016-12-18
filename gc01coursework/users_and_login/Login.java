@@ -72,21 +72,20 @@ public class Login {
 			Stage stage = (Stage) loginButton.getScene().getWindow();
 			stage.close();
 		} else if(checkIfStaffMember(username.getText(), password.getText(), "restaurant_staff_logins.txt")) {
-			System.out.println("CHECKING");
 			accessGranted = true;
 			isStaffMember = true;
-			
+			supervisor.setIsStaff(isStaffMember);
+
 			Stage primaryStage = new Stage();
-			Parent supervisorDashboard = FXMLLoader.load(getClass().getResource("../dashboard/EmployeeDashboard.fxml"));
+			Parent supervisorDashboard = FXMLLoader.load(getClass().getResource("../dashboard/SupervisorDashboard.fxml"));
 			Scene scene = new Scene(supervisorDashboard);
 			scene.getStylesheets().add(getClass().getResource("../style/Dashboard.css").toExternalForm());
-			primaryStage.setTitle("Employee Dashboard!");
+			primaryStage.setTitle("Supervisor Dashboard!");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
 			Stage stage = (Stage) loginButton.getScene().getWindow();
 			stage.close();
-			
 		} else {
 			accessGranted = false;
 		

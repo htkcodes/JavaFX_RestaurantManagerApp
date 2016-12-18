@@ -36,6 +36,8 @@ import org.xml.sax.SAXException;
 import gc01coursework.admin_functionality.EditTheMenu;
 import gc01coursework.admin_functionality.ExportOrders;
 import gc01coursework.admin_functionality.ImportOrders;
+import gc01coursework.admin_functionality.ManageEmployees;
+import gc01coursework.admin_functionality.ModifyMenu;
 import gc01coursework.shared_functionality.ChoosingAnOrder;
 import gc01coursework.shared_functionality.SearchOrders;
 import gc01coursework.shared_functionality.TakingAnOrder;
@@ -79,8 +81,6 @@ public class Supervisor extends StaffMember implements Initializable {
 	@FXML
 	private Button deleteEmployeeButton;
 	@FXML
-	private ComboBox<String> employeeListComboBox;
-	@FXML
 	private Button table;
 	@FXML
 	private Button takeAnOrderButton;
@@ -105,7 +105,7 @@ public class Supervisor extends StaffMember implements Initializable {
 
 	protected static void setIsStaff(Boolean isStaff) {
 		Supervisor.isStaff = isStaff;
-		System.out.println("SETTING");
+		System.out.println("SETTING" + isStaff);
 	}
 
 	@Override
@@ -143,6 +143,17 @@ public class Supervisor extends StaffMember implements Initializable {
 	 * 
 	 * 
 	 */
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+		if(getIsStaff()) {
+			addEmployeeButton.setDisable(true);
+			deleteEmployeeButton.setDisable(true);
+			editMenuButton.setDisable(true);
+			exportOrdersButton.setDisable(true);
+			importOrdersButton.setDisable(true);
+		}
+	}
 
 	@FXML
 	public void addEmployee(ActionEvent event) throws IOException {
@@ -214,61 +225,36 @@ public class Supervisor extends StaffMember implements Initializable {
 
 	/**
 	 * Deleting an Employee!
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
+	 * @throws SAXException 
 	 *
 	 * 
 	 * 
 	 */
+	
+	private void updateComboBoxOfNames() throws ParserConfigurationException, SAXException, IOException {
+
+	}
+	
 	@FXML
-	public void deleteEmployee(ActionEvent event) throws IOException {
-		//Creating the Pop-Up Modal:
-		Stage primaryStage = new Stage();
-		Parent addEmployeePopUp = FXMLLoader.load(getClass().getResource("../admin_functionality/deleteEmployeePopUp.fxml"));
-		Scene scene = new Scene(addEmployeePopUp);
-		primaryStage.setTitle("Delete an Employee");
-		primaryStage.initModality(Modality.APPLICATION_MODAL);
-		primaryStage.initOwner(addEmployeeButton.getScene().getWindow());
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new FileReader("./restaurant_staff_logins.txt"));
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-
-		try {
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
-
-			while (line != null) {
-				sb.append(line);
-				sb.append(System.lineSeparator());
-
-				if((line = br.readLine()) != null) {
-					String eachEmployee = line.substring(line.indexOf("Username:") + 10, line.indexOf(","));
-					employeeNames.add(eachEmployee);
-				} 
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+	public void deleteEmployee(ActionEvent event) throws IOException, ParserConfigurationException, SAXException {
 		
-		System.out.println(employeeNames);
-		employeeListComboBox = new ComboBox<String>();
-		//employeeListComboBox.getItems().clear();
-		//employeeListComboBox.setItems(employeeNames);		
+		Stage manageEmployees = new Stage();
+		ManageEmployees modify = new ManageEmployees();
+		
+		FXMLLoader manageScreen = new FXMLLoader();
+		manageScreen.setLocation(getClass().getResource("../admin_functionality/deleteEmployeePopUp.fxml"));
+		manageScreen.setController(modify);
+		Parent imports = (Parent)manageScreen.load();
+		Scene scene = new Scene(imports);
+		manageEmployees.setTitle("Manage Employees");
+		manageEmployees.initModality(Modality.APPLICATION_MODAL);
+		manageEmployees.setScene(scene);
+		
+		manageEmployees.showAndWait();
 	}
+
 
 	/**
 	 * Taking An Order!
