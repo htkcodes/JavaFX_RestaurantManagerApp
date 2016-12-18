@@ -27,23 +27,27 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class ModifyMenu implements Initializable {
 	private String whichMenuCategory;
 	private ArrayList<String> allExistingItems;
-	private ArrayList<String> allExistingStartersPrices;
-	private ArrayList<String> allExistingMainsPrices;
-	private ArrayList<String> allExistingDessertsPrices;
-	private ArrayList<String> allExistingDrinksPrices;
+	private ArrayList<String> allExistingPrices;
 	private String fileToUpdate;
 	private String elementNameXML;
+	private Boolean isUpdating = false;
 	
 	@FXML
 	private GridPane modifyMenuGridPane;
@@ -63,6 +67,15 @@ public class ModifyMenu implements Initializable {
 	private Button updateItemButton;
 	@FXML
 	private Button deleteItemButton;
+	@FXML 
+	private TextField updateName = new TextField();
+	@FXML
+	private TextField updatePrice = new TextField();
+	@FXML
+	private Button saveUpdatesButton;
+	@FXML
+	private Button saveUpdatedItem;
+	
 	
 	public ModifyMenu(String menuCategory) {
 		setWhichMenuCategory(menuCategory);
@@ -84,6 +97,15 @@ public class ModifyMenu implements Initializable {
 		this.allExistingItems = allExistingItems;
 	}
 	
+	
+	private ArrayList<String> getAllExistingPrices() {
+		return allExistingPrices;
+	}
+
+	private void setAllExistingPrices(ArrayList<String> allExistingPrices) {
+		this.allExistingPrices = allExistingPrices;
+	}
+
 	private String getFileToUpdate() {
 		return fileToUpdate;
 	}
@@ -101,9 +123,14 @@ public class ModifyMenu implements Initializable {
 		this.elementNameXML = elementNameXML;
 	}
 
+	public ModifyMenu() {
+		super();
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		String category = getWhichMenuCategory();
+		if(getWhichMenuCategory() != null) {
+			String category = getWhichMenuCategory();
 		
 		switch(category) {
 		case "modifyStarters":
@@ -134,15 +161,16 @@ public class ModifyMenu implements Initializable {
 			} catch (ParserConfigurationException | SAXException | IOException e) {
 				e.printStackTrace();
 			}
+		default:
+			System.out.println("No button clicked.");
 		}
-		
 		modifyMenuGridPane.add(selectedList, 2, 1);
-
+		}
 	}
 	
 	private void existingStarters() throws ParserConfigurationException, SAXException, IOException {
 		allExistingItems = new ArrayList<String>();
-		allExistingStartersPrices = new ArrayList<String>();
+		allExistingPrices = new ArrayList<String>();
 		File file = new File("starters.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -158,11 +186,12 @@ public class ModifyMenu implements Initializable {
 				String starterName = eElement.getElementsByTagName("starterName").item(0).getTextContent();
 				String starterPrice = eElement.getElementsByTagName("starterPrice").item(0).getTextContent();
 				allExistingItems.add(starterName);
-				allExistingStartersPrices.add(starterPrice);
+				allExistingPrices.add(starterPrice);
 			}
 		}
 		
 		setAllExistingItems(allExistingItems);
+		setAllExistingPrices(allExistingPrices);
 		setFileToUpdate("starters.xml");
 		setElementNameXML("starter");
 		existing = FXCollections.observableArrayList(allExistingItems);
@@ -172,7 +201,7 @@ public class ModifyMenu implements Initializable {
 	
 	private void existingMains() throws ParserConfigurationException, SAXException, IOException {
 		allExistingItems = new ArrayList<String>();
-		allExistingMainsPrices = new ArrayList<String>();
+		allExistingPrices = new ArrayList<String>();
 		File fileMains = new File("mains.xml");
 		DocumentBuilderFactory documentBuilderFactoryMains = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilderMains = documentBuilderFactoryMains.newDocumentBuilder();
@@ -188,11 +217,12 @@ public class ModifyMenu implements Initializable {
 				String mainName = eElement.getElementsByTagName("mainName").item(0).getTextContent();
 				String mainPrice = eElement.getElementsByTagName("mainPrice").item(0).getTextContent();
 				allExistingItems.add(mainName);
-				allExistingMainsPrices.add(mainPrice);
+				allExistingPrices.add(mainPrice);
 			}
 		}	
 		
 		setAllExistingItems(allExistingItems);
+		setAllExistingPrices(allExistingPrices);
 		setFileToUpdate("mains.xml");
 		setElementNameXML("main");
 		existing = FXCollections.observableArrayList(allExistingItems);
@@ -202,7 +232,7 @@ public class ModifyMenu implements Initializable {
 	
 	private void existingDesserts() throws ParserConfigurationException, SAXException, IOException {
 		allExistingItems = new ArrayList<String>();
-		allExistingDessertsPrices = new ArrayList<String>();
+		allExistingPrices = new ArrayList<String>();
 		File fileDesserts = new File("desserts.xml");
 		DocumentBuilderFactory documentBuilderFactoryDesserts = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilderDesserts = documentBuilderFactoryDesserts.newDocumentBuilder();
@@ -218,11 +248,12 @@ public class ModifyMenu implements Initializable {
 				String dessertName = eElement.getElementsByTagName("dessertName").item(0).getTextContent();
 				String dessertPrice = eElement.getElementsByTagName("dessertPrice").item(0).getTextContent();
 				allExistingItems.add(dessertName);
-				allExistingDessertsPrices.add(dessertPrice);
+				allExistingPrices.add(dessertPrice);
 			}
 		}
 		
 		setAllExistingItems(allExistingItems);
+		setAllExistingPrices(allExistingPrices);
 		setFileToUpdate("desserts.xml");
 		setElementNameXML("dessert");
 		existing = FXCollections.observableArrayList(allExistingItems);
@@ -232,7 +263,7 @@ public class ModifyMenu implements Initializable {
 	
 	private void existingDrinks() throws ParserConfigurationException, SAXException, IOException {
 		allExistingItems = new ArrayList<String>();
-		allExistingDrinksPrices = new ArrayList<String>();
+		allExistingPrices = new ArrayList<String>();
 		File fileDrinks = new File("drinks.xml");
 		DocumentBuilderFactory documentBuilderFactoryDrinks = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilderDrinks = documentBuilderFactoryDrinks.newDocumentBuilder();
@@ -248,10 +279,11 @@ public class ModifyMenu implements Initializable {
 				String drinkName = eElement.getElementsByTagName("drinkName").item(0).getTextContent();
 				String drinkPrice = eElement.getElementsByTagName("drinkPrice").item(0).getTextContent();
 				allExistingItems.add(drinkName);
-				allExistingDrinksPrices.add(drinkPrice);
+				allExistingPrices.add(drinkPrice);
 			}
 		}
 		setAllExistingItems(allExistingItems);
+		setAllExistingPrices(allExistingPrices);
 		setFileToUpdate("drinks.xml");
 		setElementNameXML("drink");
 		existing = FXCollections.observableArrayList(allExistingItems);
@@ -264,12 +296,22 @@ public class ModifyMenu implements Initializable {
 		String potential = existingList.getSelectionModel().getSelectedItem();
 		if (potential != null) {
 			existingList.getSelectionModel().clearSelection();
-			
 			if(selected.size() == 1) {
 				System.out.println("Only choose one please!");
 			} else {
 				selected.add(potential);
 				existing.remove(potential);	
+				
+				int getIndexForPrice = 0;
+				for(int j=0; j<allExistingItems.size(); j++) {
+					if(allExistingItems.get(j).equals(potential)) {
+						getIndexForPrice = j;
+					}
+				}
+				String priceForEdit = allExistingPrices.get(getIndexForPrice);
+				
+				updateName.setPromptText(potential);
+				updatePrice.setPromptText(priceForEdit);
 			}
 		}
 	}
@@ -290,6 +332,7 @@ public class ModifyMenu implements Initializable {
 	
 	@FXML
 	private void deleteItem(ActionEvent event) throws TransformerException, ParserConfigurationException, SAXException, IOException {
+		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Delete Warning!");
 		alert.setHeaderText("You are about to delete this item!");
@@ -330,9 +373,53 @@ public class ModifyMenu implements Initializable {
 
 	
 	@FXML 
-	private void updateItem(ActionEvent event) {
+	private void updateItem(ActionEvent event) throws IOException, ParserConfigurationException, SAXException, TransformerException {
+		deleteItem(event);
+		isUpdating = true;		
+		String newName = updateName.getText();
+		String newPrice = updatePrice.getText();
 		
-	}
+		String[] newItem = {newName, newPrice};
+		
+		EditTheMenu update = new EditTheMenu();
 
+		if(getWhichMenuCategory() != null) {
+			String category = getWhichMenuCategory();
+		
+		switch(category) {
+		case "modifyStarters":
+			try {
+				update.addMenuStarters(newItem);
+				break;
+			} catch (ParserConfigurationException | SAXException | IOException e) {
+				e.printStackTrace();
+			}
+		case "modifyMains":
+			try {
+				update.addMenuMains(newItem);
+				break;
+			} catch (ParserConfigurationException | SAXException | IOException e) {
+				e.printStackTrace();
+			}
+		case "modifyDesserts":
+			try {
+				update.addMenuDesserts(newItem);
+				break;
+			} catch (ParserConfigurationException | SAXException | IOException e) {
+				e.printStackTrace();
+			}
+		case "modifyDrinks":
+			try {
+				update.addMenuDrinks(newItem);
+				break;
+			} catch (ParserConfigurationException | SAXException | IOException e) {
+				e.printStackTrace();
+			}
+		default:
+			System.out.println("No button clicked.");
+		}
+		
+		}
+	}
 }
 	

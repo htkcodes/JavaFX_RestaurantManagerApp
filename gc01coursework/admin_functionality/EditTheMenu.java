@@ -82,7 +82,7 @@ public class EditTheMenu {
 	 * 
 	 * 
 	 */
-
+	
 	@FXML
 	private void addToMenu(ActionEvent event) throws IOException, ParserConfigurationException, TransformerException {
 		Stage primaryStage = new Stage();
@@ -136,10 +136,11 @@ public class EditTheMenu {
 	 */
 	
 	@FXML
-	private void addMenuStarters(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
+	protected void addMenuStarters(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
+		
+		System.out.println(theNewItem + "!!!");
 		Document xmlDoc = docBuilder.parse("starters.xml");	
 
 		Element root = xmlDoc.getDocumentElement();
@@ -177,7 +178,7 @@ public class EditTheMenu {
 	 */
 
 	@FXML
-	private void addMenuMains(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {	
+	protected void addMenuMains(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {	
 
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -218,7 +219,7 @@ public class EditTheMenu {
 	 */
 
 	@FXML
-	private void addMenuDesserts(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
+	protected void addMenuDesserts(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
@@ -258,7 +259,7 @@ public class EditTheMenu {
 	 */
 
 	@FXML
-	private void addMenuDrinks(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
+	protected void addMenuDrinks(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
