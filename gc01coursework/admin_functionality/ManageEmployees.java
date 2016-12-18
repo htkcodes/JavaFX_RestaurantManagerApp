@@ -30,20 +30,27 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class ManageEmployees implements Initializable {
 	
-	public ObservableList<String> employeeNames = FXCollections.observableArrayList(); 
+	private ObservableList<String> employeeNames = FXCollections.observableArrayList(); 
+	private ObservableList<String> employeeLogins = FXCollections.observableArrayList(); 
 
 	@FXML
 	public ComboBox<String> employeeListComboBox;
 	@FXML
 	private Button deleteSelectedEmployeeButton;
+	@FXML
+	private GridPane activityLogGridPane;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		//Populating ComboBox:
 		File file = new File("staff.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = null;
@@ -68,12 +75,32 @@ public class ManageEmployees implements Initializable {
 				Element eElement = (Element) nNode;
 				String staffName = eElement.getElementsByTagName("staffName").item(0).getTextContent();
 				employeeNames.add(staffName);
+				
+				String staffLogins = eElement.getElementsByTagName("loginActivity").item(0).getTextContent();
+				System.out.println(staffLogins + " !!!!!");
+				if(!staffLogins.equals("firstcreated")) {
+					String[] formatted = staffLogins.split("firstcreated, ");
+					String junk = formatted[0];
+					String logins = formatted[1];
+					employeeLogins.add(logins);
+				} else {
+					employeeLogins.add("---");
+				}
 			}
 		}
 		
 		employeeListComboBox.getItems().removeAll(employeeListComboBox.getItems());
 		employeeListComboBox.setItems(employeeNames);
 		employeeListComboBox.getSelectionModel().select(employeeNames.get(0));
+		
+		//Populating Activity Log ListView:
+		ListView<String> employees = new ListView<String>(employeeNames);
+		activityLogGridPane.add(employees, 0, 1);
+		
+		//Populating Activity Log ListView:
+		ListView<String> logins = new ListView<String>(employeeLogins);
+		activityLogGridPane.add(logins, 2, 1);
+
 	}
 	
 	@FXML

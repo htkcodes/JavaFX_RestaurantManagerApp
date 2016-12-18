@@ -3,27 +3,65 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="214.0" layoutY="26.0" text="Delete An Employee">
+      <Label layoutX="244.0" layoutY="389.0" text="Delete An Employee">
          <font>
-            <Font name="Futura Bold" size="16.0" />
+            <Font name="Futura Medium" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="deleteSelectedEmployeeButton" layoutX="227.0" layoutY="275.0" mnemonicParsing="false" onAction="#deleteSelected" text="Delete">
+      <Button fx:id="deleteSelectedEmployeeButton" layoutX="237.0" layoutY="501.0" mnemonicParsing="false" onAction="#deleteSelected" text="Delete">
          <font>
             <Font name="Futura Bold" size="13.0" />
          </font>
       </Button>
-      <Button fx:id="cancelAddingEmployee" layoutX="300.0" layoutY="275.0" mnemonicParsing="false" text="Cancel">
+      <Button fx:id="cancelAddingEmployee" layoutX="318.0" layoutY="501.0" mnemonicParsing="false" text="Cancel">
          <font>
             <Font name="Futura Bold" size="13.0" />
          </font>
       </Button>
-      <ComboBox fx:id="employeeListComboBox" editable="true" layoutX="175.0" layoutY="123.0" prefWidth="250.0"> 
+      <ComboBox fx:id="employeeListComboBox" editable="true" layoutX="184.0" layoutY="432.0" prefWidth="250.0"> 
       </ComboBox>
+      <Label layoutX="247.0" layoutY="72.0" text="View Activity Log">
+         <font>
+            <Font name="Futura Medium" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="219.0" layoutY="14.0" text="Manage Employees" textFill="#cd0f0f">
+         <font>
+            <Font name="Futura Medium" size="18.0" />
+         </font>
+      </Label>
+      <GridPane fx:id="activityLogGridPane" gridLinesVisible="true" layoutX="81.0" layoutY="128.0" prefHeight="196.0" prefWidth="448.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="154.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Employee Names" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="Futura Medium" size="13.0" />
+               </font>
+            </Label>
+            <Label text="Login Times &amp; Dates" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="Futura Medium" size="13.0" />
+               </font>
+            </Label>
+            <ListView fx:id="employees" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <ListView fx:id="logins" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>
