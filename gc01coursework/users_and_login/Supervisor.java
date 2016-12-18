@@ -19,11 +19,18 @@ import java.util.ResourceBundle;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import gc01coursework.admin_functionality.EditTheMenu;
@@ -54,7 +61,7 @@ import javafx.stage.Stage;
 public class Supervisor extends StaffMember implements Initializable {
 	private static final String ADMINNAME = "ss";
 	private static final String ADMINPASSWORD = "ss";
-	private static final Boolean isSupervisor = true;
+	private static Boolean isStaff;
 	public ObservableList<String> employeeNames = FXCollections.observableArrayList(); 
 	public String tableClicked;
 	public Boolean orderExists = false;
@@ -90,6 +97,15 @@ public class Supervisor extends StaffMember implements Initializable {
 	
 	public Supervisor() {
 		super(username, password, lastLogin);
+	}
+
+	protected static Boolean getIsStaff() {
+		return isStaff;
+	}
+
+	protected static void setIsStaff(Boolean isStaff) {
+		Supervisor.isStaff = isStaff;
+		System.out.println("SETTING");
 	}
 
 	@Override
@@ -144,35 +160,48 @@ public class Supervisor extends StaffMember implements Initializable {
 
 
 	@FXML
-	public void saveEmployee(ActionEvent event) throws IOException {
-		Employee newEmployee = new Employee(employeeUsername.getText(), employeePassword.getText(), lastLogin);
+	public void saveEmployee(ActionEvent event) throws IOException, ParserConfigurationException, SAXException, TransformerException {
+		//Getting the date so we can write the score to our file.
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		String dateAdded = dateFormat.format(date);
+		
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+		
+		Document xmlDoc = docBuilder.parse("staff.xml");	
 
-		try{
-			File file = new File("./restaurant_staff_logins.txt");
+		Element root = xmlDoc.getDocumentElement();
 
-			if(!file.exists()){
-				file.createNewFile();	//If file doesn't exist, create it.
-				System.out.println("File doesnt exist");
-			}
+		Element staff = xmlDoc.createElement("staff");
 
-			//Getting the date so we can write the score to our file.
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Date date = new Date();
+		Text staffText = xmlDoc.createTextNode(employeeUsername.getText());
+		Element staffName = xmlDoc.createElement("staffName");	
+		Element staffPassword = xmlDoc.createElement("staffPassword");	
+		Text staffPasswordText = xmlDoc.createTextNode(employeePassword.getText());
+		Element staffAdded = xmlDoc.createElement("dateAdded");	
+		Text staffAddedText = xmlDoc.createTextNode(dateAdded);
+		Element staffLogins = xmlDoc.createElement("loginActivity");
+		Text staffLoginText = xmlDoc.createTextNode("firstcreated");
 
-			String contentForFile = "\nUsername: " + employeeUsername.getText() + ", Password: " + employeePassword.getText() + ", Date Added: " + dateFormat.format(date);
-			FileWriter fileWritter = new FileWriter(file.getName(),true);	//The second argument 'true' means don't overwrite existing content.
-			BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
-			bufferWritter.write(contentForFile);
-			bufferWritter.close();
-			System.out.println("New employee details added. _____________");
+		staffName.appendChild(staffText);
+		staffPassword.appendChild(staffPasswordText);
+		staffAdded.appendChild(staffAddedText);
+		staffLogins.appendChild(staffLoginText);
+		
+		staff.appendChild(staffName);
+		staff.appendChild(staffPassword);
+		staff.appendChild(staffAdded);
+		staff.appendChild(staffLogins);
 
-			//Going back to parent window. 
-			Stage stage = (Stage) saveNewEmployee.getScene().getWindow();
-			stage.close();
+		root.appendChild(staff);
 
-		} catch(IOException e){
-			e.printStackTrace();
-		}
+		DOMSource source = new DOMSource(xmlDoc);
+
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		StreamResult result = new StreamResult("staff.xml");
+		transformer.transform(source, result);
 	}
 
 	@FXML

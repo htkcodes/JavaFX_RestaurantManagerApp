@@ -11,9 +11,30 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import gc01coursework.users_and_login.Supervisor;
 import javafx.scene.control.TextField;
@@ -32,11 +53,13 @@ public class Login {
 	@FXML
 	private Label loginStatus;
 
-	public Boolean verifyLoginDetails(ActionEvent event) throws IOException {
+	public Boolean verifyLoginDetails(ActionEvent event) throws IOException, ParserConfigurationException, SAXException, TransformerException {
 		Supervisor supervisor = new Supervisor();
 
 		if(username.getText().equals(supervisor.getUsername()) && password.getText().equals(supervisor.getPassword())) {
 			accessGranted = true;
+			isStaffMember = false;
+			supervisor.setIsStaff(isStaffMember);
 			
 			Stage primaryStage = new Stage();
 			Parent supervisorDashboard = FXMLLoader.load(getClass().getResource("../dashboard/SupervisorDashboard.fxml"));
@@ -48,9 +71,10 @@ public class Login {
 
 			Stage stage = (Stage) loginButton.getScene().getWindow();
 			stage.close();
-		} else if(checkIfStaffMember(username.getText(), password.getText(), "./restaurant_staff_logins.txt")) {
+		} else if(checkIfStaffMember(username.getText(), password.getText(), "restaurant_staff_logins.txt")) {
 			System.out.println("CHECKING");
 			accessGranted = true;
+			isStaffMember = true;
 			
 			Stage primaryStage = new Stage();
 			Parent supervisorDashboard = FXMLLoader.load(getClass().getResource("../dashboard/EmployeeDashboard.fxml"));
@@ -73,31 +97,46 @@ public class Login {
 	}
 
 
-	public Boolean checkIfStaffMember(String username, String password, String filename) throws IOException {
+	public Boolean checkIfStaffMember(String username, String password, String filename) throws IOException, ParserConfigurationException, SAXException, TransformerException {
 		isStaffMember = false;
-
-		BufferedReader br = new BufferedReader(new FileReader(filename));
-
-		try {
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
-
-			while (line != null) {
-				sb.append(line);
-				sb.append(System.lineSeparator());
-				line = br.readLine();
-
-				String correctDetails = "Username: " + username + ", Password: " + password;
-				System.out.println(correctDetails);
-
-				if((line = br.readLine()) != null && line.contains(correctDetails)) {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		String newLoginDate = dateFormat.format(date);
+		
+		File file = new File("staff.xml");
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document doc = documentBuilder.parse(file);
+		
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("staff");
+		
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node nNode = nList.item(i);
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+				String staffName = eElement.getElementsByTagName("staffName").item(0).getTextContent();
+				String staffPassword = eElement.getElementsByTagName("staffPassword").item(0).getTextContent();
+				String currentLogins = eElement.getElementsByTagName("loginActivity").item(0).getTextContent();
+				
+				if(staffName.equals(username) && staffPassword.equals(password)) {
 					isStaffMember = true;
-				} 
+					
+					Node staff = nList.item(i);
+					Element loginDates = (Element) staff.getFirstChild().getNextSibling().getNextSibling().getNextSibling();
+					String currentLoginList = loginDates.getFirstChild().getNodeValue();
+					String updatedLogin = currentLoginList + ", " + newLoginDate;
+					loginDates.getFirstChild().setNodeValue(updatedLogin);
+					
+					DOMSource source = new DOMSource(doc);
+
+					TransformerFactory transformerFactory = TransformerFactory.newInstance();
+					Transformer transformer = transformerFactory.newTransformer();
+					StreamResult result = new StreamResult("staff.xml");
+					transformer.transform(source, result);
+				}
 			}
-		} catch (Exception e) {
-			  e.printStackTrace();
-		} finally {
-			br.close();
 		}
 		return isStaffMember;
 	}

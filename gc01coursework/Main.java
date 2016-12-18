@@ -45,6 +45,7 @@ public class Main extends Application {
 			generateDessertXML();
 			generateDrinkXML();
 			generateOrdersXML();
+			generateStaffXML();
 
 			primaryStage.show();
 
@@ -172,7 +173,29 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * Generating Staff XML file for Login!
+	 *
+	 * 
+	 * 
+	 */
+	private void generateStaffXML() throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
 
+		File xmlFile = new File("staff.xml");
+
+		if(!xmlFile.createNewFile()) {
+			System.out.println("Staff XML is ready to add orders to.");
+		} else {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			Document xmlDoc = docBuilder.newDocument();	
+			Element orderElement = xmlDoc.createElement("allStaff");
+			xmlDoc.appendChild(orderElement);
+
+			finishXMLCreation(xmlDoc, xmlFile);
+		}
+	}
+	
 	private void finishXMLCreation(Document xmlDoc, File xmlFile) throws IOException, TransformerFactoryConfigurationError, TransformerException {
 		OutputFormat outFormat = new OutputFormat(xmlDoc);
 		outFormat.setIndenting(true);
