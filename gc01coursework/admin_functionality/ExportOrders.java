@@ -128,7 +128,6 @@ public class ExportOrders implements Initializable {
 		exportOrdersGridPane.add(selections, 2, 1);
 
 		selectExport.setOnAction((ActionEvent event) -> {
-			System.out.println("SELECT ACTION");
 			String potential = ordersForSelection.getSelectionModel().getSelectedItem();
 			if (potential != null) {
 				ordersForSelection.getSelectionModel().clearSelection();
@@ -138,7 +137,6 @@ public class ExportOrders implements Initializable {
 		});
 
 		removeExport.setOnAction((ActionEvent event) -> {
-			System.out.println("REMOVE ACTION");
 			String undo = selections.getSelectionModel().getSelectedItem();
 			if (undo != null) {
 				selections.getSelectionModel().clearSelection();

@@ -28,6 +28,7 @@ import org.xml.sax.SAXException;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
+import gc01coursework.shared_functionality.SearchOrders;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,6 +44,7 @@ import javafx.stage.Stage;
 
 public class EditTheMenu {
 	private static String theMenuItemTypeToBeAdded;
+	private static String theMenuItemTypeToBeModified;
 
 	@FXML
 	private Button addStarterButton;
@@ -52,6 +54,14 @@ public class EditTheMenu {
 	private Button addDessertButton;
 	@FXML
 	private Button addDrinkButton;
+	@FXML 
+	private Button modifyStarters;
+	@FXML 
+	private Button modifyMains;
+	@FXML 
+	private Button modifyDessert;
+	@FXML 
+	private Button modifyDrinks;
 	@FXML
 	private TextField menuItemNameTextField;
 	@FXML
@@ -60,6 +70,8 @@ public class EditTheMenu {
 	private Button addMenuItemButton;
 	@FXML
 	private Button cancelMenuItemButton;
+	@FXML
+	private Button editOrDeleteMenuItems;
 
 	/**
 	 * Starter XML!
@@ -276,4 +288,54 @@ public class EditTheMenu {
 		StreamResult result = new StreamResult("drinks.xml");
 		transformer.transform(source, result);
 	}
+	
+	/**
+	 * Modify Menu XML!
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
+	 *  
+	 *
+	 * 
+	 * 
+	 */
+	
+	@FXML
+	private void modifyMenuItems(ActionEvent event) throws IOException, ParserConfigurationException, SAXException {
+		theMenuItemTypeToBeModified = ((Node) event.getSource()).getId();
+		
+		Stage modifyMenu = new Stage();
+		ModifyMenu modify = new ModifyMenu(theMenuItemTypeToBeModified);
+		
+		FXMLLoader modifyScreen = new FXMLLoader();
+		modifyScreen.setLocation(getClass().getResource("../admin_functionality/modifyMenu.fxml"));
+		modifyScreen.setController(modify);
+		Parent imports = (Parent)modifyScreen.load();
+		Scene scene = new Scene(imports);
+		modifyMenu.setTitle("Select Orders For Exporting!");
+		modifyMenu.initModality(Modality.APPLICATION_MODAL);
+		modifyMenu.setScene(scene);
+		
+		modifyMenu.showAndWait();
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

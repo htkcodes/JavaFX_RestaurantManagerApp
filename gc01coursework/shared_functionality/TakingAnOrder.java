@@ -364,6 +364,15 @@ public class TakingAnOrder {
 		//If there is already an order for the selected table:
 
 		if(getIsOrderForTable()) {
+			
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Existing Order");
+			alert.setHeaderText("Heads Up! There's a current order for this table.");
+
+			Optional<ButtonType> Ok = alert.showAndWait();
+			if (Ok.get() == ButtonType.OK){	
+			}
+			
 		    saveOrderButton.setDisable(true);
 		    String existingTableOrder = getTableClicked();
 		    String dateChosen = getDateClicked();
@@ -476,7 +485,6 @@ public class TakingAnOrder {
 
 
 		} else { 	//If there is NOT an order for the selected table.
-			System.out.println("NO ORDER FOR TABLE");
 		    updateOrderButton.setDisable(true);
 
 			try {
