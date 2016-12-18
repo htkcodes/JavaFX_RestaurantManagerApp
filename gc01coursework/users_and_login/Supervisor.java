@@ -33,6 +33,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
+import gc01coursework.Main;
 import gc01coursework.admin_functionality.EditTheMenu;
 import gc01coursework.admin_functionality.ExportOrders;
 import gc01coursework.admin_functionality.ImportOrders;
@@ -67,7 +68,8 @@ public class Supervisor extends StaffMember implements Initializable {
 	public ObservableList<String> employeeNames = FXCollections.observableArrayList(); 
 	public String tableClicked;
 	public Boolean orderExists = false;
-
+	private Stage dashBoardStage;
+	
 	@FXML
 	private Button addEmployeeButton;
 	@FXML 
@@ -94,6 +96,8 @@ public class Supervisor extends StaffMember implements Initializable {
 	private Button importOrdersButton;
 	@FXML
 	private Button searchOrdersButton;
+	@FXML
+	private Button logoutButton;
 	
 	public Supervisor() {
 		super(username, password, lastLogin);
@@ -105,7 +109,6 @@ public class Supervisor extends StaffMember implements Initializable {
 
 	protected static void setIsStaff(Boolean isStaff) {
 		Supervisor.isStaff = isStaff;
-		System.out.println("SETTING" + isStaff);
 	}
 
 	@Override
@@ -135,6 +138,14 @@ public class Supervisor extends StaffMember implements Initializable {
 	@Override
 	protected void setPassword(String password) {
 		System.out.println("Admin password cannot be changed.");
+	}
+	
+	protected Stage getDashBoardStage() {
+		return dashBoardStage;
+	}
+
+	protected void setDashBoardStage(Stage dashBoardStage) {
+		this.dashBoardStage = dashBoardStage;
 	}
 
 	/**
@@ -233,10 +244,7 @@ public class Supervisor extends StaffMember implements Initializable {
 	 * 
 	 */
 	
-	private void updateComboBoxOfNames() throws ParserConfigurationException, SAXException, IOException {
 
-	}
-	
 	@FXML
 	public void deleteEmployee(ActionEvent event) throws IOException, ParserConfigurationException, SAXException {
 		
@@ -455,6 +463,16 @@ public class Supervisor extends StaffMember implements Initializable {
 		orderSearch.setScene(scene);
 
 		orderSearch.showAndWait();
+	}
+	
+	@FXML
+	private void logout() throws FileNotFoundException, ParserConfigurationException, IOException {
+		Stage currentStage = (Stage) logoutButton.getScene().getWindow();
+		currentStage.close();
+		
+		Main newLogin = new Main();
+		Stage primaryStage = new Stage();
+		newLogin.start(primaryStage);
 	}
 }
 

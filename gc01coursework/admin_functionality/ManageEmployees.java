@@ -77,7 +77,6 @@ public class ManageEmployees implements Initializable {
 				employeeNames.add(staffName);
 				
 				String staffLogins = eElement.getElementsByTagName("loginActivity").item(0).getTextContent();
-				System.out.println(staffLogins + " !!!!!");
 				if(!staffLogins.equals("firstcreated")) {
 					String[] formatted = staffLogins.split("firstcreated, ");
 					String junk = formatted[0];

@@ -67,6 +67,8 @@ public class Login {
 			scene.getStylesheets().add(getClass().getResource("../style/Dashboard.css").toExternalForm());
 			primaryStage.setTitle("Supervisor Dashboard!");
 			primaryStage.setScene(scene);
+			
+			supervisor.setDashBoardStage(primaryStage);
 			primaryStage.show();
 
 			Stage stage = (Stage) loginButton.getScene().getWindow();

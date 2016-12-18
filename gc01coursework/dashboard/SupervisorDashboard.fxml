@@ -102,5 +102,10 @@
             <Font name="Futura Bold" size="14.0" />
          </font>
       </Button>
+      <Button fx:id="logoutButton" layoutX="22.0" layoutY="408.0" mnemonicParsing="false" onAction="#logout" text="Logout">
+         <font>
+            <Font name="Futura Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
