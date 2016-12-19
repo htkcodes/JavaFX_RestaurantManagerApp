@@ -10,12 +10,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane fx:id="orderGridPane" gridLinesVisible="true" layoutY="28.0" prefHeight="511.0" prefWidth="600.0">
+      <GridPane fx:id="orderGridPane" gridLinesVisible="true" layoutX="63.0" layoutY="72.0" prefHeight="511.0" prefWidth="773.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="133.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="487.0" minWidth="10.0" prefWidth="467.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="181.66665649414062" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="591.3333435058594" minWidth="10.0" prefWidth="591.3333435058594" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
@@ -26,34 +26,34 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label contentDisplay="CENTER" text=" Table Number" textAlignment="CENTER">
+            <Label contentDisplay="CENTER" prefHeight="19.0" prefWidth="141.0" text=" Table Number" textAlignment="CENTER" textFill="#2ad6b4" GridPane.halignment="CENTER">
                <font>
-                  <Font name="Futura Bold" size="14.0" />
+                  <Font name="Futura Medium" size="17.0" />
                </font>
             </Label>
-            <Label contentDisplay="CENTER" text=" Date / Time" textAlignment="CENTER" GridPane.rowIndex="1">
+            <Label contentDisplay="CENTER" text=" Date / Time" textAlignment="CENTER" textFill="#2ad6b4" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
-                  <Font name="Futura Bold" size="14.0" />
+                  <Font name="Futura Medium" size="17.0" />
                </font>
             </Label>
-            <Label contentDisplay="CENTER" text=" Items" textAlignment="CENTER" GridPane.rowIndex="2">
+            <Label contentDisplay="CENTER" text=" Items" textAlignment="CENTER" textFill="#2ad6b4" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
-                  <Font name="Futura Bold" size="14.0" />
+                  <Font name="Futura Medium" size="17.0" />
                </font>
             </Label>
-            <Label contentDisplay="CENTER" text=" Total Cost" textAlignment="CENTER" GridPane.rowIndex="3">
+            <Label contentDisplay="CENTER" text=" Total Cost" textAlignment="CENTER" textFill="#2ad6b4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
-                  <Font name="Futura Bold" size="14.0" />
+                  <Font name="Futura Medium" size="17.0" />
                </font>
             </Label>
-            <Label contentDisplay="CENTER" text=" Special Requests" textAlignment="CENTER" GridPane.rowIndex="4">
+            <Label contentDisplay="CENTER" text=" Special Requests" textAlignment="CENTER" textFill="#2ad6b4" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
-                  <Font name="Futura Bold" size="14.0" />
+                  <Font name="Futura Medium" size="17.0" />
                </font>
             </Label>
-            <Label contentDisplay="CENTER" text=" Comments" textAlignment="CENTER" GridPane.rowIndex="5">
+            <Label contentDisplay="CENTER" text=" Comments" textAlignment="CENTER" textFill="#2ad6b4" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <font>
-                  <Font name="Futura Bold" size="14.0" />
+                  <Font name="Futura Medium" size="17.0" />
                </font>
             </Label>
             <Label fx:id="tableNumber" GridPane.columnIndex="1" GridPane.halignment="CENTER">
@@ -68,12 +68,12 @@
             </Label>
             <TextField fx:id="comments" prefHeight="27.0" prefWidth="433.0" promptText="Enter comments for this order here." GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
-                  <Font name="Futura Medium" size="13.0" />
+                  <Font name="Futura Medium" size="15.0" />
                </font>
             </TextField>
             <TextField fx:id="specialRequests" promptText="Enter any special requests here." GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
-                  <Font name="Futura Medium" size="13.0" />
+                  <Font name="Futura Medium" size="15.0" />
                </font>
             </TextField>
             <Label fx:id="totalCost" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -94,22 +94,22 @@
                <children>
                   <Label contentDisplay="CENTER" text="Starters" GridPane.halignment="CENTER">
                      <font>
-                        <Font name="Futura Medium" size="13.0" />
+                        <Font name="Futura Medium" size="15.0" />
                      </font>
                   </Label>
                   <Label contentDisplay="CENTER" text="Mains" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <font>
-                        <Font name="Futura Medium" size="13.0" />
+                        <Font name="Futura Medium" size="15.0" />
                      </font>
                   </Label>
                   <Label contentDisplay="CENTER" text="Desserts" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                      <font>
-                        <Font name="Futura Medium" size="13.0" />
+                        <Font name="Futura Medium" size="15.0" />
                      </font>
                   </Label>
                   <Label contentDisplay="CENTER" text="Drinks" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                      <font>
-                        <Font name="Futura Medium" size="13.0" />
+                        <Font name="Futura Medium" size="15.0" />
                      </font>
                   </Label>
                   <ListView fx:id="starterList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
@@ -123,7 +123,7 @@
                         <Font name="Futura Medium" size="13.0" />
                      </font>
                   </Button>
-                  <ListView fx:id="mainList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ListView fx:id="mainList" prefHeight="80.0" prefWidth="155.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Button fx:id="selectMain" mnemonicParsing="false" text="&gt;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <font>
                         <Font name="Futura Medium" size="13.0" />
@@ -169,37 +169,46 @@
             </Label>
          </children>
       </GridPane>
-      <Label layoutX="241.0" layoutY="2.0" text="Order Sheet" textFill="#8d07b2">
+      <Label layoutX="353.0" layoutY="22.0" text="Order Sheet" textFill="#167fe0">
          <font>
-            <Font name="Futura Bold" size="18.0" />
+            <Font name="Futura Bold" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="saveOrderButton" layoutX="212.0" layoutY="552.0" mnemonicParsing="false" onAction="#saveOrder" text="Save Order">
+      <Button fx:id="saveOrderButton" layoutX="311.0" layoutY="615.0" mnemonicParsing="false" onAction="#saveOrder" text="Save Order">
          <font>
-            <Font name="Futura Medium" size="12.0" />
+            <Font name="Futura Medium" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="cancelOrderButton" layoutX="499.0" layoutY="552.0" mnemonicParsing="false" onAction="#cancelOrder" text="Cancel">
+      <Button fx:id="cancelOrderButton" layoutX="696.0" layoutY="614.0" mnemonicParsing="false" onAction="#cancelOrder" text="Cancel">
          <font>
-            <Font name="Futura Medium" size="12.0" />
+            <Font name="Futura Medium" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="hiddenDrinksQuantityButton" layoutX="580.0" mnemonicParsing="false" />
-      <Button fx:id="hiddenDessertsQuantityButton" layoutX="574.0" layoutY="2.0" mnemonicParsing="false" />
-      <Button fx:id="hiddenMainsQuantityButton" layoutX="581.0" mnemonicParsing="false" />
-      <Button fx:id="clickForQuantitiesButton" layoutX="6.0" layoutY="552.0" mnemonicParsing="false" text="Update Quantities &amp; Price  " textFill="#c610b4">
+      <Button fx:id="hiddenDrinksQuantityButton" layoutX="866.0" layoutY="15.0" mnemonicParsing="false">
          <font>
-            <Font name="Futura Medium" size="14.0" />
+            <Font name="Futura Medium" size="16.0" />
+         </font></Button>
+      <Button fx:id="hiddenDessertsQuantityButton" layoutX="865.0" layoutY="11.0" mnemonicParsing="false">
+         <font>
+            <Font name="Futura Medium" size="16.0" />
+         </font></Button>
+      <Button fx:id="hiddenMainsQuantityButton" layoutX="865.0" layoutY="13.0" mnemonicParsing="false">
+         <font>
+            <Font name="Futura Medium" size="16.0" />
+         </font></Button>
+      <Button fx:id="clickForQuantitiesButton" layoutX="81.0" layoutY="614.0" mnemonicParsing="false" text="Update Quantities &amp; Price  " textFill="#c610b4">
+         <font>
+            <Font name="Futura Medium" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="updateOrderButton" layoutX="301.0" layoutY="553.0" mnemonicParsing="false" onAction="#updateOrder" text="Update Order">
+      <Button fx:id="updateOrderButton" layoutX="428.0" layoutY="616.0" mnemonicParsing="false" onAction="#updateOrder" text="Update Order">
          <font>
-            <Font name="Futura Medium" size="12.0" />
+            <Font name="Futura Medium" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="deleteOrderButton" layoutX="402.0" layoutY="553.0" mnemonicParsing="false" onAction="#deleteOrder" text="Delete Order">
+      <Button fx:id="deleteOrderButton" layoutX="566.0" layoutY="614.0" mnemonicParsing="false" onAction="#deleteOrder" text="Delete Order">
          <font>
-            <Font name="Futura Medium" size="12.0" />
+            <Font name="Futura Medium" size="16.0" />
          </font>
       </Button>
    </children>

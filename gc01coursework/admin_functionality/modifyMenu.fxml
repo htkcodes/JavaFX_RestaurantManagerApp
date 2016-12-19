@@ -9,59 +9,71 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane fx:id="modifyMenuGridPane" gridLinesVisible="true" layoutX="24.0" layoutY="137.0" prefHeight="191.0" prefWidth="532.0">
+      <GridPane fx:id="modifyMenuGridPane" gridLinesVisible="true" layoutX="88.0" layoutY="146.0" prefHeight="191.0" prefWidth="525.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="223.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="86.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="223.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="251.0" minWidth="10.0" prefWidth="240.33331298828125" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="71.66665649414062" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.33334350585938" minWidth="10.0" prefWidth="244.33334350585938" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="91.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="159.0" minHeight="10.0" prefHeight="158.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label prefHeight="17.0" prefWidth="185.0" text="Menu Items For Chosen Category" GridPane.halignment="CENTER">
+            <Label prefHeight="17.0" prefWidth="217.0" text="Menu Items For Chosen Category" GridPane.halignment="CENTER">
                <font>
-                  <Font name="Futura Medium" size="12.0" />
+                  <Font name="Futura Bold" size="12.0" />
                </font>
             </Label>
-            <Label prefHeight="17.0" prefWidth="110.0" text="The One To Modify" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Label prefHeight="17.0" prefWidth="128.0" text="The Item To Modify" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
-                  <Font name="Futura Medium" size="12.0" />
+                  <Font name="Futura Bold" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="remove" mnemonicParsing="false" onAction="#removeItem" text="&lt;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Button fx:id="select" mnemonicParsing="false" onAction="#selectItem" text="&gt;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+            <Button fx:id="remove" mnemonicParsing="false" onAction="#removeItem" text="&lt;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Futura Bold" size="16.0" />
+               </font></Button>
+            <Button fx:id="select" mnemonicParsing="false" onAction="#selectItem" text="&gt;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <font>
+                  <Font name="Futura Bold" size="16.0" />
+               </font></Button>
          </children>
       </GridPane>
-      <Label layoutX="260.0" layoutY="40.0" text="Modify Menu" textFill="#c90f0f">
+      <Label layoutX="285.0" layoutY="46.0" text="Modify Menu" textFill="#167fe0">
          <font>
-            <Font name="Futura Medium" size="16.0" />
+            <Font name="Futura Medium" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="24.0" layoutY="104.0" text="Step 1: Select an Item:">
+      <Label layoutX="86.0" layoutY="108.0" text="Step 1: Select an Item:" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Medium" size="13.0" />
+            <Font name="Futura Medium" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="24.0" layoutY="359.0" text="Step 2: Choose To Update Or Delete:">
+      <Label layoutX="85.0" layoutY="364.0" text="Step 2: Choose To Update Or Delete:" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Medium" size="13.0" />
+            <Font name="Futura Medium" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="updateItemButton" layoutX="113.0" layoutY="462.0" mnemonicParsing="false" onAction="#updateItem" text="Update">
+      <Button fx:id="updateItemButton" layoutX="242.0" layoutY="487.0" mnemonicParsing="false" onAction="#updateItem" text="Update">
          <font>
-            <Font name="Futura Medium" size="13.0" />
+            <Font name="Futura Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="deleteItemButton" layoutX="373.0" layoutY="462.0" mnemonicParsing="false" onAction="#deleteItem" text="Delete">
+      <Button fx:id="deleteItemButton" layoutX="370.0" layoutY="487.0" mnemonicParsing="false" onAction="#deleteItem" text="Delete">
          <font>
-            <Font name="Futura Medium" size="13.0" />
+            <Font name="Futura Bold" size="16.0" />
          </font>
       </Button>
-      <TextField fx:id="updateName" layoutX="24.0" layoutY="408.0" prefHeight="27.0" prefWidth="120.0" />
-      <TextField fx:id="updatePrice" layoutX="154.0" layoutY="408.0" prefHeight="27.0" prefWidth="110.0" />
+      <TextField fx:id="updateName" layoutX="87.0" layoutY="406.0" prefHeight="30.0" prefWidth="171.0">
+         <font>
+            <Font name="Futura Medium" size="15.0" />
+         </font></TextField>
+      <TextField fx:id="updatePrice" layoutX="278.0" layoutY="406.0" prefHeight="30.0" prefWidth="128.0">
+         <font>
+            <Font name="Futura Medium" size="15.0" />
+         </font></TextField>
    </children>
 </AnchorPane>

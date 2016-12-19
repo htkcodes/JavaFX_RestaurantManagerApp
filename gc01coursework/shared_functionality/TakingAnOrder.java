@@ -1,3 +1,14 @@
+/**
+ * <h2>This is the 'TakingAnOrder' class manages the process of retrieving order sheets for tables, saving new orders, and updating existing orders.</h2>
+ * 
+ * @author Rachel Slater
+ * @since December 2016
+ * 
+ * <p> The 'reinitialize' method handles the case of whether or not there is any existing order, and then the getStarters(), getMains(), getDesserts(), and getDrinks() handles
+ * the adding, editing, deleting of new or existing orders. XML is parsed to read the menu items data, and to get the current existing orders. XML is
+ * updated with any changes made by the user.  
+ */
+
 package gc01coursework.shared_functionality;
 
 import java.io.FileWriter;
@@ -77,115 +88,51 @@ import java.io.File;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
+/**
+ * The Class TakingAnOrder.
+ * This class manages the process of taking an order, and all of the conditional possibilities.
+ */
 public class TakingAnOrder {
-	private String tableClicked;
-	private String dateClicked;
+	
+	private String tableClicked, dateClicked, currentDate;	
 	private Boolean isOrderForTable = false;
-	private int startersTotalPrice;
-	private int mainsTotalPrice;
-	private int dessertsTotalPrice;
-	private int drinksTotalPrice;
-	private ArrayList<String> finalStarters;
-	private ArrayList<String> finalMains;
-	private ArrayList<String> finalDesserts;
-	private ArrayList<String> finalDrinks;
-	List<String> currentStarters; 
-	List<String> currentMains; 
-	List<String> currentDesserts; 
-	List<String> currentDrinks; 
-	private int currentCost;
-	private String currentDate;
-	private Boolean starterExists;
-
-	@FXML
-	private GridPane orderGridPane;
-	@FXML
-	private Label tableNumber;
-	@FXML
-	private Label theDate;
-	@FXML
-	private Label totalCost;
-	@FXML 
-	private TextField specialRequests;
-	@FXML 
-	private TextField comments;
-	@FXML
-	private Button saveOrderButton;
-	@FXML
-	private Button updateOrderButton;
-	@FXML
-	private Button deleteOrderButton;
-	@FXML
-	private Button cancelOrderButton;
-
-	//Inside Items Panel:
-	@FXML
-	private GridPane menuGridPane;
-	@FXML
-	private Button clickForQuantitiesButton;
-
-	@FXML
-	private ListView<String> starterList;
-	@FXML
-	private ListView<String> selectedStartersList;
-	@FXML
-	private ObservableList<String> selectedStarters;
-	@FXML
-	private ListView<String> starterQuantitiesList;
-	@FXML
-	private Button selectStarter;
-	@FXML
-	private Button removeStarter;
-
-	private ListView<String> mainList;
-	@FXML
-	private ListView<String> selectedMainsList;
-	@FXML
-	private ListView<String> mainQuantitiesList;
-	@FXML
-	private Button selectMain;
-	@FXML
-	private Button removeMain;
-
-	private ListView<String> dessertList;
-	@FXML
-	private ListView<String> selectedDessertsList;
-	@FXML
-	private ListView<String> dessertQuantitiesList;
-	@FXML
-	private Button selectDessert;
-	@FXML
-	private Button removeDessert;
-
-	private ListView<String> drinkList;
-	@FXML
-	private ListView<String> selectedDrinksList;
-	@FXML
-	private ListView<String> drinkQuantitiesList;
-	@FXML
-	private Button selectDrink;
-	@FXML
-	private Button removeDrink;
-
-
-	@FXML
-	private Button hiddenMainsQuantityButton;
-	@FXML
-	private Button hiddenDessertsQuantityButton;
-	@FXML
-	private Button hiddenDrinksQuantityButton;
-
-
+	private int startersTotalPrice, mainsTotalPrice, dessertsTotalPrice, drinksTotalPrice, currentCost;
+	private ArrayList<String> finalStarters, finalMains, finalDesserts, finalDrinks;
+	List<String> currentStarters, currentMains, currentDesserts, currentDrinks; 	
+	
+	@FXML private GridPane orderGridPane, menuGridPane;
+	@FXML private Label tableNumber, theDate, totalCost;
+	@FXML private TextField specialRequests, comments;
+	@FXML private ObservableList<String> selectedStarters;	
+	@FXML private Button saveOrderButton, updateOrderButton, deleteOrderButton, cancelOrderButton, clickForQuantitiesButton, selectStarter, removeStarter;
+	@FXML private Button selectMain, removeMain, selectDessert, removeDessert, selectDrink, removeDrink, hiddenMainsQuantityButton, hiddenDessertsQuantityButton, hiddenDrinksQuantityButton;
+	@FXML private ListView<String> starterList, selectedStartersList, starterQuantitiesList, mainList, selectedMainsList, mainQuantitiesList, dessertList, drinkList;
+	@FXML private ListView<String> selectedDessertsList, dessertQuantitiesList, selectedDrinksList, drinkQuantitiesList;
+	
+	/**
+	 * Instantiates a new Order.
+	 * @param tableNum theTableNumber is an essential parameter.
+	 */
 	public TakingAnOrder(String tableNum) {
 	}
 
+	/**
+	 * Providing data.
+	 * This method is called in the User class (dashboard) when this class is instantiated.
+	 * It parses "allOrders.xml" to check if there are existing orders for the table clicked. 
+	 * If an order is found, the 'isOrderForTable' Boolean is set to true. 
+	 * 
+	 * @param theTable the tableNumber
+	 * @param theDate the date
+	 * 
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void providingData(String theTable, String theDate) throws ParserConfigurationException, SAXException, IOException {
-		
 		setTableClicked(theTable);
 		setDateClicked(theDate);
-		
 		String tableClicked = getTableClicked();
-		String date = getDateClicked();
 		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -200,11 +147,14 @@ public class TakingAnOrder {
 			if (order.getFirstChild().getFirstChild().getNodeValue().equals(tableClicked)) {
 				isOrderForTable = true;
 			}
-			
 		setIsOrderForTable(isOrderForTable);
 		}
 	}
 
+	/**
+	 * The Getters and Setters. 
+	 * 
+	 */
 	private Boolean getIsOrderForTable() {
 		return isOrderForTable;
 	}
@@ -216,11 +166,10 @@ public class TakingAnOrder {
 	private String getTableClicked() {
 		return tableClicked;
 	}
-
+	
 	private void setTableClicked(String tableClicked) {
 		this.tableClicked = tableClicked;
 	}
-	
 	
 	private String getDateClicked() {
 		return dateClicked;
@@ -262,11 +211,6 @@ public class TakingAnOrder {
 		this.drinksTotalPrice = drinksTotalPrice;
 	}
 
-	private void displayFinalPrice() {
-		int finalPrice = getStartersTotalPrice() + getMainsTotalPrice() + getDessertsTotalPrice() + getDrinksTotalPrice() + getCurrentCost();
-		totalCost.setText("£" + finalPrice);
-	}
-
 	private ArrayList<String> getFinalStarters() {
 		return finalStarters;
 	}
@@ -298,8 +242,7 @@ public class TakingAnOrder {
 	private void setFinalDrinks(ArrayList<String> finalDrinks) {
 		this.finalDrinks = finalDrinks;
 	}
-	
-	
+
 	private List<String> getCurrentStarters() {
 		return currentStarters;
 	}
@@ -307,8 +250,6 @@ public class TakingAnOrder {
 	private void setCurrentStarters(List<String> currentStarters) {
 		this.currentStarters = currentStarters;
 	}
-	
-	
 
 	private List<String> getCurrentMains() {
 		return currentMains;
@@ -333,8 +274,7 @@ public class TakingAnOrder {
 	private void setCurrentDrinks(List<String> currentDrinks) {
 		this.currentDrinks = currentDrinks;
 	}
-	
-	
+
 	private int getCurrentCost() {
 		return currentCost;
 	}
@@ -342,7 +282,7 @@ public class TakingAnOrder {
 	private void setCurrentCost(int currentCost) {
 		this.currentCost = currentCost;
 	}
-	
+
 	private String getCurrentDate() {
 		return currentDate;
 	}
@@ -352,17 +292,30 @@ public class TakingAnOrder {
 	}
 
 	/**
-	 * Initializing Components on Order Form!
-	 *
-	 * 
-	 * 
+	 * Display final price method.
+	 * This adds all of the individual totals to give one overall order total figure.
 	 */
-
+	private void displayFinalPrice() {
+		int finalPrice = getStartersTotalPrice() + getMainsTotalPrice() + getDessertsTotalPrice() + getDrinksTotalPrice() + getCurrentCost();
+		totalCost.setText("£" + finalPrice);
+	}
+	
+	/**
+	 * Initializing all data for Order Form.
+	 * There are two primary conditions:
+	 * a) If there is already an order, the 'allOrders.xml' is parsed to retrieve existing order.
+	 * b) If there is no order, we start with a clean slate, and call the required methods. 
+	 */
 	public void reinitialize() {
 		tableNumber.setText(getTableClicked());
-
-		//If there is already an order for the selected table:
-
+		
+		hiddenMainsQuantityButton.setVisible(false);
+		hiddenDessertsQuantityButton.setVisible(false);
+		hiddenDrinksQuantityButton.setVisible(false);
+		
+		/**
+		 * If there is already an order for the selected table:
+		 */
 		if(getIsOrderForTable()) {
 			
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -484,11 +437,13 @@ public class TakingAnOrder {
 			}
 
 
-		} else { 	//If there is NOT an order for the selected table.
+		} else { 	
+			/**
+			 * If there is NOT an order for the selected table.
+			 */
 		    updateOrderButton.setDisable(true);
 
 			try {
-				
 				getStarters();
 				getMains();
 				getDesserts();
@@ -503,15 +458,15 @@ public class TakingAnOrder {
 			String now = (dateFormat.format(date)).toString();
 			theDate.setText(now);
 			setCurrentDate(now);
-
 		}
 	}
 
 	/**
-	 * Pulling Starters from XML and populating Order Form!
-	 *
-	 * 
-	 * 
+	 * Pulling Starters from XML and populating Order Form.
+	 * This method also handles any starters selected and moves them to the 'selected' ListView on the right of the grid.  
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 
 	@FXML
@@ -548,7 +503,6 @@ public class TakingAnOrder {
 					String eachStarter = getCurrentStarters().get(m);	
 					
 					String[] parts = eachStarter.split(" x ");
-					String howMany = parts[0]; 
 					String name = parts[1];
 					
 					for(int k=0; k<starterItems.size(); k++) {
@@ -639,10 +593,12 @@ public class TakingAnOrder {
 	}
 
 	/**
-	 * Pulling Mains from XML and populating Order Form!
-	 *
-	 * 
-	 * 
+	 * Pulling Mains from XML and populating Order Form.
+	 * This method also handles any mains selected and moves them to the 'selected' ListView on the right of the grid.  
+
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 
 	@FXML
@@ -678,7 +634,6 @@ public class TakingAnOrder {
 				for(int m=0; m<getCurrentMains().size(); m++) {
 					String eachMain = getCurrentMains().get(m);	
 					String[] parts = eachMain.split(" x ");					
-					String howMany = parts[0]; 
 					String name = parts[1];
 					
 					for(int k=0; k<mainItems.size(); k++) {
@@ -723,8 +678,6 @@ public class TakingAnOrder {
 					String name = parts[0]; 
 					String price = parts[1]; 
 					int quantity = Collections.frequency(selectedMains, key);
-
-					String nameAndQuantity = quantity + " x " + name;
 					
 					String[] priceParts = price.split("£");
 					String priceWithoutSymbol = priceParts[1];
@@ -755,10 +708,13 @@ public class TakingAnOrder {
 	}
 
 	/**
-	 * Pulling Desserts from XML and populating Order Form!
-	 *
-	 * 
-	 * 
+	 * Pulling Desserts from XML and populating Order Form.
+	 * This method also handles any desserts selected and moves them to the 'selected' ListView on the right of the grid.  
+
+	 * @return the desserts
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 
 	@FXML
@@ -795,7 +751,6 @@ public class TakingAnOrder {
 					String eachDessert = getCurrentDesserts().get(m);	
 					
 					String[] parts = eachDessert.split(" x ");
-					String howMany = parts[0]; 
 					String name = parts[1];
 					
 					for(int k=0; k<dessertItems.size(); k++) {
@@ -840,9 +795,6 @@ public class TakingAnOrder {
 					String name = parts[0]; 
 					String price = parts[1]; 
 					int quantity = Collections.frequency(selectedDesserts, key);
-					System.out.println(name + " " + price + " " + quantity);
-
-					String nameAndQuantity = quantity + " x " + name;
 
 					String[] priceParts = price.split("£");
 					String priceWithoutSymbol = priceParts[1];
@@ -873,10 +825,12 @@ public class TakingAnOrder {
 	}
 
 	/**
-	 * Pulling Drinks from XML and populating Order Form!
-	 *
-	 * 
-	 * 
+	 * Pulling Drinks from XML and populating Order Form!.
+	 * This method also handles any drinks selected and moves them to the 'selected' ListView on the right of the grid.  
+
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 
 	@FXML
@@ -913,7 +867,6 @@ public class TakingAnOrder {
 					String eachDrink = getCurrentDrinks().get(m);	
 					
 					String[] parts = eachDrink.split(" x ");
-					String howMany = parts[0]; 
 					String name = parts[1];
 					
 					for(int k=0; k<drinkItems.size(); k++) {
@@ -958,9 +911,6 @@ public class TakingAnOrder {
 					String name = parts[0]; 
 					String price = parts[1]; 
 					int quantity = Collections.frequency(selectedDrinks, key);
-					System.out.println(name + " " + price + " " + quantity);
-
-					String nameAndQuantity = quantity + " x " + name;
 
 					String[] priceParts = price.split("£");
 					String priceWithoutSymbol = priceParts[1];
@@ -993,11 +943,12 @@ public class TakingAnOrder {
 
 
 	/**
-	 * Generating Order XML!
-	 * @throws SAXException 
-	 *
+	 * Building the new order in 'allOrders.xml'.
 	 * 
-	 * 
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws TransformerException the transformer exception
+	 * @throws SAXException the SAX exception
 	 */
 
 	@FXML
@@ -1105,6 +1056,17 @@ public class TakingAnOrder {
 		transformer.transform(source, result);
 	}
 
+	/**
+	 * Update order.
+	 * This method is triggered by the 'updateOrder' button.
+	 * If there is an existing order, the old nodes are removed from XML, and then saveOrder() is called to re-create a new node. 
+	 * 
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws TransformerException the transformer exception
+	 * @throws SAXException the SAX exception
+	 * @throws XPathExpressionException the x path expression exception
+	 */
 	@FXML
 	private void updateOrder() throws ParserConfigurationException, IOException, TransformerException, SAXException, XPathExpressionException {
 		String tableOrderToDelete = getTableClicked();
@@ -1136,6 +1098,16 @@ public class TakingAnOrder {
 		saveOrder();
 	}
 	
+	/**
+	 * Delete order.
+	 * This method is triggered by the 'deleteOrder' button.
+
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws XPathExpressionException the x path expression exception
+	 * @throws TransformerException the transformer exception
+	 */
 	@FXML 
 	private void deleteOrder() throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException {
 		String tableOrderToDelete = getTableClicked();
@@ -1176,6 +1148,11 @@ public class TakingAnOrder {
 		}
 	}
 	
+	/**
+	 * Cancel order.
+	 * @param event the 'cancelOrderButton' is clicked. 
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
 	public void cancelOrder(ActionEvent event) throws IOException {
 		Stage stage = (Stage) cancelOrderButton.getScene().getWindow();

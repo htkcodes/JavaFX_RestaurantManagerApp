@@ -375,6 +375,7 @@ public class User implements Initializable {
 		loaderOrder.setController(newOrder);
 		Parent takeAnOrder = (Parent)loaderOrder.load();
 		Scene scene = new Scene(takeAnOrder);
+//		scene.getStylesheets().add(getClass().getResource("../style/Order.css").toExternalForm());
 		orderSheet.setTitle("Order Sheet!");
 		orderSheet.initModality(Modality.APPLICATION_MODAL);
 		orderSheet.setScene(scene);
