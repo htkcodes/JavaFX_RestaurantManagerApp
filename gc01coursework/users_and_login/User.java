@@ -271,7 +271,7 @@ public class User implements Initializable {
 
 
 	/**
-	 * Deleting an Employee!.
+	 * Managing Employees!
 	 * This method opens a new window.
 
 	 * @param event the deleteEmployeeButton is clicked.

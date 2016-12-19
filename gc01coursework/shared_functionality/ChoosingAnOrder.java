@@ -13,6 +13,7 @@ package gc01coursework.shared_functionality;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -28,8 +29,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -117,14 +121,12 @@ public class ChoosingAnOrder {
 		currentStage.close();
 		
 		if(selectedOrder.size() > 1) {
-			Stage primaryStage = new Stage();
-			Parent chooseATablePopUp = FXMLLoader.load(getClass().getResource("../shared_functionality/multipleOrdersWarning.fxml"));
-			Scene scene = new Scene(chooseATablePopUp);
-			primaryStage.setTitle("Please click on a Table");
-			primaryStage.initModality(Modality.APPLICATION_MODAL);
-			primaryStage.initOwner(goButton.getScene().getWindow());
-			primaryStage.setScene(scene);
-			primaryStage.showAndWait();
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Warning!");
+			alert.setHeaderText("You can view one order at a time.");
+			alert.setContentText("Please choose one order only!");
+
+			Optional<ButtonType> continueDelete = alert.showAndWait();
 		} else {
 			User user = new User();
 			String theDateSelected = selectedOrder.get(0);

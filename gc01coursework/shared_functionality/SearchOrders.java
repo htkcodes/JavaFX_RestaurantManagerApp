@@ -23,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -332,6 +333,8 @@ public class SearchOrders implements Initializable{
 
 		table.setItems(data);
 		table.getColumns();
+		table.setPlaceholder(new Label("There are no orders matching your criteria!"));
+
 
 		// 1. Wrap the ObservableList in a FilteredList (initially display all data). http://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
 		FilteredList<OrderDataModel> filteredData = new FilteredList<>(data, p -> true);
