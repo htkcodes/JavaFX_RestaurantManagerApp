@@ -6,7 +6,7 @@
  * 
  * <p> The 'reinitialize' method handles the case of whether or not there is any existing order, and then the getStarters(), getMains(), getDesserts(), and getDrinks() handles
  * the adding, editing, deleting of new or existing orders. XML is parsed to read the menu items data, and to get the current existing orders. XML is
- * updated with any changes made by the user.  
+ * updated with any changes made by the user. </p> 
  */
 
 package gc01coursework.shared_functionality;
@@ -1054,6 +1054,12 @@ public class TakingAnOrder {
 		Transformer transformer = transformerFactory.newTransformer();
 		StreamResult result = new StreamResult("allOrders.xml");
 		transformer.transform(source, result);
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Success!");
+		alert.setHeaderText("Your changes have been saved!");
+
+		Optional<ButtonType> okay = alert.showAndWait();
 	}
 
 	/**

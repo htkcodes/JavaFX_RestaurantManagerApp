@@ -1,3 +1,13 @@
+/**
+ * <h2>This is the 'ChoosingAnOrder' class, which is triggered to be instantiated inside User.java (dashboard) 
+ * if there is more than one order for the table number clicked.</h2>
+ * 
+ * @author Rachel Slater
+ * @since December 2016
+ * 
+ * <p> 
+ */
+
 package gc01coursework.shared_functionality;
 
 import java.io.IOException;
@@ -26,33 +36,41 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ChoosingAnOrder {
-	private String theTable;
-	
-	@FXML
-	private Button selectThisTableOrder;
-	@FXML
-	private Button removeThisTableOrder;
-	@FXML 
-	private Button goButton;
-	@FXML 
-	private GridPane whichOrder;
-	@FXML
-	private ObservableList<String> selectedOrder;
-	@FXML
-	private Button okButton;
-	
+/**
+ * The Class 'ChoosingAnOrder'.
+ * It handles the case of there being multiple orders recorded for one table.
+ * It allows the user to choose which order they'd like to view / update.
+ */
 
+public class ChoosingAnOrder {
+	
+	private String theTable;
+	@FXML private Button selectThisTableOrder, removeThisTableOrder, goButton, okButton;
+	@FXML private GridPane whichOrder;
+	@FXML private ObservableList<String> selectedOrder;
+
+	/**
+	 * Gets the table number.
+	 * @return the table number.
+	 */
 	private String getTheTable() {
 		return theTable;
 	}
 
+	/**
+	 * Sets the table number.
+	 * @param theTable table number.
+	 */
 	public void setTheTable(String theTable) {
 		this.theTable = theTable;
 	}
 
-
-	public void initial(ArrayList<String> dates) {
+	/**
+	 * This 'initializing' method is called when the class is instantiated.
+	 * The date differentiates between the orders created for the same table. 
+	 * @param dates ArrayList of strings.
+	 */
+	public void initializing(ArrayList<String> dates) {
 
 		final ObservableList<String> whichDate = FXCollections.observableArrayList(dates);
 		ListView<String> dateList = new ListView<String>(whichDate);
@@ -82,11 +100,22 @@ public class ChoosingAnOrder {
 				}
 			}
 		});
-		
 	}
 	
+	/**
+	 * Retrieve selected order.
+	 * This method ensures the order from the list which the user has selected is the correct one they want to view/update.
+	 *
+	 * @param event the goButton is clicked.
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 */
 	@FXML
-	private void retrieveSelectedOrder(ActionEvent event) throws IOException, ParserConfigurationException, SAXException {		
+	private void retrieveSelectedOrder(ActionEvent event) throws IOException, ParserConfigurationException, SAXException {
+		Stage currentStage = (Stage) goButton.getScene().getWindow();
+		currentStage.close();
+		
 		if(selectedOrder.size() > 1) {
 			Stage primaryStage = new Stage();
 			Parent chooseATablePopUp = FXMLLoader.load(getClass().getResource("../shared_functionality/multipleOrdersWarning.fxml"));
@@ -104,6 +133,12 @@ public class ChoosingAnOrder {
 		}
 	}
 	
+	/**
+	 * Okay will select one table.
+	 *
+	 * @param event the event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
 	public void okayWillSelectOneTable(ActionEvent event) throws IOException {
 	Stage stage = (Stage) okButton.getScene().getWindow();

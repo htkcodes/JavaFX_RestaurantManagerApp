@@ -349,7 +349,7 @@ public class User implements Initializable {
 			primaryStage.initOwner(table.getScene().getWindow());
 			primaryStage.setScene(scene);
 			multiple.setTheTable(tableClicked);
-			multiple.initial(datePossibilities);
+			multiple.initializing(datePossibilities);
 			primaryStage.showAndWait();
 		} else {								//Otherwise, they are taken directly to the ordersheet.
 			goToOrder(tableClicked, null);
