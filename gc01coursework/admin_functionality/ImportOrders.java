@@ -101,7 +101,6 @@ public class ImportOrders {
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("*.xml", "*.*"));
 		
 		FileChooser fileChooser1 = new FileChooser();
-//		fileChooser1.setInitialFileName(file.getName());
 		fileChooser1.setInitialDirectory(new File(System.getProperty("user.dir")));                 
 		File file1 = fileChooser1.showSaveDialog(stage);
 		if (file1 != null) {
@@ -191,6 +190,7 @@ public class ImportOrders {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Successfully Imported!");
 		alert.setHeaderText("Your imported orders have been added to the existing orders!");
+		alert.setContentText("success");
 		Optional<ButtonType> okay = alert.showAndWait();
 	}
 		

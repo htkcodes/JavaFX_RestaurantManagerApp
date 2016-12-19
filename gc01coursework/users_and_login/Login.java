@@ -92,7 +92,6 @@ public class Login {
 			scene.getStylesheets().add(getClass().getResource("../style/Dashboard.css").toExternalForm());
 			primaryStage.setTitle("Dashboard!");
 			primaryStage.setScene(scene);
-//	        primaryStage.setFullScreen(true);
 			primaryStage.show();
 			
 			Stage stage = (Stage) loginButton.getScene().getWindow();
@@ -108,7 +107,6 @@ public class Login {
 			scene.getStylesheets().add(getClass().getResource("../style/Dashboard.css").toExternalForm());
 			primaryStage.setTitle("Dashboard!");
 			primaryStage.setScene(scene);
-//	        primaryStage.setFullScreen(true);
 			primaryStage.show();
 
 			Stage stage = (Stage) loginButton.getScene().getWindow();
