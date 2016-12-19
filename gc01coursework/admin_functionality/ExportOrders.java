@@ -1,3 +1,11 @@
+/**
+ * <h2>This is the 'Exports' class, it allows the user to select orders for the list of existing ones, and export them as XML.</h2>
+ * 
+ * @author Rachel Slater
+ * @since December 2016
+ * 
+ */
+
 package gc01coursework.admin_functionality;
 
 import java.io.File;
@@ -40,28 +48,28 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
+/**
+ * The Class ExportOrders.
+ * This class exports XML data files based on user selection.
+ */
 public class ExportOrders implements Initializable {
-	private ArrayList<String> tablesWithOrders;
-	private ArrayList<String> dateStampForOrders;
-	private ArrayList<String> selectableOrders;
+	
+	private ArrayList<String> tablesWithOrders, dateStampForOrders, selectableOrders;
+	@FXML private GridPane exportOrdersGridPane;
+	@FXML private Button selectExport, removeExport, exportButton, cancelButton;
+	@FXML private ObservableList<String> selectedExports;
 
-	@FXML
-	private GridPane exportOrdersGridPane;
-	@FXML
-	private Button selectExport;
-	@FXML
-	private Button removeExport;
-	@FXML
-	private Button exportButton;
-	@FXML
-	private ObservableList<String> selectedExports;
-
+	/** 
+	 * This method parses 'allOrders.xml' and builds ArrayLists and table & date data. 
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 		// Checking if which tables have orders!
-
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = null;
 		try {
@@ -106,6 +114,12 @@ public class ExportOrders implements Initializable {
 		populateExistingOrders(tablesWithOrders, dateStampForOrders);
 	}
 
+	/**
+	 * Populate existing orders.
+	 * This method populates the ListViews with data, and handles the selection of orders. 
+	 * @param listOfTablesWithOrders the list of tables with orders
+	 * @param listOfDateStampsForOrders the list of date stamps for orders
+	 */
 	private void populateExistingOrders(ArrayList<String> listOfTablesWithOrders, ArrayList<String> listOfDateStampsForOrders) {
 		// Populating orders for selection column:
 		selectableOrders = new ArrayList<String>();
@@ -150,7 +164,17 @@ public class ExportOrders implements Initializable {
 	}
 
 	
-	
+	/**
+	 * Export as XML.
+	 * The file is exported as '.xml' as it's extension. 
+	 * 
+	 * @param event triggered when the 'exportButton' is clicked. 
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws TransformerFactoryConfigurationError the transformer factory configuration error
+	 * @throws TransformerException the transformer exception
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 */
 	@FXML
 	public void exportAsXML(ActionEvent event) throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException, SAXException {
 		
@@ -189,6 +213,16 @@ public class ExportOrders implements Initializable {
 		addTheSelectedOrders(fileName);
 	}
 	
+	/**
+	 * Adds the the selected orders.
+	 * The selected orders are appended to the exported file. 
+	 *
+	 * @param file the file
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws TransformerException the transformer exception
+	 */
 	private void addTheSelectedOrders(String file) throws ParserConfigurationException, SAXException, IOException, TransformerException {
 		
 		// Reading the Existing Orders Data in order to match the selected orders.
@@ -232,7 +266,14 @@ public class ExportOrders implements Initializable {
 			StreamResult result = new StreamResult(file);
 			transformer.transform(source, result); 
 		}	
-		
+		Stage stage = (Stage) exportButton.getScene().getWindow();
+		stage.close();
+	}
+	
+	@FXML
+	public void cancel(ActionEvent event) {
+		Stage stage = (Stage) cancelButton.getScene().getWindow();
+		stage.close();
 	}
 }
 

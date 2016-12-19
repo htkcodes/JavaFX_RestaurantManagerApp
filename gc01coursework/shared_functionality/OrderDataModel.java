@@ -1,9 +1,22 @@
+/**
+ * <h2>This OrderDataModel class is used to construct an Order object, as a data source.</h2>
+ * 
+ * @author Rachel Slater
+ * @since December 2016
+ * 
+ * <p>This class is instantiated in SearchOrders.java, in order to populate the TableView with orders in an efficient way. </p> 
+ */
+
 package gc01coursework.shared_functionality;
 
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * The Class 'OrderDataModel'.
+ * This class builds an 'order' object to supply it as data source to SearchOrders.java.
+ */
 public class OrderDataModel {
 	
 	 private final SimpleStringProperty tableNumber;

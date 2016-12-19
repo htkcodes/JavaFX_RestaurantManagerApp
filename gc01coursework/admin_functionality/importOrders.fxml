@@ -5,43 +5,47 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="188.0" layoutY="108.0" text="Import an XML Orders File:" textFill="#750ec4">
+      <Label layoutX="164.0" layoutY="42.0" text="Import an XML Orders File:" textFill="#167fe0">
          <font>
-            <Font name="Futura Medium" size="18.0" />
+            <Font name="Futura Medium" size="22.0" />
          </font>
       </Label>
-      <Button fx:id="chooseFileButton" layoutX="290.0" layoutY="193.0" mnemonicParsing="false" onAction="#chooseFile" text="Choose File">
+      <Button fx:id="chooseFileButton" layoutX="323.0" layoutY="111.0" mnemonicParsing="false" onAction="#chooseFile" text="Choose File">
          <font>
             <Font name="Futura Medium" size="14.0" />
          </font>
       </Button>
-      <Label fx:id="validityConfirmation" layoutX="290.0" layoutY="267.0" textFill="#dd130c">
+      <Label fx:id="validityConfirmation" layoutX="323.0" layoutY="197.0" textFill="#dd130c">
          <font>
             <Font name="Futura Medium" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="addToExistingOrdersButton" layoutX="290.0" layoutY="344.0" mnemonicParsing="false" onAction="#addToExistingOrders" text="Click to Add to Existing Orders">
+      <Button fx:id="addToExistingOrdersButton" layoutX="323.0" layoutY="274.0" mnemonicParsing="false" onAction="#addToExistingOrders" text="Click to Add to Existing Orders">
          <font>
             <Font name="Futura Medium" size="14.0" />
          </font>
       </Button>
-      <Label layoutX="41.0" layoutY="198.0" text="Step 1: Import File" textFill="#0c1386">
+      <Label layoutX="41.0" layoutY="114.0" text="Step 1: Import File" textFill="#2ad6b4">
+         <font>
+            <Font name="Futura Medium" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="41.0" layoutY="197.0" text="Step 2: Validity Check" textFill="#2ad6b4">
+         <font>
+            <Font name="Futura Medium" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="41.0" layoutY="278.0" text="Step 3: Add to Existing Orders" textFill="#2ad6b4">
+         <font>
+            <Font name="Futura Medium" size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="cancelButton" layoutX="522.0" layoutY="357.0" mnemonicParsing="false" onAction="#cancel" text="Cancel">
          <font>
             <Font name="Futura Medium" size="14.0" />
          </font>
-      </Label>
-      <Label layoutX="41.0" layoutY="278.0" text="Step 2: Validity Check" textFill="#0c1386">
-         <font>
-            <Font name="Futura Medium" size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="41.0" layoutY="347.0" text="Step 3: Add to Existing Orders" textFill="#0c1386">
-         <font>
-            <Font name="Futura Medium" size="14.0" />
-         </font>
-      </Label>
+      </Button>
    </children>
 </AnchorPane>
