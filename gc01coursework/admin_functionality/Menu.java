@@ -150,7 +150,7 @@ public class Menu {
 	protected void addMenuStarters(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.parse("starters.xml");	
+		Document xmlDoc = docBuilder.parse("src/gc01coursework/xml_data/starters.xml");	
 
 		Element root = xmlDoc.getDocumentElement();
 		Element starter = xmlDoc.createElement("starter");
@@ -170,7 +170,7 @@ public class Menu {
 		DOMSource source = new DOMSource(xmlDoc);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
-		StreamResult result = new StreamResult("starters.xml");
+		StreamResult result = new StreamResult("src/gc01coursework/xml_data/starters.xml");
 		transformer.transform(source, result);
 		
 		confirmationOfAdd();
@@ -191,7 +191,7 @@ public class Menu {
 	protected void addMenuMains(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {	
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.parse("mains.xml");	
+		Document xmlDoc = docBuilder.parse("src/gc01coursework/xml_data/mains.xml");	
 
 		Element root = xmlDoc.getDocumentElement();
 		Element main = xmlDoc.createElement("main");
@@ -211,7 +211,7 @@ public class Menu {
 		DOMSource source = new DOMSource(xmlDoc);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
-		StreamResult result = new StreamResult("mains.xml");
+		StreamResult result = new StreamResult("src/gc01coursework/xml_data/mains.xml");
 		transformer.transform(source, result);
 		
 		confirmationOfAdd();
@@ -232,7 +232,7 @@ public class Menu {
 	protected void addMenuDesserts(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.parse("desserts.xml");	
+		Document xmlDoc = docBuilder.parse("src/gc01coursework/xml_data/desserts.xml");	
 
 		Element root = xmlDoc.getDocumentElement();
 		Element dessert = xmlDoc.createElement("dessert");
@@ -252,7 +252,7 @@ public class Menu {
 		DOMSource source = new DOMSource(xmlDoc);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
-		StreamResult result = new StreamResult("desserts.xml");
+		StreamResult result = new StreamResult("src/gc01coursework/xml_data/desserts.xml");
 		transformer.transform(source, result);
 		
 		confirmationOfAdd();
@@ -273,7 +273,7 @@ public class Menu {
 	protected void addMenuDrinks(String[] theNewItem) throws ParserConfigurationException, IOException, TransformerException, SAXException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.parse("drinks.xml");	
+		Document xmlDoc = docBuilder.parse("src/gc01coursework/xml_data/drinks.xml");	
 
 		Element root = xmlDoc.getDocumentElement();
 		Element drink = xmlDoc.createElement("drink");
@@ -292,7 +292,7 @@ public class Menu {
 		DOMSource source = new DOMSource(xmlDoc);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
-		StreamResult result = new StreamResult("drinks.xml");
+		StreamResult result = new StreamResult("src/gc01coursework/xml_data/drinks.xml");
 		transformer.transform(source, result);
 		
 		confirmationOfAdd();

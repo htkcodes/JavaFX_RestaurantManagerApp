@@ -158,7 +158,7 @@ public class ImportOrders {
 		//Parsing the file to which we're going to add the imported orders.
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document doc = docBuilder.parse("allOrders.xml");
+		Document doc = docBuilder.parse("src/gc01coursework/xml_data/allOrders.xml");
 		doc.getDocumentElement().normalize();
 				
 		//Parsing the imported file:
@@ -180,7 +180,7 @@ public class ImportOrders {
 		DOMSource source = new DOMSource(doc);
 		TransformerFactory tFactory = TransformerFactory.newInstance(); 
 		Transformer transformer = tFactory.newTransformer();
-		StreamResult result = new StreamResult("allOrders.xml");
+		StreamResult result = new StreamResult("src/gc01coursework/xml_data/allOrders.xml");
 		transformer.transform(source, result); 
 		
 		Stage stage = (Stage) addToExistingOrdersButton.getScene().getWindow();

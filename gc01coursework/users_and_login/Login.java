@@ -141,7 +141,7 @@ public class Login {
 		Date date = new Date();
 		String newLoginDate = dateFormat.format(date);
 		
-		File file = new File("staff.xml");
+		File file = new File("src/gc01coursework/xml_data/staff.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document doc = documentBuilder.parse(file);
@@ -171,7 +171,7 @@ public class Login {
 
 					TransformerFactory transformerFactory = TransformerFactory.newInstance();
 					Transformer transformer = transformerFactory.newTransformer();
-					StreamResult result = new StreamResult("staff.xml");
+					StreamResult result = new StreamResult("src/gc01coursework/xml_data/staff.xml");
 					transformer.transform(source, result);
 				}
 			}

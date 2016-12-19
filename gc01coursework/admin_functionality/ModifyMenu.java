@@ -203,7 +203,7 @@ public class ModifyMenu implements Initializable {
 	private void existingStarters() throws ParserConfigurationException, SAXException, IOException {
 		allExistingItems = new ArrayList<String>();
 		allExistingPrices = new ArrayList<String>();
-		File file = new File("starters.xml");
+		File file = new File("src/gc01coursework/xml_data/starters.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document doc = documentBuilder.parse(file);
@@ -223,7 +223,7 @@ public class ModifyMenu implements Initializable {
 		}
 		setAllExistingItems(allExistingItems);
 		setAllExistingPrices(allExistingPrices);
-		setFileToUpdate("starters.xml");
+		setFileToUpdate("src/gc01coursework/xml_data/starters.xml");
 		setElementNameXML("starter");
 		existing = FXCollections.observableArrayList(allExistingItems);
 		existingList = new ListView<>(existing);
@@ -241,7 +241,7 @@ public class ModifyMenu implements Initializable {
 	private void existingMains() throws ParserConfigurationException, SAXException, IOException {
 		allExistingItems = new ArrayList<String>();
 		allExistingPrices = new ArrayList<String>();
-		File fileMains = new File("mains.xml");
+		File fileMains = new File("src/gc01coursework/xml_data/mains.xml");
 		DocumentBuilderFactory documentBuilderFactoryMains = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilderMains = documentBuilderFactoryMains.newDocumentBuilder();
 		Document docMains = documentBuilderMains.parse(fileMains);
@@ -262,7 +262,7 @@ public class ModifyMenu implements Initializable {
 
 		setAllExistingItems(allExistingItems);
 		setAllExistingPrices(allExistingPrices);
-		setFileToUpdate("mains.xml");
+		setFileToUpdate("src/gc01coursework/xml_data/mains.xml");
 		setElementNameXML("main");
 		existing = FXCollections.observableArrayList(allExistingItems);
 		existingList = new ListView<>(existing);
@@ -280,7 +280,7 @@ public class ModifyMenu implements Initializable {
 	private void existingDesserts() throws ParserConfigurationException, SAXException, IOException {
 		allExistingItems = new ArrayList<String>();
 		allExistingPrices = new ArrayList<String>();
-		File fileDesserts = new File("desserts.xml");
+		File fileDesserts = new File("src/gc01coursework/xml_data/desserts.xml");
 		DocumentBuilderFactory documentBuilderFactoryDesserts = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilderDesserts = documentBuilderFactoryDesserts.newDocumentBuilder();
 		Document docDesserts = documentBuilderDesserts.parse(fileDesserts);
@@ -301,7 +301,7 @@ public class ModifyMenu implements Initializable {
 
 		setAllExistingItems(allExistingItems);
 		setAllExistingPrices(allExistingPrices);
-		setFileToUpdate("desserts.xml");
+		setFileToUpdate("src/gc01coursework/xml_data/desserts.xml");
 		setElementNameXML("dessert");
 		existing = FXCollections.observableArrayList(allExistingItems);
 		existingList = new ListView<>(existing);
@@ -319,7 +319,7 @@ public class ModifyMenu implements Initializable {
 	private void existingDrinks() throws ParserConfigurationException, SAXException, IOException {
 		allExistingItems = new ArrayList<String>();
 		allExistingPrices = new ArrayList<String>();
-		File fileDrinks = new File("drinks.xml");
+		File fileDrinks = new File("src/gc01coursework/xml_data/drinks.xml");
 		DocumentBuilderFactory documentBuilderFactoryDrinks = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilderDrinks = documentBuilderFactoryDrinks.newDocumentBuilder();
 		Document docDrinks = documentBuilderDrinks.parse(fileDrinks);
@@ -339,7 +339,7 @@ public class ModifyMenu implements Initializable {
 		}
 		setAllExistingItems(allExistingItems);
 		setAllExistingPrices(allExistingPrices);
-		setFileToUpdate("drinks.xml");
+		setFileToUpdate("src/gc01coursework/xml_data/drinks.xml");
 		setElementNameXML("drink");
 		existing = FXCollections.observableArrayList(allExistingItems);
 		existingList = new ListView<>(existing);
@@ -445,7 +445,7 @@ public class ModifyMenu implements Initializable {
 			TransformerFactory tf = TransformerFactory.newInstance();
 			Transformer t = tf.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("starters.xml"));
+			StreamResult result = new StreamResult(new File("src/gc01coursework/xml_data/starters.xml"));
 			t.transform(source, result);
 		} else {
 			System.out.println("Item deletion cancelled.");

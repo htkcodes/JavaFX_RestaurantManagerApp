@@ -86,7 +86,7 @@ public class SearchOrders implements Initializable{
 		Document doc = null;
 
 		try {
-			doc = documentBuilder.parse("allOrders.xml");
+			doc = documentBuilder.parse("src/gc01coursework/xml_data/allOrders.xml");
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}

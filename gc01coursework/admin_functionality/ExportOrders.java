@@ -80,7 +80,7 @@ public class ExportOrders implements Initializable {
 		Document doc = null;
 
 		try {
-			doc = documentBuilder.parse("allOrders.xml");
+			doc = documentBuilder.parse("src/gc01coursework/xml_data/allOrders.xml");
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
@@ -184,8 +184,6 @@ public class ExportOrders implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
         Window primaryStage = null;
 		File file = fileChooser.showSaveDialog(primaryStage);
-        System.out.println("file is " + file.getName());
-        System.out.println(file.getAbsolutePath() + "PATH");
         String fileName = file.getAbsolutePath();
         
 		//Creating The Export File:
@@ -228,7 +226,7 @@ public class ExportOrders implements Initializable {
 		// Reading the Existing Orders Data in order to match the selected orders.
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document doc = docBuilder.parse("allOrders.xml");
+		Document doc = docBuilder.parse("src/gc01coursework/xml_data/allOrders.xml");
 		doc.getDocumentElement().normalize();
 		
 		DocumentBuilderFactory exportingFactory = DocumentBuilderFactory.newInstance();

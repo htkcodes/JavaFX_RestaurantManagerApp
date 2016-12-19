@@ -69,7 +69,7 @@ public class ManageEmployees implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		//Populating ComboBox:
-		File file = new File("staff.xml");
+		File file = new File("src/gc01coursework/xml_data/staff.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = null;
 		try {
@@ -145,7 +145,7 @@ public class ManageEmployees implements Initializable {
 		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document doc = documentBuilder.parse("staff.xml");
+		Document doc = documentBuilder.parse("src/gc01coursework/xml_data/staff.xml");
 
 		doc.getDocumentElement().normalize();
 		NodeList nList = doc.getElementsByTagName("staff");
@@ -162,7 +162,7 @@ public class ManageEmployees implements Initializable {
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer t = tf.newTransformer();
 		DOMSource source = new DOMSource(doc);
-		StreamResult result = new StreamResult(new File("staff.xml"));
+		StreamResult result = new StreamResult(new File("src/gc01coursework/xml_data/staff.xml"));
 		t.transform(source, result);
 		} else {
 			System.out.println("Employee deletion cancelled.");

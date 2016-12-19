@@ -59,12 +59,12 @@ public class Main extends Application {
 			primaryStage.setTitle("Rachel's Restaurant Manager!");
 			primaryStage.setScene(scene);
 
-			generateXMLFiles("starters.xml", "starters");
-			generateXMLFiles("mains.xml", "mains");
-			generateXMLFiles("desserts.xml", "desserts");
-			generateXMLFiles("drinks.xml", "drinks");
-			generateXMLFiles("allOrders.xml", "orders");
-			generateXMLFiles("staff.xml", "allStaff");
+			generateXMLFiles("src/gc01coursework/xml_data/starters.xml", "starters");
+			generateXMLFiles("src/gc01coursework/xml_data/mains.xml", "mains");
+			generateXMLFiles("src/gc01coursework/xml_data/desserts.xml", "desserts");
+			generateXMLFiles("src/gc01coursework/xml_data/drinks.xml", "drinks");
+			generateXMLFiles("src/gc01coursework/xml_data/allOrders.xml", "orders");
+			generateXMLFiles("src/gc01coursework/xml_data/staff.xml", "allStaff");
 
 			primaryStage.show();
 

@@ -136,7 +136,7 @@ public class TakingAnOrder {
 		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document doc = documentBuilder.parse("allOrders.xml");
+		Document doc = documentBuilder.parse("src/gc01coursework/xml_data/allOrders.xml");
 
 		doc.getDocumentElement().normalize();
 		NodeList nList = doc.getElementsByTagName("order");
@@ -330,7 +330,7 @@ public class TakingAnOrder {
 		    String existingTableOrder = getTableClicked();
 		    String dateChosen = getDateClicked();
 		    
-			File file = new File("allOrders.xml");
+			File file = new File("src/gc01coursework/xml_data/allOrders.xml");
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = null;
 			try {
@@ -473,7 +473,7 @@ public class TakingAnOrder {
 	private void getStarters() throws ParserConfigurationException, SAXException, IOException {
 		ArrayList<String> allStarters = new ArrayList<String>();
 
-		File file = new File("starters.xml");
+		File file = new File("src/gc01coursework/xml_data/starters.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document doc = documentBuilder.parse(file);
@@ -605,7 +605,7 @@ public class TakingAnOrder {
 	private void getMains() throws ParserConfigurationException, SAXException, IOException {
 		ArrayList<String> allMains = new ArrayList<String>();
 
-		File file = new File("mains.xml");
+		File file = new File("src/gc01coursework/xml_data/mains.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document doc = documentBuilder.parse(file);
@@ -721,7 +721,7 @@ public class TakingAnOrder {
 	private void getDesserts() throws ParserConfigurationException, SAXException, IOException {
 		ArrayList<String> allDesserts = new ArrayList<String>();
 
-		File file = new File("desserts.xml");
+		File file = new File("src/gc01coursework/xml_data/desserts.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document doc = documentBuilder.parse(file);
@@ -837,7 +837,7 @@ public class TakingAnOrder {
 	private void getDrinks() throws ParserConfigurationException, SAXException, IOException {
 		ArrayList<String> allDrinks = new ArrayList<String>();
 
-		File file = new File("drinks.xml");
+		File file = new File("src/gc01coursework/xml_data/drinks.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document doc = documentBuilder.parse(file);
@@ -964,7 +964,7 @@ public class TakingAnOrder {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-		Document xmlDoc = docBuilder.parse("allOrders.xml");	
+		Document xmlDoc = docBuilder.parse("src/gc01coursework/xml_data/allOrders.xml");	
 
 		Element root = xmlDoc.getDocumentElement();
 				
@@ -1052,7 +1052,7 @@ public class TakingAnOrder {
 
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
-		StreamResult result = new StreamResult("allOrders.xml");
+		StreamResult result = new StreamResult("src/gc01coursework/xml_data/allOrders.xml");
 		transformer.transform(source, result);
 		
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -1080,7 +1080,7 @@ public class TakingAnOrder {
 
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document doc = documentBuilder.parse("allOrders.xml");
+		Document doc = documentBuilder.parse("src/gc01coursework/xml_data/allOrders.xml");
 
 		doc.getDocumentElement().normalize();
 		NodeList nList = doc.getElementsByTagName("order");
@@ -1098,7 +1098,7 @@ public class TakingAnOrder {
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer t = tf.newTransformer();
 		DOMSource source = new DOMSource(doc);
-		StreamResult result = new StreamResult(new File("allOrders.xml"));
+		StreamResult result = new StreamResult(new File("src/gc01coursework/xml_data/allOrders.xml"));
 		t.transform(source, result);
 
 		saveOrder();
@@ -1129,7 +1129,7 @@ public class TakingAnOrder {
 		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document doc = documentBuilder.parse("allOrders.xml");
+		Document doc = documentBuilder.parse("src/gc01coursework/xml_data/allOrders.xml");
 
 		doc.getDocumentElement().normalize();
 		NodeList nList = doc.getElementsByTagName("order");
@@ -1147,7 +1147,7 @@ public class TakingAnOrder {
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer t = tf.newTransformer();
 		DOMSource source = new DOMSource(doc);
-		StreamResult result = new StreamResult(new File("allOrders.xml"));
+		StreamResult result = new StreamResult(new File("src/gc01coursework/xml_data/allOrders.xml"));
 		t.transform(source, result);
 		} else {
 			System.out.println("Order deletion cancelled.");

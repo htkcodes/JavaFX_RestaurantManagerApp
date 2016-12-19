@@ -214,7 +214,7 @@ public class User implements Initializable {
 		
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document xmlDoc = docBuilder.parse("staff.xml");
+		Document xmlDoc = docBuilder.parse("src/gc01coursework/xml_data/staff.xml");
 		
 		Element root = xmlDoc.getDocumentElement();
 		Element staff = xmlDoc.createElement("staff");
@@ -243,7 +243,7 @@ public class User implements Initializable {
 
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
-		StreamResult result = new StreamResult("staff.xml");
+		StreamResult result = new StreamResult("src/gc01coursework/xml_data/staff.xml");
 		transformer.transform(source, result);
 		
 		Stage stage = (Stage) saveNewEmployee.getScene().getWindow();
@@ -311,7 +311,7 @@ public class User implements Initializable {
 	public void takeAnOrder(ActionEvent event) throws IOException, SAXException, ParserConfigurationException {
 		
 		tableClicked = ((Labeled) event.getSource()).getText();			
-		File file = new File("allOrders.xml");
+		File file = new File("src/gc01coursework/xml_data/allOrders.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document doc = documentBuilder.parse(file);
