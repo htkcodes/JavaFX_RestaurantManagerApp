@@ -1,3 +1,14 @@
+/**
+ * <h2>This is the 'SearchOrders' class parses the "allOrders.xml" and builds a TableView and FilteredLists.</h2>
+ * 
+ * @author Rachel Slater
+ * @since December 2016
+ * 
+ * <p>This class implements a real-time search table with filters on every column (representing fields within each order). 
+ * As the user types, the table is filtered.</p>
+ * 
+ */
+
 package gc01coursework.shared_functionality;
 
 import java.io.IOException;
@@ -31,76 +42,38 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+/**
+ * The Class SearchOrders.
+ */
 public class SearchOrders implements Initializable{
-	private ArrayList<String> tablesWithOrders;
-	private ArrayList<String> dateStampForOrders;
-	private ArrayList<String> costsForOrders;
-	private ArrayList<String> commentsForOrders;
-	private ArrayList<String> specialRequestsForOrders;
-	private ArrayList<String> startersForOrders;
-	private ArrayList<String> mainsForOrders;
-	private ArrayList<String> dessertsForOrders;
-	private ArrayList<String> drinksForOrders;
-
-	@FXML
-	public ObservableList<OrderDataModel> data;
-	@FXML
-	private GridPane searchResultsGridPane;
-	@FXML
-	private ComboBox<String> tableNumberComboBox;
-	@FXML
-	private ComboBox<String> datesComboBox;
-	@FXML
-	private ObservableList<String> tableNumberOptions;
-	@FXML
-	private ObservableList<String> dateOptions;
-	@FXML
-	private TextField totalCostInput;
-	@FXML
-	private TextField commentsInput;
-	@FXML
-	private TextField specialRequestsInput;
-	@FXML
-	private Button searchButton;
-	@FXML
-	private TableView<OrderDataModel> table;
-	@FXML
-	private TableColumn<OrderDataModel, String> tableNumberColumn;
-	@FXML
-	private TableColumn<OrderDataModel, String> dateColumn;
-	@FXML
-	private TableColumn<OrderDataModel, String> costColumn;
-	@FXML
-	private TableColumn<OrderDataModel, String> commentsColumn;
-	@FXML
-	private TableColumn<OrderDataModel, String> specialRequestsColumn;
-	@FXML
-	private TableColumn<OrderDataModel, String> startersColumn;
-	@FXML
-	private TableColumn<OrderDataModel, String> mainsColumn;
-	@FXML
-	private TableColumn<OrderDataModel, String> dessertsColumn;
-	@FXML
-	private TableColumn<OrderDataModel, String> drinksColumn;
-	@FXML
-	private TextField tableNumberFilteredSearch;
-	@FXML
-	private TextField dateFilteredSearch;
-	@FXML
-	private TextField costFilteredSearch;
-	@FXML
-	private TextField commentsFilteredSearch;
-	@FXML
-	private TextField specialRequestsFilteredSearch;
-	@FXML
-	private TextField startersFilteredSearch;
-	@FXML
-	private TextField mainsFilteredSearch;
-	@FXML
-	private TextField dessertsFilteredSearch;
-	@FXML
-	private TextField drinksFilteredSearch;
 	
+	private ArrayList<String> tablesWithOrders, dateStampForOrders, costsForOrders, commentsForOrders, specialRequestsForOrders, startersForOrders, mainsForOrders, dessertsForOrders, drinksForOrders;
+
+	@FXML public ObservableList<OrderDataModel> data, tableNumberOptions, dateOptions;
+	@FXML private GridPane searchResultsGridPane;
+	@FXML private ComboBox<String> tableNumberComboBox, datesComboBox;
+	@FXML private TextField totalCostInput, commentsInput, specialRequestsInput;
+	@FXML private Button searchButton;
+	@FXML private TableView<OrderDataModel> table;
+	@FXML private TableColumn<OrderDataModel, String> tableNumberColumn;
+	@FXML private TableColumn<OrderDataModel, String> dateColumn;	
+	@FXML private TableColumn<OrderDataModel, String> costColumn;
+	@FXML private TableColumn<OrderDataModel, String> commentsColumn;
+	@FXML private TableColumn<OrderDataModel, String> specialRequestsColumn;
+	@FXML private TableColumn<OrderDataModel, String> startersColumn;
+	@FXML private TableColumn<OrderDataModel, String> mainsColumn;
+	@FXML private TableColumn<OrderDataModel, String> dessertsColumn;
+	@FXML private TableColumn<OrderDataModel, String> drinksColumn;
+	@FXML private TextField tableNumberFilteredSearch, dateFilteredSearch, costFilteredSearch, commentsFilteredSearch, specialRequestsFilteredSearch, startersFilteredSearch, mainsFilteredSearch, dessertsFilteredSearch, drinksFilteredSearch;
+	
+	/**
+	 * This single method is run when the class is instantiated. 
+	 * It builds ArrayLists for each component of every individual order (so the TableView can be populated). 
+	 * The table view is created, the OrderDataModel is called and utilized to build a data object.
+	 * The table columns are seeded with this data. 
+	 * Using FilteredLists and FilteredSearch, the search fields and filters are built for each table column.
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
