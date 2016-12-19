@@ -1,3 +1,12 @@
+/**
+ * <h2>This is the 'launcher class', and contains the main method.</h2>
+ * 
+ * @author Rachel Slater
+ * @since December 2016
+ * 
+ * <p> It has two primary purposes: a) To display the landing page (requiring user login), b) To create the 6 x required XML files for data storage. 
+ */
+
 package gc01coursework;
 
 import java.io.File;
@@ -29,8 +38,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+/**
+ * The Class 'Main'.
+ */
 public class Main extends Application {
+	
+	/** 
+	 * Inside a try/catch block, the landing page screen is displayed, and the 6 x standard XMl files are generated. 
+	 * @param primaryStage the FXML stage window.
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
+	
 	@Override
 	public void start(Stage primaryStage) throws ParserConfigurationException, FileNotFoundException, IOException {
 		try {
@@ -40,12 +58,12 @@ public class Main extends Application {
 			primaryStage.setTitle("Rachel's Restaurant Manager!");
 			primaryStage.setScene(scene);
 
-			generateStarterXML();
-			generateMainXML();
-			generateDessertXML();
-			generateDrinkXML();
-			generateOrdersXML();
-			generateStaffXML();
+			generateXMLFiles("starters.xml", "starters");
+			generateXMLFiles("mains.xml", "mains");
+			generateXMLFiles("desserts.xml", "desserts");
+			generateXMLFiles("drinks.xml", "drinks");
+			generateXMLFiles("allOrders.xml", "orders");
+			generateXMLFiles("staff.xml", "allStaff");
 
 			primaryStage.show();
 
@@ -54,19 +72,31 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * The standard Java main method.
+	 *
+	 * @param args the required 'main method' arguments.
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	/**
-	 * Generating Starter XML file for Menu!
+	 * Generating XML files for the Project.
+	 * They are required to store the restaurant data - 1. Starters, 2. Mains, 3. Desserts, 4. Drinks.
 	 *
+	 * @param fileName the new XML file name.
+	 * @param parentElement the root element of the newly created XML file.
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws TransformerFactoryConfigurationError the transformer factory configuration error
+	 * @throws TransformerException the transformer exception
+	 * @throws ParserConfigurationException the parser configuration exception
 	 * 
-	 * 
+	 * @return It is expected that 6 x XML files have been created in the project workspace. 
 	 */
-	private void generateStarterXML() throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
+	private void generateXMLFiles(String fileName, String parentElement) throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
 
-		File xmlFile = new File("starters.xml");
+		File xmlFile = new File(fileName);
 
 		if(!xmlFile.createNewFile()) {
 			System.out.println("Menu has already been generated.");
@@ -74,139 +104,20 @@ public class Main extends Application {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 			Document xmlDoc = docBuilder.newDocument();	
-			Element starterElement = xmlDoc.createElement("starters");
-			xmlDoc.appendChild(starterElement);
+			Element element = xmlDoc.createElement(parentElement);
+			xmlDoc.appendChild(element);
 
-			finishXMLCreation(xmlDoc, xmlFile);
+			OutputFormat outFormat = new OutputFormat(xmlDoc);
+			outFormat.setIndenting(true);
+			FileOutputStream outStream = new FileOutputStream(xmlFile, true);
+			XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
+			serializer.serialize(xmlDoc);
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
+			DOMSource source = new DOMSource(xmlDoc);
+			StreamResult console = new StreamResult(System.out);
+			transformer.transform(source, console);
+			System.out.println("\nXML DOM Created Successfully..");
 		}
-	}
-
-	/**
-	 * Generating Main XML file for Menu!
-	 *
-	 * 
-	 * 
-	 */
-	private void generateMainXML() throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
-
-		File xmlFile = new File("mains.xml");
-
-		if(!xmlFile.createNewFile()) {
-			System.out.println("Menu has already been generated.");
-		} else {
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			Document xmlDoc = docBuilder.newDocument();	
-			Element mainElement = xmlDoc.createElement("mains");
-			xmlDoc.appendChild(mainElement);
-
-			finishXMLCreation(xmlDoc, xmlFile);
-		}
-	}
-
-	/**
-	 * Generating Dessert XML file for Menu!
-	 *
-	 * 
-	 * 
-	 */
-	private void generateDessertXML() throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
-
-		File xmlFile = new File("desserts.xml");
-
-		if(!xmlFile.createNewFile()) {
-			System.out.println("Menu has already been generated.");
-		} else {
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			Document xmlDoc = docBuilder.newDocument();	
-			Element dessertElement = xmlDoc.createElement("desserts");
-			xmlDoc.appendChild(dessertElement);
-
-			finishXMLCreation(xmlDoc, xmlFile);
-		}
-	}
-
-	/**
-	 * Generating Drink XML file for Menu!
-	 *
-	 * 
-	 * 
-	 */
-	private void generateDrinkXML() throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
-
-		File xmlFile = new File("drinks.xml");
-
-		if(!xmlFile.createNewFile()) {
-			System.out.println("Menu has already been generated.");
-		} else {
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			Document xmlDoc = docBuilder.newDocument();	
-			Element drinkElement = xmlDoc.createElement("drinks");
-			xmlDoc.appendChild(drinkElement);
-
-			finishXMLCreation(xmlDoc, xmlFile);
-		}
-	}
-	
-	/**
-	 * Generating Order XML file for Menu!
-	 *
-	 * 
-	 * 
-	 */
-	private void generateOrdersXML() throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
-
-		File xmlFile = new File("allOrders.xml");
-
-		if(!xmlFile.createNewFile()) {
-			System.out.println("Orders XML is ready to add orders to.");
-		} else {
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			Document xmlDoc = docBuilder.newDocument();	
-			Element orderElement = xmlDoc.createElement("orders");
-			xmlDoc.appendChild(orderElement);
-
-			finishXMLCreation(xmlDoc, xmlFile);
-		}
-	}
-	
-	/**
-	 * Generating Staff XML file for Login!
-	 *
-	 * 
-	 * 
-	 */
-	private void generateStaffXML() throws IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
-
-		File xmlFile = new File("staff.xml");
-
-		if(!xmlFile.createNewFile()) {
-			System.out.println("Staff XML is ready to add orders to.");
-		} else {
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			Document xmlDoc = docBuilder.newDocument();	
-			Element orderElement = xmlDoc.createElement("allStaff");
-			xmlDoc.appendChild(orderElement);
-
-			finishXMLCreation(xmlDoc, xmlFile);
-		}
-	}
-	
-	private void finishXMLCreation(Document xmlDoc, File xmlFile) throws IOException, TransformerFactoryConfigurationError, TransformerException {
-		OutputFormat outFormat = new OutputFormat(xmlDoc);
-		outFormat.setIndenting(true);
-		FileOutputStream outStream = new FileOutputStream(xmlFile, true);
-		XMLSerializer serializer = new XMLSerializer(outStream, outFormat);
-		serializer.serialize(xmlDoc);
-		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
-		DOMSource source = new DOMSource(xmlDoc);
-		StreamResult console = new StreamResult(System.out);
-		transformer.transform(source, console);
-		System.out.println("\nXML DOM Created Successfully..");
 	}
 }
