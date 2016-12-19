@@ -101,7 +101,7 @@ public class ImportOrders {
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("*.xml", "*.*"));
 		
 		FileChooser fileChooser1 = new FileChooser();
-		fileChooser1.setInitialFileName(file.getName());
+//		fileChooser1.setInitialFileName(file.getName());
 		fileChooser1.setInitialDirectory(new File(System.getProperty("user.dir")));                 
 		File file1 = fileChooser1.showSaveDialog(stage);
 		if (file1 != null) {
@@ -134,8 +134,10 @@ public class ImportOrders {
         	System.out.println("Not valid Orders XML!! Compare to XSD and try again.");
             System.out.println("Exception: "+ e.getMessage());
     		validityConfirmation.setText("Not Valid! Please return to Step 1.");
+    		addToExistingOrdersButton.setDisable(true);
             return false;
         }
+		addToExistingOrdersButton.setDisable(false);
 		validityConfirmation.setText("Valid! Continue to Step 3.");
         return true;
     }

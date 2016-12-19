@@ -110,15 +110,5 @@
             </Button>
          </children>
       </GridPane>
-      <Label layoutX="33.0" layoutY="32.0" text="Logged in as: " textFill="#167fe0">
-         <font>
-            <Font name="Futura Medium" size="21.0" />
-         </font>
-      </Label>
-      <Label fx:id="userNameLabel" layoutX="179.0" layoutY="31.0" textFill="#167fe0">
-         <font>
-            <Font name="Futura Medium" size="21.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>

@@ -86,7 +86,6 @@ public class Login {
 			accessGranted = true;
 			isStaffMember = false;
 			user.setIsStaff(isStaffMember);
-			
 			Stage primaryStage = new Stage();
 			Parent dashboard = FXMLLoader.load(getClass().getResource("dashboard.fxml"));
 			Scene scene = new Scene(dashboard);

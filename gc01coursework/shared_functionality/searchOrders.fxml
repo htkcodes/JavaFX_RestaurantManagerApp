@@ -22,8 +22,8 @@
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="121.0" minWidth="10.0" prefWidth="52.05113220214844" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.33333587646484" minWidth="10.0" prefWidth="142.40695190429688" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="71.40695190429688" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="159.70346069335938" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="79.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="151.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="245.0" minWidth="10.0" prefWidth="164.6441650390625" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="173.81390380859375" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="213.48260498046875" minWidth="10.0" prefWidth="189.93255615234375" />
@@ -44,7 +44,7 @@
                   <Font name="Futura Medium" size="15.0" />
                </font>
             </Label>
-            <Label text="Total Cost" textFill="#720ce7" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+            <Label prefHeight="20.0" prefWidth="70.0" text="Total Cost" textFill="#720ce7" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                <font>
                   <Font name="Futura Medium" size="15.0" />
                </font>

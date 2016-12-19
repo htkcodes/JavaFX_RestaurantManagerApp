@@ -307,6 +307,7 @@ public class Menu {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Successfully Added!");
 		alert.setHeaderText("The new menu item has been added!");
+		alert.setContentText("Success.");
 		Optional<ButtonType> okay = alert.showAndWait();
 	}
 

@@ -1152,6 +1152,8 @@ public class TakingAnOrder {
 		} else {
 			System.out.println("Order deletion cancelled.");
 		}
+		Stage stage = (Stage) deleteOrderButton.getScene().getWindow();
+		stage.close();
 	}
 	
 	/**

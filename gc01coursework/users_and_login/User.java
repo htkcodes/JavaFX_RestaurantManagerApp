@@ -93,7 +93,6 @@ public class User implements Initializable {
 
 	@FXML private Button addEmployeeButton, saveNewEmployee, cancelAddingEmployee, manageEmployeeButton, table, manageMenuButton, exportOrdersButton, importOrdersButton, searchOrdersButton, logoutButton;
 	@FXML private TextField employeeUsername, employeePassword;
-	@FXML private Label userNameLabel;
 	
 	/**
 	 * Constructor - instantiates a new user.
@@ -173,7 +172,6 @@ public class User implements Initializable {
 			exportOrdersButton.setDisable(true);
 			importOrdersButton.setDisable(true);
 		}
-		userNameLabel.setText(getUsername());
 	}
 
 	/**
@@ -252,6 +250,7 @@ public class User implements Initializable {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Saving Successful!");
 		alert.setHeaderText("The new staff member has been added!");
+		alert.setContentText("Success.");
 
 		Optional<ButtonType> okay = alert.showAndWait();
 	}

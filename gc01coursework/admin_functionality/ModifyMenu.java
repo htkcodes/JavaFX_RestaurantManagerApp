@@ -422,17 +422,13 @@ public class ModifyMenu implements Initializable {
 	@FXML
 	private void deleteItem(ActionEvent event) throws TransformerException, ParserConfigurationException, SAXException, IOException {
 		
-		//Deciding whether or not to display confirmation. (Yes for 'delete' and no for 'update').
-		if(!((javafx.scene.Node) event.getSource()).getId().equals("updateItemButton")) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete Warning!");
 			alert.setHeaderText("You are about to delete this item!");
 			alert.setContentText("Would you like to proceed?");
 			Optional<ButtonType> continueDelete = alert.showAndWait();
 			if (continueDelete.get() == ButtonType.OK){
-		} else if (((javafx.scene.Node) event.getSource()).getId().equals("updateItemButton")){
-			System.out.println("Continue");
-		}
+
 			String file = getFileToUpdate();
 			String element = getElementNameXML();
 			String selectedItem = selected.get(0);
@@ -478,7 +474,31 @@ public class ModifyMenu implements Initializable {
 	 */
 	@FXML 
 	private void updateItem(ActionEvent event) throws IOException, ParserConfigurationException, SAXException, TransformerException {
-		deleteItem(event);
+		String file = getFileToUpdate();
+		String element = getElementNameXML();
+		String selectedItem = selected.get(0);
+
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document doc = documentBuilder.parse(file);
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName(element);
+
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node each = nList.item(i);
+
+			if (each.getFirstChild().getFirstChild().getNodeValue().equals(selectedItem)) {
+				while (each.hasChildNodes())
+					each.removeChild(each.getFirstChild());
+				each.getParentNode().removeChild(each);
+			}
+		}
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer t = tf.newTransformer();
+		DOMSource source = new DOMSource(doc);
+		StreamResult result = new StreamResult(new File(file));
+		t.transform(source, result);
+		
 		String newName = updateName.getText();
 		String newPrice = updatePrice.getText();
 		String[] newItem = {newName, newPrice};
@@ -521,6 +541,8 @@ public class ModifyMenu implements Initializable {
 				System.out.println("No button clicked.");
 			}
 		}
+		Stage stage = (Stage) updateItemButton.getScene().getWindow();
+		stage.close();
 	}
 }
 	
