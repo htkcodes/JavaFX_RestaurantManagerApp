@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,30 +11,30 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="471.0" layoutY="19.0" text="Search All Orders" textFill="#167fe0">
          <font>
             <Font name="Futura Medium" size="28.0" />
          </font>
       </Label>
-      <GridPane alignment="CENTER" gridLinesVisible="true" layoutX="17.0" layoutY="92.0" prefHeight="30.0" prefWidth="1167.0">
+      <GridPane alignment="CENTER" gridLinesVisible="true" layoutX="17.0" layoutY="92.0" prefHeight="30.0" prefWidth="1260.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="121.0" minWidth="10.0" prefWidth="113.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="186.0" minWidth="10.0" prefWidth="186.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="84.66665649414062" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="10.0" prefWidth="151.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.6666259765625" minWidth="10.0" prefWidth="139.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="132.0" minWidth="10.0" prefWidth="118.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="132.0" minWidth="10.0" prefWidth="117.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="132.0" minWidth="10.0" prefWidth="117.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="132.0" minWidth="10.0" prefWidth="118.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="121.0" minWidth="10.0" prefWidth="52.05113220214844" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.33333587646484" minWidth="10.0" prefWidth="142.40695190429688" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="71.40695190429688" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="159.70346069335938" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="245.0" minWidth="10.0" prefWidth="164.6441650390625" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="173.81390380859375" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="213.48260498046875" minWidth="10.0" prefWidth="189.93255615234375" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.18609619140625" minWidth="10.0" prefWidth="167.9918212890625" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.1268310546875" minWidth="10.0" prefWidth="142.0081787109375" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Table Number" textFill="#720ce7" GridPane.halignment="CENTER">
+            <Label text="Table" textFill="#720ce7" GridPane.halignment="CENTER">
                <font>
                   <Font name="Futura Medium" size="15.0" />
                </font>
@@ -85,27 +86,35 @@
             <Font name="Futura Condensed ExtraBold" size="18.0" />
          </font>
       </Label>
-      <TableView fx:id="table" layoutX="16.0" layoutY="176.0" prefHeight="200.0" prefWidth="1167.0">
+      <TableView fx:id="table" layoutX="16.0" layoutY="176.0" prefHeight="200.0" prefWidth="1260.0">
         <columns>
-          <TableColumn fx:id="tableNumberColumn" prefWidth="117.0" text="Table Number" />
-          <TableColumn fx:id="dateColumn" prefWidth="181.0" text="Date" />
-            <TableColumn fx:id="costColumn" prefWidth="95.0" text="Cost" />
-            <TableColumn fx:id="commentsColumn" prefWidth="154.0" text="Comments" />
-            <TableColumn fx:id="specialRequestsColumn" prefWidth="140.0" text="Special Requests" />
-            <TableColumn fx:id="startersColumn" prefWidth="126.0" text="Starters" />
-            <TableColumn fx:id="mainsColumn" prefWidth="118.0" text="Mains" />
-            <TableColumn fx:id="dessertsColumn" prefWidth="118.0" text="Desserts" />
-            <TableColumn fx:id="drinksColumn" prefWidth="116.0" text="Drinks" />
+          <TableColumn fx:id="tableNumberColumn" prefWidth="53.16973876953125" text="Table" />
+          <TableColumn fx:id="dateColumn" prefWidth="141.46630859375" text="Date" />
+            <TableColumn fx:id="costColumn" prefWidth="69.34764099121094" text="Cost" />
+            <TableColumn fx:id="commentsColumn" prefWidth="157.52554321289062" text="Comments" />
+            <TableColumn fx:id="specialRequestsColumn" prefWidth="164.52560424804688" text="Special Requests" />
+            <TableColumn fx:id="startersColumn" prefWidth="166.474365234375" text="Starters" />
+            <TableColumn fx:id="mainsColumn" prefWidth="193.28839111328125" text="Mains" />
+            <TableColumn fx:id="dessertsColumn" prefWidth="163.71160888671875" text="Desserts" />
+            <TableColumn fx:id="drinksColumn" prefWidth="163.3128662109375" text="Drinks" />
         </columns>
       </TableView>
-      <TextField fx:id="tableNumberFilteredSearch" layoutX="14.0" layoutY="131.0" prefHeight="27.0" prefWidth="122.0" promptText="Type Here" />
-      <TextField fx:id="dateFilteredSearch" layoutX="144.0" layoutY="131.0" prefHeight="27.0" prefWidth="172.0" promptText="Type Here" />
-      <TextField fx:id="costFilteredSearch" layoutX="323.0" layoutY="132.0" prefHeight="27.0" prefWidth="85.0" promptText="Type Here" />
-      <TextField fx:id="commentsFilteredSearch" layoutX="416.0" layoutY="130.0" prefHeight="27.0" prefWidth="144.0" promptText="Type Here" />
-      <TextField fx:id="specialRequestsFilteredSearch" layoutX="565.0" layoutY="130.0" prefHeight="27.0" prefWidth="135.0" promptText="Type Here" />
-      <TextField fx:id="startersFilteredSearch" layoutX="704.0" layoutY="130.0" prefHeight="27.0" prefWidth="116.0" promptText="Type Here" />
-      <TextField fx:id="mainsFilteredSearch" layoutX="826.0" layoutY="130.0" prefHeight="27.0" prefWidth="112.0" promptText="Type Here" />
-      <TextField fx:id="dessertsFilteredSearch" layoutX="947.0" layoutY="130.0" prefHeight="27.0" prefWidth="110.0" promptText="Type Here" />
-      <TextField fx:id="drinksFilteredSearch" layoutX="1064.0" layoutY="130.0" prefHeight="27.0" prefWidth="117.0" promptText="Type Here" />
+      <TextField fx:id="tableNumberFilteredSearch" layoutX="14.0" layoutY="131.0" prefHeight="27.0" prefWidth="53.0">
+         <font>
+            <Font size="9.0" />
+         </font></TextField>
+      <TextField fx:id="dateFilteredSearch" layoutX="77.0" layoutY="132.0" prefHeight="27.0" prefWidth="132.0" promptText="Type Here" />
+      <TextField fx:id="costFilteredSearch" layoutX="217.0" layoutY="132.0" prefHeight="27.0" prefWidth="64.0" />
+      <TextField fx:id="commentsFilteredSearch" layoutX="294.0" layoutY="132.0" prefHeight="27.0" prefWidth="145.0" promptText="Type Here" />
+      <TextField fx:id="specialRequestsFilteredSearch" layoutX="458.0" layoutY="132.0" prefHeight="27.0" prefWidth="145.0" promptText="Type Here" />
+      <TextField fx:id="startersFilteredSearch" layoutX="608.0" layoutY="132.0" prefHeight="27.0" prefWidth="168.0" promptText="Type Here" />
+      <TextField fx:id="mainsFilteredSearch" layoutX="790.0" layoutY="132.0" prefHeight="27.0" prefWidth="175.0" promptText="Type Here" />
+      <TextField fx:id="dessertsFilteredSearch" layoutX="976.0" layoutY="132.0" prefHeight="27.0" prefWidth="149.0" promptText="Type Here" />
+      <TextField fx:id="drinksFilteredSearch" layoutX="1132.0" layoutY="130.0" prefHeight="27.0" prefWidth="141.0" promptText="Type Here" />
+      <Button fx:id="backButton" layoutX="1218.0" layoutY="23.0" mnemonicParsing="false" onAction="#back" text="Back">
+         <font>
+            <Font name="Futura Medium" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

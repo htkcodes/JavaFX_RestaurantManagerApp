@@ -53,7 +53,7 @@ public class SearchOrders implements Initializable{
 	@FXML private GridPane searchResultsGridPane;
 	@FXML private ComboBox<String> tableNumberComboBox, datesComboBox;
 	@FXML private TextField totalCostInput, commentsInput, specialRequestsInput;
-	@FXML private Button searchButton;
+	@FXML private Button searchButton, backButton;
 	@FXML private TableView<OrderDataModel> table;
 	@FXML private TableColumn<OrderDataModel, String> tableNumberColumn;
 	@FXML private TableColumn<OrderDataModel, String> dateColumn;	
@@ -454,6 +454,12 @@ public class SearchOrders implements Initializable{
 		SortedList<OrderDataModel> sortedData = new SortedList<>(filteredData);
 		sortedData.comparatorProperty().bind(table.comparatorProperty());
 		table.setItems(sortedData);
+	}
+	
+	@FXML
+	public void back(ActionEvent event) {
+		Stage stage = (Stage) backButton.getScene().getWindow();
+		stage.close();
 	}
 
 }

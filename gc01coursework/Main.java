@@ -40,7 +40,7 @@ import javafx.stage.Stage;
 
 /**
  * The Class 'Main'.
- * This launches the application & creates the required XML files for data storage.
+ * This launches the application and creates the required XML files for data storage.
  */
 public class Main extends Application {
 	

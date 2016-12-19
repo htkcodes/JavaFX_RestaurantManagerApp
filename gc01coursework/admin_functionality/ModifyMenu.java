@@ -190,6 +190,11 @@ public class ModifyMenu implements Initializable {
 			}
 			modifyMenuGridPane.add(selectedList, 2, 1);
 		}
+		
+		if(selected.size()==0) {
+			updateItemButton.setDisable(true);
+			deleteItemButton.setDisable(true);
+		}
 	}
 
 	/**
@@ -377,6 +382,11 @@ public class ModifyMenu implements Initializable {
 
 				updateName.setPromptText(potential);
 				updatePrice.setPromptText(priceForEdit);
+				
+				if(selected.size()==1) {
+					updateItemButton.setDisable(false);
+					deleteItemButton.setDisable(false);
+				}
 			}
 		}
 	}
@@ -445,7 +455,7 @@ public class ModifyMenu implements Initializable {
 			TransformerFactory tf = TransformerFactory.newInstance();
 			Transformer t = tf.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("src/gc01coursework/xml_data/starters.xml"));
+			StreamResult result = new StreamResult(new File(file));
 			t.transform(source, result);
 		} else {
 			System.out.println("Item deletion cancelled.");

@@ -51,7 +51,7 @@ import javafx.scene.control.TextField;
 /**
  * The Class 'Login'.
  * This handles logging into the application.
- * The username & password are validated, and if correct, the user is directed to the appropriate dashboard depending on their user access rights. 
+ * The username and password are validated, and if correct, the user is directed to the appropriate dashboard depending on their user access rights. 
  */
 public class Login {
 	

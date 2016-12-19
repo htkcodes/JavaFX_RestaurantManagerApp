@@ -63,7 +63,7 @@ public class ExportOrders implements Initializable {
 	@FXML private ObservableList<String> selectedExports;
 
 	/** 
-	 * This method parses 'allOrders.xml' and builds ArrayLists and table & date data. 
+	 * This method parses 'allOrders.xml' and builds ArrayLists and table and date data. 
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
 	 */
 	@Override

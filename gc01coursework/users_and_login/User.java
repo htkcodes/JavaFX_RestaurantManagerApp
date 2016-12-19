@@ -83,8 +83,8 @@ import javafx.stage.Stage;
 
 public class User implements Initializable {
 	
-	private static final String ADMINNAME = "ss";		//The Supervisor's login details.
-	private static final String ADMINPASSWORD = "ss";
+	private static final String ADMINNAME = "Supervisor";		//The Supervisor's login details.
+	private static final String ADMINPASSWORD = "test";
 	private static Boolean isStaff;
 	public ObservableList<String> employeeNames = FXCollections.observableArrayList(); 
 	public String tableClicked;
@@ -93,6 +93,7 @@ public class User implements Initializable {
 
 	@FXML private Button addEmployeeButton, saveNewEmployee, cancelAddingEmployee, manageEmployeeButton, table, manageMenuButton, exportOrdersButton, importOrdersButton, searchOrdersButton, logoutButton;
 	@FXML private TextField employeeUsername, employeePassword;
+	@FXML private Label userNameLabel;
 	
 	/**
 	 * Constructor - instantiates a new user.
@@ -162,8 +163,6 @@ public class User implements Initializable {
 	/**
 	 * The required method for the 'Initializable' interface.
 	 * This method is used to enable/disable features depending on whether the user is the Supervisor or a normal staff member.
-	 * @param location 
-	 * @param resources 
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -174,6 +173,7 @@ public class User implements Initializable {
 			exportOrdersButton.setDisable(true);
 			importOrdersButton.setDisable(true);
 		}
+		userNameLabel.setText(getUsername());
 	}
 
 	/**
@@ -467,6 +467,7 @@ public class User implements Initializable {
 		searchScreen.setController(search);
 		Parent imports = (Parent)searchScreen.load();
 		Scene scene = new Scene(imports);
+		scene.getStylesheets().add(getClass().getResource("../style/Search.css").toExternalForm());
 		orderSearch.setTitle("Select Orders For Exporting!");
 		orderSearch.initModality(Modality.APPLICATION_MODAL);
 		orderSearch.initOwner(searchOrdersButton.getScene().getWindow());

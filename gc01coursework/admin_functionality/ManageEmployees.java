@@ -61,9 +61,9 @@ public class ManageEmployees implements Initializable {
 	@FXML private GridPane activityLogGridPane;
 	
 	/** 
-	 * This method populates the ListViews & the ComboBox when the window is displayed. 
+	 * This method populates the ListViews and the ComboBox when the window is displayed. 
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
-	 * @throws The try/catch block will catch exceptions if there is a problem parsing the file.  
+	 * The try/catch block will catch exceptions if there is a problem parsing the file.  
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

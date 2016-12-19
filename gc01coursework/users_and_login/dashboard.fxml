@@ -17,50 +17,50 @@
       </Label>
       <Button fx:id="table" contentDisplay="CENTER" layoutX="279.0" layoutY="236.0" mnemonicParsing="false" onAction="#takeAnOrder" text="1" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Bold" size="36.0" />
+            <Font name="Futura Bold" size="40.0" />
          </font>
       </Button>
       <Button fx:id="table" contentDisplay="CENTER" layoutX="517.0" layoutY="236.0" mnemonicParsing="false" onAction="#takeAnOrder" text="2" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Bold" size="36.0" />
+            <Font name="Futura Bold" size="40.0" />
          </font>
       </Button>
       <Button fx:id="table" contentDisplay="CENTER" layoutX="743.0" layoutY="234.0" mnemonicParsing="false" onAction="#takeAnOrder" text="3" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Bold" size="36.0" />
+            <Font name="Futura Bold" size="40.0" />
          </font>
       </Button>
       <Button fx:id="table" contentDisplay="CENTER" layoutX="281.0" layoutY="398.0" mnemonicParsing="false" onAction="#takeAnOrder" text="4" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Bold" size="36.0" />
+            <Font name="Futura Bold" size="40.0" />
          </font>
       </Button>
       <Button fx:id="table" contentDisplay="CENTER" layoutX="519.0" layoutY="395.0" mnemonicParsing="false" onAction="#takeAnOrder" text="5" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Bold" size="36.0" />
+            <Font name="Futura Bold" size="40.0" />
          </font>
       </Button>
       <Button fx:id="table" contentDisplay="CENTER" layoutX="741.0" layoutY="390.0" mnemonicParsing="false" onAction="#takeAnOrder" text="6" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Bold" size="36.0" />
+            <Font name="Futura Bold" size="40.0" />
          </font>
       </Button>
       <Button fx:id="table" contentDisplay="CENTER" layoutX="279.0" layoutY="564.0" mnemonicParsing="false" onAction="#takeAnOrder" text="7" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Bold" size="36.0" />
+            <Font name="Futura Bold" size="40.0" />
          </font>
       </Button>
       <Button fx:id="table" contentDisplay="CENTER" layoutX="519.0" layoutY="566.0" mnemonicParsing="false" onAction="#takeAnOrder" text="8" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Bold" size="36.0" />
+            <Font name="Futura Bold" size="40.0" />
          </font>
       </Button>
       <Button fx:id="table" contentDisplay="CENTER" layoutX="737.0" layoutY="564.0" mnemonicParsing="false" onAction="#takeAnOrder" text="9" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Bold" size="36.0" />
+            <Font name="Futura Bold" size="40.0" />
          </font>
       </Button>
-      <Button fx:id="logoutButton" layoutX="994.0" layoutY="42.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="89.0" text="Logout" textFill="#167fe0">
+      <Button fx:id="logoutButton" layoutX="983.0" layoutY="42.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="89.0" text="Logout" textFill="#167fe0">
          <font>
             <Font name="Futura Medium" size="18.0" />
          </font>
@@ -110,5 +110,15 @@
             </Button>
          </children>
       </GridPane>
+      <Label layoutX="33.0" layoutY="32.0" text="Logged in as: " textFill="#167fe0">
+         <font>
+            <Font name="Futura Medium" size="21.0" />
+         </font>
+      </Label>
+      <Label fx:id="userNameLabel" layoutX="179.0" layoutY="31.0" textFill="#167fe0">
+         <font>
+            <Font name="Futura Medium" size="21.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
