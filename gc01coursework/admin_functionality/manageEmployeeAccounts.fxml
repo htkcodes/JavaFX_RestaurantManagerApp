@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gc01coursework.users_and_login.User">
+   <children>
+      <Label layoutX="33.0" layoutY="471.0" text="Delete An Employee" textFill="#2ad6b4">
+         <font>
+            <Font name="Futura Medium" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="deleteSelectedEmployeeButton" layoutX="574.0" layoutY="464.0" mnemonicParsing="false" onAction="#deleteSelected" text="Delete">
+         <font>
+            <Font name="Futura Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="closeWindowButton" layoutX="402.0" layoutY="627.0" mnemonicParsing="false" onAction="#closeWindow" text="Close Window">
+         <font>
+            <Font name="Futura Bold" size="16.0" />
+         </font>
+      </Button>
+      <ComboBox fx:id="employeeListComboBox" editable="true" layoutX="256.0" layoutY="469.0" prefWidth="250.0"> 
+      </ComboBox>
+      <Label layoutX="341.0" layoutY="34.0" text="Manage Staff Accounts" textFill="#167fe0">
+         <font>
+            <Font name="Futura Medium" size="26.0" />
+         </font>
+      </Label>
+      <GridPane fx:id="activityLogGridPane" gridLinesVisible="true" layoutX="231.0" layoutY="153.0" prefHeight="237.0" prefWidth="605.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="311.6666259765625" minWidth="10.0" prefWidth="236.99996948242188" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="396.0000305175781" minWidth="10.0" prefWidth="396.0000305175781" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints />
+          <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="45.666656494140625" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="191.33334350585938" minHeight="10.0" prefHeight="191.33334350585938" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Employee Names" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Futura Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label text="Login Times &amp; Dates" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Futura Bold" size="14.0" />
+               </font>
+            </Label>
+            <ListView fx:id="employees" prefHeight="154.0" prefWidth="208.0" GridPane.rowIndex="2" />
+            <ListView fx:id="logins" prefHeight="189.0" prefWidth="383.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <Label layoutX="34.0" layoutY="199.0" text="View Activity Log" textFill="#2ad6b4">
+         <font>
+            <Font name="Futura Medium" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

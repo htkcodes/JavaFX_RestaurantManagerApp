@@ -1,3 +1,15 @@
+/**
+ * <h2>This is the 'Manage Employees' class - it provides a display of the staff activity log within the system, and allows the Supervisor to 
+ * delete staff accounts.</h2>
+ * 
+ * @author Rachel Slater
+ * @since December 2016
+ * 
+ * <p> When this class is instantiated, it presents a ListView of staff logins dates/times. If the delete button is clicked, 
+ * the second method is called in order to update the XML data.</p>
+ * 
+ */
+
 package gc01coursework.admin_functionality;
 
 import java.io.File;
@@ -24,6 +36,7 @@ import org.xml.sax.SAXException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -35,18 +48,23 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
+/**
+ * The Class ManageEmployees.
+ * It runs the 'initialize' when a new instance of the class is created. 
+ */
 public class ManageEmployees implements Initializable {
 	
 	private ObservableList<String> employeeNames = FXCollections.observableArrayList(); 
 	private ObservableList<String> employeeLogins = FXCollections.observableArrayList(); 
-
-	@FXML
-	public ComboBox<String> employeeListComboBox;
-	@FXML
-	private Button deleteSelectedEmployeeButton;
-	@FXML
-	private GridPane activityLogGridPane;
+	@FXML public ComboBox<String> employeeListComboBox;
+	@FXML private Button deleteSelectedEmployeeButton, closeWindowButton;
+	@FXML private GridPane activityLogGridPane;
 	
+	/** 
+	 * This method populates the ListViews & the ComboBox when the window is displayed. 
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 * @throws The try/catch block will catch exceptions if there is a problem parsing the file.  
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -79,7 +97,6 @@ public class ManageEmployees implements Initializable {
 				String staffLogins = eElement.getElementsByTagName("loginActivity").item(0).getTextContent();
 				if(!staffLogins.equals("firstcreated")) {
 					String[] formatted = staffLogins.split("firstcreated, ");
-					String junk = formatted[0];
 					String logins = formatted[1];
 					employeeLogins.add(logins);
 				} else {
@@ -92,20 +109,31 @@ public class ManageEmployees implements Initializable {
 		employeeListComboBox.setItems(employeeNames);
 		employeeListComboBox.getSelectionModel().select(employeeNames.get(0));
 		
-		//Populating Activity Log ListView:
+		//Populating Activity Log ListView (employee names):
 		ListView<String> employees = new ListView<String>(employeeNames);
-		activityLogGridPane.add(employees, 0, 1);
+		activityLogGridPane.add(employees, 0, 2);
 		
-		//Populating Activity Log ListView:
+		//Populating Activity Log ListView (employee login timestamps):
 		ListView<String> logins = new ListView<String>(employeeLogins);
-		activityLogGridPane.add(logins, 2, 1);
+		activityLogGridPane.add(logins, 1, 2);
 
 	}
 	
+	/**
+	 * Delete Selected Employee.
+	 * If an employee is selected from the ComboBox list, and the delete button is clicked, the 
+	 * 'staff.xml" file is updated.
+	 * 
+	 * A confirmation alert allows the Supervisor the confirm the deletion.
+	 * 
+	 * @throws TransformerException the transformer exception
+	 * @throws ParserConfigurationException the parser configuration exception
+	 * @throws SAXException the SAX exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
 	private void deleteSelected() throws TransformerException, ParserConfigurationException, SAXException, IOException {
 		String employeeName = employeeListComboBox.getSelectionModel().getSelectedItem();
-		System.out.println(employeeName + "ahhh");
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Delete Warning!");
@@ -140,6 +168,16 @@ public class ManageEmployees implements Initializable {
 			System.out.println("Employee deletion cancelled.");
 		}
 		Stage stage = (Stage) deleteSelectedEmployeeButton.getScene().getWindow();
+		stage.close();
+	}
+	
+	/**
+	 * Close window.
+	 * @param event the closeWindowButton is clicked.
+	 */
+	@FXML
+	public void closeWindow(ActionEvent event) {
+		Stage stage = (Stage) closeWindowButton.getScene().getWindow();
 		stage.close();
 	}
 }

@@ -381,7 +381,7 @@ public class ModifyMenu implements Initializable {
 		
 		String[] newItem = {newName, newPrice};
 		
-		EditTheMenu update = new EditTheMenu();
+		Menu update = new Menu();
 
 		if(getWhichMenuCategory() != null) {
 			String category = getWhichMenuCategory();

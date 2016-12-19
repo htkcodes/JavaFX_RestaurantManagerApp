@@ -4,4 +4,13 @@
     -fx-alignment: center;
     -fx-padding: 6px;
     -fx-background-insets: 0, 4px;
+    -fx-border-color:black; -fx-background-color: grey;
+    -fx-graphic: url("table.jpg");  
+}
+#table:hover{
+    -fx-background: red;
+}
+
+.root {
+     -fx-background-image: url("dashboardFloor.jpg");
 }

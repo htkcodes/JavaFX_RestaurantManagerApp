@@ -6,42 +6,42 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gc01coursework.admin_functionality.EditTheMenu">
+<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gc01coursework.admin_functionality.Menu">
    <children>
-      <TextField fx:id="menuItemNameTextField" layoutX="148.0" layoutY="133.0" promptText="Menu Item Name">
+      <TextField fx:id="menuItemNameTextField" layoutX="148.0" layoutY="127.0" promptText="Menu Item Name">
          <font>
-            <Font name="Futura Medium" size="13.0" />
+            <Font name="Futura Medium" size="16.0" />
          </font>
       </TextField>
-      <TextField fx:id="menuItemPriceTextField" layoutX="148.0" layoutY="195.0" promptText="Menu Item Price">
+      <TextField fx:id="menuItemPriceTextField" layoutX="148.0" layoutY="183.0" promptText="Menu Item Price">
          <font>
-            <Font name="Futura Medium" size="13.0" />
+            <Font name="Futura Medium" size="16.0" />
          </font>
       </TextField>
-      <Label layoutX="67.0" layoutY="138.0" text="Name">
-         <font>
-            <Font name="Futura Medium" size="13.0" />
-         </font>
-      </Label>
-      <Label layoutX="67.0" layoutY="200.0" text="Price">
-         <font>
-            <Font name="Futura Medium" size="13.0" />
-         </font>
-      </Label>
-      <Label layoutX="115.0" layoutY="59.0" text="Add A New Menu Item">
+      <Label layoutX="63.0" layoutY="133.0" text="Name" textFill="#2ad6b4">
          <font>
             <Font name="Futura Medium" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="addMenuItemButton" layoutX="140.0" layoutY="292.0" mnemonicParsing="false" onAction="#addMenuItem" text="Add">
+      <Label layoutX="68.0" layoutY="189.0" text="Price" textFill="#2ad6b4">
          <font>
-            <Font name="Futura Medium" size="13.0" />
+            <Font name="Futura Medium" size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="addMenuItemButton" layoutX="173.0" layoutY="275.0" mnemonicParsing="false" onAction="#addMenuItem" text="Add">
+         <font>
+            <Font name="Futura Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="cancelMenuItemButton" layoutX="200.0" layoutY="292.0" mnemonicParsing="false" onAction="#cancelAddingMenuItem" text="Cancel">
+      <Button fx:id="cancelMenuItemButton" layoutX="251.0" layoutY="275.0" mnemonicParsing="false" onAction="#cancelAddingMenuItem" text="Cancel">
          <font>
-            <Font name="Futura Medium" size="13.0" />
+            <Font name="Futura Bold" size="16.0" />
          </font>
       </Button>
+      <Label layoutX="145.0" layoutY="50.0" text="Add New Menu Item" textFill="#167fe0">
+         <font>
+            <Font name="Futura Medium" size="22.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -9,7 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import gc01coursework.users_and_login.Supervisor;
+import gc01coursework.users_and_login.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -97,7 +97,7 @@ public class ChoosingAnOrder {
 			primaryStage.setScene(scene);
 			primaryStage.showAndWait();
 		} else {
-			Supervisor user = new Supervisor();
+			User user = new User();
 			String theDateSelected = selectedOrder.get(0);
 			String theTableSelected = getTheTable();
 			user.goToOrder(theTableSelected, theDateSelected);

@@ -4,7 +4,7 @@
  * @author Rachel Slater
  * @since December 2016
  * 
- * <p> It has two primary purposes: a) To display the landing page (requiring user login), b) To create the 6 x required XML files for data storage. 
+ * <p> It has two primary purposes: a) To display the landing page (requiring user login), b) To create the 6 x required XML files for data storage. </p>
  */
 
 package gc01coursework;
@@ -40,6 +40,7 @@ import javafx.stage.Stage;
 
 /**
  * The Class 'Main'.
+ * This launches the application & creates the required XML files for data storage.
  */
 public class Main extends Application {
 	
@@ -52,7 +53,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws ParserConfigurationException, FileNotFoundException, IOException {
 		try {
-			Parent landingPageLogin = FXMLLoader.load(getClass().getResource("./LandingPageLogin.fxml"));
+			Parent landingPageLogin = FXMLLoader.load(getClass().getResource("./landingPage.fxml"));
 			Scene scene = new Scene(landingPageLogin);
 			scene.getStylesheets().add(getClass().getResource("style/Main.css").toExternalForm());
 			primaryStage.setTitle("Rachel's Restaurant Manager!");
@@ -99,7 +100,6 @@ public class Main extends Application {
 		File xmlFile = new File(fileName);
 
 		if(!xmlFile.createNewFile()) {
-			System.out.println("Menu has already been generated.");
 		} else {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
